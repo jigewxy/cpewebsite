@@ -1,0 +1,39 @@
+div.jumbotron {
+
+	height: 250pt;
+    width:100%;
+}
+
+
+div.jumbotron img {
+
+height: 150pt;
+width: 250pt;
+}
+
+div.jumbotron p {
+
+font-family: Impact, Charcoal, sans-serif;
+}
+
+div.col-md-1{
+
+	margin: 30pt;
+}
+
+div.col-md-1 a{
+    display: block;
+	width: 90pt;
+	height: 110pt;
+}
+
+div.col-md-1 img{
+
+	width: 90pt;
+	height: 90pt;
+}
+
+div.col-md-1 p{
+
+font-weight:bold;
+}

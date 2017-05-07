@@ -1,0 +1,200 @@
+body {
+    background-color: white;
+}
+
+li.nav-menu:hover{
+
+background-color: #337ab7 !important;
+cursor:pointer;
+
+}
+
+li.nav-menu:hover a{
+
+color:black !important;
+
+}
+
+div.panel-primary{
+    
+  border:none;
+}
+
+div.panel-primary >.panel-heading{
+
+/*background-color: #587792;*/
+
+background-color: #5398BE;
+height: 30px;
+padding:2px;
+}
+div.panel-heading:hover{
+
+cursor:pointer;
+}
+
+div.panel-heading center h4{
+
+position:relative;
+    margin-top: 2px;
+
+}
+
+
+div.panel-body{
+
+padding:0pt;
+
+}
+div.panel-body ul li{
+
+height: 25px;
+padding:2px;
+font-size:13px;
+text-align: center;
+color: #337ab7;
+font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+div.panel-body ul li:hover{
+
+cursor:pointer;
+background-color:gainsboro;
+text-decoration:underline;
+}
+
+#release-content table tr th {
+	background-color:#b9c9fe; 
+	font-family: Agency FB;
+	font-size: 15px;
+}
+
+#release-content table tr td {
+
+	font-size: 14px;
+}
+input.btn {
+
+	width: 60pt;
+	margin: 3pt;
+}
+
+li.tool-box{
+border:none;
+height:60px;
+}
+
+li.tool-box:hover{
+cursor: pointer;
+}
+
+li.tool-box img{
+width: 45px;
+height: 45px;
+}
+
+
+/**LEARNING : how to add overlay effect  */
+.overlay-add {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  right: 0;
+  height: 100%;
+  width: 20%;
+  transition: .5s ease;
+  opacity: 0;
+  background-color: #449d44;
+}
+
+.overlay-del {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  right: 0;
+  height: 100%;
+  width: 20%;
+  transition: .5s ease;
+  opacity: 0;
+background-color:#DC143C;
+}
+
+
+li.tool-box:hover .overlay{
+
+width:100%;
+left:0;
+opacity:1;
+
+}
+
+div.text {
+  color: white;
+  font-size: 13px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+}
+
+
+
+select.cat-sel,
+select.owner-sel
+{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: transparent url("../images/select.png") no-repeat right center;
+    background-size: 20px 20px;
+	width:30%;
+	height:22pt;
+	font-size:12px;	
+	
+}
+
+label.control-label{
+
+	font-family:"Tahoma";
+	margin: 3pt;
+}
+
+.modal-lg {
+    
+    
+    width: 1000pt;
+}
+
+.modal-body select {
+    
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: transparent url("../images/select.png") no-repeat right center;
+    background-size: 20px 20px;
+	width:300pt;
+     
+}
+
+input.modify-form {
+    
+    width: 300pt;
+    
+}
+
+/*LEARNING** name$=arel --> ends with arel
+  name*=arel --> contains arel */
+input.modify-form[name$=arel]{
+    
+    width: 80%;
+}
+
+input.modify-form[name*=branch]{
+    
+    width: 80%;
+}
+
+

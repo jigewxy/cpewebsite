@@ -1,0 +1,526 @@
+button.release-btn {
+	font-size:12px;
+	background: #33a6cc;
+	box-shadow: 0 3px 0 0 #007299;
+	margin-bottom: -3px;
+	margin-top: 3px;
+	border-radius: 24px;
+	
+}
+p.display-name{
+	font-family: Agency FB;
+	font-size: 17pt;
+	
+}
+p.display-year
+{
+	width:30%;
+}
+
+div.btn-group-layout{
+	height: 250px;
+	
+}
+
+.nav-pills>li {
+
+border-bottom: 2px solid #777;
+border-top: 2px solid #777;
+}
+
+.nav-pills>li>a {
+
+color:#777;
+background-color: transparent;
+}
+
+
+.nav-pills>li.active>a,
+.nav-pills>li.active>a:focus,
+.nav-pills>li.active>a:hover {
+    color: #fff;
+	background-color:#777
+}
+div.tab-content{
+	
+	margin-top: 12pt;
+	
+}
+.btn-circle{
+  width: 70px;
+  height: 70px;
+  padding: 10px 16px;
+  font-size: 24px;
+  line-height: 1.33;
+  border-radius: 35px;
+  box-shadow: 3pt 3pt 3pt #777;
+}
+
+.btn-circle:hover{
+
+box-shadow: 3pt 3pt 3pt #777;
+}
+td.product-name{
+	
+	width: 90pt !important;
+	text-align:justify!important;
+	margin: 5pt;
+	font-size: 16px;
+		
+}
+
+div.product-cat {
+	
+	margin-left:0 !important;
+	padding:0 !important;
+	
+}
+
+
+div.content-container{
+	margin-top: -5pt;
+}
+
+
+div.col-md-3{
+
+margin: 20pt;
+}
+
+
+div.project-panel-group
+{
+ margin-left: 100pt;
+	
+}
+
+div.project-panel{
+
+
+	box-shadow: 5pt 5pt 5pt #777;
+}
+
+
+li.tab-list:hover{
+	
+	cursor:pointer;
+	margin-left: 5pt;
+	
+}
+
+div.panel-heading {
+	text-transform: uppercase;
+	font-family: "Book Antiqua";
+	
+}
+
+
+div.project-panel-body:hover {
+	  cursor:pointer;
+	  background-color: gainsboro;
+	
+}
+
+
+div.panel-body p {
+	font-family: "Tahoma";
+	font-size: 12px;
+	
+}
+
+div.project-panel{
+	margin:3pt;
+	animation-name: table-transition;
+    animation-duration: 3s;
+}
+
+@keyframes table-transition {
+	
+	from{opacity:0;}
+	to {opacity:1;}
+}
+
+.tooltip-inner {
+    width: 200px; 
+}
+
+p.active-milestone{
+	border-style:solid;
+	border-width: 2pt;
+	border-color: hotpink;
+}
+
+p.active-milestone::after{
+content: "Next Milestone";
+color: mediumslateblue;
+font-family: Lucida Sans Unicode;
+margin-left: 30pt;
+font-size: 10px;
+
+}
+
+p.project-not-started{
+	border-style:dashed;
+	border-width: 2pt;
+	border-color: silver;
+}
+
+p.project-not-started::after{
+content: "Upcoming";
+color: silver;
+font-family: Lucida Sans Unicode;
+margin-left: 30pt;
+font-size: 10px;
+
+}
+
+p.project-completed{
+	border-style:solid;
+	border-width: 2pt;
+	border-color: mediumseagreen;
+}
+
+p.project-completed::after{
+content: "Project Completed";
+color: mediumseagreen;
+font-family: Lucida Sans Unicode;
+margin-left: 30pt;
+font-size: 10px;
+
+}
+
+table.summary-table {
+	
+	font-size: 10pt;
+	font-family: Lucida Sans Unicode;
+}
+
+td.itemfixed {
+	
+	background-color: lightskyblue;
+	
+}
+
+td.iteminprogress {
+	
+	background-color: khaki;
+}
+
+td.itemverified {
+	
+	background-color: mediumseagreen;
+}
+
+th.summary {
+	
+	width: 35%;
+}
+
+select.status-select,
+select.type-select,
+select.component-select
+{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: transparent url("../images/select.png") no-repeat right center;
+    background-size: 20px 20px;
+	width:30%;
+	height:22pt;
+	font-size:12px;	
+	
+}
+
+
+
+select.del-project-select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: transparent url("../images/select.png") no-repeat right center;
+    background-size: 25px 25px;
+	width:50%;
+	height:30pt;
+	font-size:14px;	
+	
+}
+
+select.status-modify-box,
+select.type-modify-box,
+select.component-modify-box
+{
+	font-size:8pt;
+	-webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: transparent url("../images/select.png") no-repeat right center;
+    background-size: 20px 20px;
+}
+
+
+select.add-project-select,
+select.remove-project-select,
+select.del-product-select,
+select.move-project-select
+{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: transparent url("../images/select.png") no-repeat right center;
+    background-size: 25px 25px;
+	width:50%;
+	height:25pt;
+	font-size:12px;				
+}
+
+td.sel-box-col{
+	
+	width:10%;
+	height:80%;
+}
+
+.fixed-cell
+{
+	background-color: #f1f1f1 !important;
+	width: 30%;
+}
+
+input.input-expand:focus
+{
+	width:200pt;
+	
+}
+
+
+input.input-expand-more:focus
+{
+	width:350pt;
+	
+}
+
+/* disable microsoft pseudo-element display */
+select::-ms-expand {
+    display: none;
+}
+
+.modal-lg
+{
+	width: 80%;
+	
+}
+
+#ui-datepicker-div{
+	opacity: 0.9!important;
+	
+}
+
+
+div.left-nav-menu
+{
+	margin-top: 10pt;
+	margin-left: 5pt;
+	
+}
+
+div.left-nav-menu>ul>li
+{
+
+	font-family: Agency FB;
+	font-size: 15pt;
+	
+}
+
+
+img.nav-menu-image
+
+{
+	width: 60px;
+	height:60px;
+	
+}
+
+div.left-nav-menu:hover
+
+{
+	cursor:pointer;
+	
+}
+
+li.list-group-item
+{
+	  border: none;
+}
+
+li.list-group-item:hover
+{
+	  background-color: gainsboro;
+}
+
+.list-menu-proj
+
+{
+	
+	margin-top: 20pt;
+}
+
+
+.list-menu-aux
+
+{
+	position: relative;
+	margin-top: -220pt;
+	margin-left: 80pt;
+}
+.list-menu-proj>li, .list-menu-aux>li
+{
+	border: none;
+	font-family: Agency FB;
+	font-size: 15pt;
+	width: 70pt;
+	
+}
+
+.list-menu-proj>li :hover,
+.list-menu-aux>li :hover
+{
+ cursor: pointer;
+	
+}
+
+
+label.checkbox-add
+{
+font-size: x-small;
+position: relative;
+width:20%;
+margin-top: -100pt;
+margin-left: 150pt;
+color:slategray;
+	
+}
+
+
+
+label.checkbox-edit
+{
+font-size: x-small;
+color:slategray;
+text-align: right;
+display:block;
+float:right;
+	
+}
+
+#filter-summary th,
+#filter-proj th,
+#break-down-table th
+{
+	background-color:#b9c9fe; 
+	font-family: Agency FB;
+	font-size: 15px;
+}
+#filter-summary td,
+#filter-proj td,
+#break-down-table td{
+	background-color:#e8edff; 
+	
+}
+
+/**LEARNING : how to add overlay effect  */
+
+div.overlay-text {
+  color: white;
+  font-size: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+}
+
+.overlay-add {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 100%;
+  right: 0;
+  height: 100%;
+  width: 20%;
+  transition: .3s ease;
+  opacity: 0;
+  background-color: #449d44;
+}
+
+.overlay-del {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 100%;
+  height: 100%;
+  width: 20%;
+  transition: .3s ease;
+  opacity: 0;
+  background-color: #c9302c;
+}
+
+
+li.tool-box:hover .overlay-add{
+
+width:100%;
+left:0;
+opacity:1;
+}
+
+li.tool-box:hover .overlay-del{
+
+width:100%;
+right:0;
+opacity:1;
+
+}
+
+input[type="checkbox"]
+{
+  -webkit-appearance:checkbox !important;
+}
+
+div.active-project-table table tr:not(:first-child) td{
+    
+    font-size: 12px;
+}
+
+li.selected-tab{
+
+background-color: #337ab7;
+color:white !important;
+
+}
+
+li.selected-tab>a{
+
+color:white !important ;
+
+}
+
+.navbar-nav>li:hover {
+	
+    background-color: #337ab7;
+}
+
+table#active-pj-table tr:first-child{
+    
+    
+    background-color: #016FB9;
+    color: white;
+}
+
+table#active-pj-table tr:not(:first-child):hover{
+    cursor: pointer;
+}
+
+
+
+
+	
+	
