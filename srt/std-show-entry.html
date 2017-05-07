@@ -1,0 +1,40 @@
+<!-- Show individual entry modal-->
+<div id="srt-proj-modal" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title text-primary"><center> {{selectedEntry.customer}} - {{selectedEntry.feature}}<center></h4>
+		<button type="button" class="close" data-dismiss="modal">&times;</button>
+		<!--button class="btn btn-warning pull-left" data-hover="tooltip" data-toggle="modal" data-target="#move-project-modal" data-placement="bottom" title="Copy project to &quot;Completed Project&quot; database."> Move Project 
+		<span class="glyphicon glyphicon-paste"> </span></button-->
+      </div>
+
+      <div class="modal-body">
+	 <table id="table-full-detail" class= "table table-bordered table-hover table-condensed">
+	 <tr><td>customer </td><td>{{selectedEntry.customer}}</td></tr>
+	 <tr><td>Main Feature </td> <td> {{selectedEntry.feature}}</td></tr>
+	 <tr><td>SKUs </td> <td> {{selectedEntry.product}}</td></tr>
+	 <tr><td>Region</td> <td> {{selectedEntry.region}}</td></tr>
+	 <tr><td>Requestor</td> <td> {{selectedEntry.requestor}}</td></tr>
+	 <tr><td>Request Date </td><td> {{selectedEntry.requestdate}}</td></tr>
+	 <tr><td>FC Date </td> <td> {{selectedEntry.fcdate}}</td></tr>
+	 <tr><td>RC Date </td> <td> {{selectedEntry.rcdate}}</td></tr>
+	 <tr><td>VR Date </td><td> {{selectedEntry.vrdate}}</td></tr>
+	 <tr><td>Deal Size </td><td> {{selectedEntry.revenue}}</td></tr>
+	 <tr><td>Current State </td> <td> {{selectedEntry.state}}</td></tr>
+	 </table>
+	  <hr> 
+     <table id="active-pj-table" class="table table-hover table-bordered table-condensed">
+      <tr><th>Item</th><th>CRID <br><small> or RUID </small></th><th>Type</th><th class="summary">Summary</th><th>Developer</th><th>Test Partner</th><th>Affected SKUs</th><th>Component</th><th>Status</th></tr>
+      <tr ng-repeat="x in selectedEntry.itemlist"><td> {{$index+1}} </td><td>{{x.crid}}</td><td>{{x.type}}</td><td>{{x.summary}}</td><td>{{x.fixer}}</td><td>{{x.testteam}}</td><td>{{x.products}}</td><td>{{x.component}}</td><td ng-class="setStatusColor(x.status)">{{x.status}}</td></tr>
+     </table>
+    </div>
+
+    <div class='modal-footer'>
+	<button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
+	</div>
+
+</div>
+</div>
+</div>

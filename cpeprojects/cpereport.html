@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Expires" content="Tue, 01 Jan 1995 12:12:12 GMT">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-control" content="no-cache">
+</head>
+<body>
+
+<div class="col-md-2">
+<div id="data-filter" class="form">
+<label class="control-label"><span class="bg-success"> Start Date : </span></label>
+<input  class="date-picker form-control" type="date" ng-model="startdate"/>
+<br>
+<label class="control-label"><span class="bg-success">End Date : </span></label>
+<input  class="date-picker form-control" type="date" ng-model="enddate"/>
+</div>
+</div>
+
+<!--use ng-cloak to prevent unexpected content shown up -->
+<div class="col-md-9" ng-cloak>
+
+<table id="filter-summary" class="table table-hover table-bordered">
+<tr><th width="20%"> Number of Project </th><td>{{numOfProj}}</td></tr>
+<tr><th> Total Unique Firmware </th><td>{{uniquefw}}</td></tr>
+<tr><th> Total ROI </th><td>${{roi}}</td></tr>
+<tr><th> Total Defect Count </th><td>{{defectcount}}</td></tr>
+<tr><th> Total Feature Count </th><td>{{featurecount}}</td></tr>
+<tr><th> Major Roll </th><td>{{majorcount}}</td></tr>
+<tr><th> Minor Roll </th><td>{{minorcount}}</td></tr>
+</table>
+
+<hr>
+
+<table id="filter-proj" class="table table-hover table-bordered">
+<tr><th>Project Name </th><th>Category</th><th>Rev.</th><th>Unique FW</th><th>Defects</th><th>Features</th><th>VR Date</th><th>Cloud Publish Date</th><th>FDU Publish Date</th><th>MFG Roll-in Date</th></tr>
+<tr ng-repeat="(project,db) in filteredProj"><td>{{project}}</td><td>{{db.cat}}</td><td>{{db.revision}}</td><td>{{db.uniquefw}}</td><td>{{db.defectcount}}</td><td>{{db.featurecount}}</td><td>{{db.datevr}}</td><td>{{db.livedate}}</td><td>{{db.fdudate}}</td><td>{{db.mfgdate}}</td></tr>
+
+</table>
+
+<hr>
+
+<table id="break-down-table" class="table table-hover table-bordered">
+<tr><th>Component </th><th>Item Count</th>
+<tr ng-repeat= "(comp,count) in itemType" ng-hide="hideZeroItem(count)"><td width="50%"> {{comp}}</td><td>{{count}}</td></tr>
+
+</table>
+
+</div>
+
+
+
+<!--script type="text/javascript" src="js/cpe_report.js"-->
+</script>
+</body>
+
+</html>
