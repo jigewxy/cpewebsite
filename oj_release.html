@@ -1,0 +1,54 @@
+<html>
+
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Expires" content="Tue, 01 Jan 1995 12:12:12 GMT">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-control" content="no-cache">
+<script src="js/jquery-3.1.1.min.js"></script>
+<script type ="text/javascript" src="js/cpe_release.js"></script>
+<link rel = "stylesheet" href = "style/cpe_release_style.css">
+</head>
+<body>
+<div id="container">
+<div id = "oj_release_topnav" style = "position:relative;"> 
+<script>
+$("#oj_release_topnav").load("index.html #topnav");
+</script>
+</div>
+
+<div id ="oj-release-nav" style = "position:relative;" >
+<script>
+$("#oj-release-nav").load("cpe_releases.html #cpe-release-nav");
+</script>
+</div>
+
+<div id= "oj-release-body">
+ <ul class ="oj-release-year">
+     <li class ="release-year">
+	    <ul class ="product-container">
+		  <li class ="year"><h2 style="color:white"> 2016 </h2></li>
+		  <li id ="muscatel" class = "product-name" onclick ="loadDoc(this.id)"><p>Muscatel | <span style="color:blue;">Officejet 6870</span></p></li>
+		  <li id ="muscatellite" class = "product-name" onclick ="loadDoc(this.id)"><p>Muscatel Lite | <span style="color:blue;">Officejet 6950</span></p></li>
+        </ul>
+	 </li>
+	 <li class ="release-year">
+	    <ul class ="product-container">
+		  <li class ="year"><h2 style="color:white"> 2015 </h2></li>
+		  <li id = "pinot" class = "product-name" onclick ="loadDoc(this.id)"><p>Pinot | <span style="color:blue;">Officejet 6820</span></p></li>
+		  <li id = "agave" class = "product-name" onclick ="loadDoc(this.id)"><p>Agave | <span style="color:blue;">Officejet 6230</span></p></li>
+        </ul>
+	 </li>
+ </ul> 	
+ 
+ <div id ="oj-release-table-ajax">
+</div>
+ 
+</div>
+
+</div>
+
+
+</body>
+
+</html>
