@@ -1,0 +1,952 @@
+{
+	"name": "project duration",
+	"category": [
+		"Edwin VR1.5",
+		"Muscatel VR3",
+		"Weber VR2",
+		"Edwin VR2",
+		"Triptane VR1.3.1",
+		"Shaolin Plus VR3",
+		"Weber PDL VR2",
+		"Weber VR2.1",
+		"Naples Base\/Fast\/Plus\/Super VR4.1"
+	],
+	"dates": [
+		{
+			"x": 0,
+			"low": "Date.UTC(2017,0,26)",
+			"high": "Date.UTC(2017,1,14)",
+			"name": "FC cycle",
+			"color": "deepskyblue"
+		},
+		{
+			"x": 0,
+			"low": "Date.UTC(2017,1,14)",
+			"high": "Date.UTC(2017,1,28)",
+			"name": "RC cycle",
+			"color": "lemonchiffon"
+		},
+		{
+			"x": 0,
+			"low": "Date.UTC(2017,1,28)",
+			"high": "Date.UTC(2017,3,07)",
+			"name": "VR cycle",
+			"color": "pink"
+		},
+		{
+			"x": 1,
+			"low": "Date.UTC(2016,11,05)",
+			"high": "Date.UTC(2017,1,13)",
+			"name": "FC cycle",
+			"color": "deepskyblue"
+		},
+		{
+			"x": 1,
+			"low": "Date.UTC(2017,1,13)",
+			"high": "Date.UTC(2017,2,06)",
+			"name": "RC cycle",
+			"color": "lemonchiffon"
+		},
+		{
+			"x": 1,
+			"low": "Date.UTC(2017,2,06)",
+			"high": "Date.UTC(2017,3,24)",
+			"name": "VR cycle",
+			"color": "pink"
+		},
+		{
+			"x": 2,
+			"low": "Date.UTC(2016,11,20)",
+			"high": "Date.UTC(2017,0,25)",
+			"name": "FC cycle",
+			"color": "deepskyblue"
+		},
+		{
+			"x": 2,
+			"low": "Date.UTC(2017,0,25)",
+			"high": "Date.UTC(2017,1,25)",
+			"name": "RC cycle",
+			"color": "lemonchiffon"
+		},
+		{
+			"x": 2,
+			"low": "Date.UTC(2017,1,25)",
+			"high": "Date.UTC(2017,3,05)",
+			"name": "VR cycle",
+			"color": "pink"
+		},
+		{
+			"x": 3,
+			"low": "Date.UTC(2017,2,15)",
+			"high": "Date.UTC(2017,3,24)",
+			"name": "FC cycle",
+			"color": "deepskyblue"
+		},
+		{
+			"x": 3,
+			"low": "Date.UTC(2017,3,24)",
+			"high": "Date.UTC(2017,4,08)",
+			"name": "RC cycle",
+			"color": "lemonchiffon"
+		},
+		{
+			"x": 3,
+			"low": "Date.UTC(2017,4,08)",
+			"high": "Date.UTC(2017,5,23)",
+			"name": "VR cycle",
+			"color": "pink"
+		},
+		{
+			"x": 4,
+			"low": "Date.UTC(2017,1,01)",
+			"high": "Date.UTC(2017,1,09)",
+			"name": "FC cycle",
+			"color": "deepskyblue"
+		},
+		{
+			"x": 4,
+			"low": "Date.UTC(2017,1,09)",
+			"high": "Date.UTC(2017,1,16)",
+			"name": "RC cycle",
+			"color": "lemonchiffon"
+		},
+		{
+			"x": 4,
+			"low": "Date.UTC(2017,1,16)",
+			"high": "Date.UTC(2017,1,24)",
+			"name": "VR cycle",
+			"color": "pink"
+		},
+		{
+			"x": 5,
+			"low": "Date.UTC(2017,1,01)",
+			"high": "Date.UTC(2017,3,21)",
+			"name": "FC cycle",
+			"color": "deepskyblue"
+		},
+		{
+			"x": 5,
+			"low": "Date.UTC(2017,3,21)",
+			"high": "Date.UTC(2017,3,28)",
+			"name": "RC cycle",
+			"color": "lemonchiffon"
+		},
+		{
+			"x": 5,
+			"low": "Date.UTC(2017,3,28)",
+			"high": "Date.UTC(2017,5,05)",
+			"name": "VR cycle",
+			"color": "pink"
+		},
+		{
+			"x": 6,
+			"low": "Date.UTC(2017,2,15)",
+			"high": "Date.UTC(2017,4,05)",
+			"name": "FC cycle",
+			"color": "deepskyblue"
+		},
+		{
+			"x": 6,
+			"low": "Date.UTC(2017,4,05)",
+			"high": "Date.UTC(2017,5,08)",
+			"name": "RC cycle",
+			"color": "lemonchiffon"
+		},
+		{
+			"x": 6,
+			"low": "Date.UTC(2017,5,08)",
+			"high": "Date.UTC(2017,5,23)",
+			"name": "VR cycle",
+			"color": "pink"
+		},
+		{
+			"x": 7,
+			"low": "Date.UTC(2017,3,14)",
+			"high": "Date.UTC(2017,3,19)",
+			"name": "FC cycle",
+			"color": "deepskyblue"
+		},
+		{
+			"x": 7,
+			"low": "Date.UTC(2017,3,19)",
+			"high": "Date.UTC(2017,3,21)",
+			"name": "RC cycle",
+			"color": "lemonchiffon"
+		},
+		{
+			"x": 7,
+			"low": "Date.UTC(2017,3,21)",
+			"high": "Date.UTC(2017,3,28)",
+			"name": "VR cycle",
+			"color": "pink"
+		},
+		{
+			"x": 8,
+			"low": "Date.UTC(2016,9,03)",
+			"high": "Date.UTC(2017,3,12)",
+			"name": "FC cycle",
+			"color": "deepskyblue"
+		},
+		{
+			"x": 8,
+			"low": "Date.UTC(2017,3,12)",
+			"high": "Date.UTC(2017,2,30)",
+			"name": "RC cycle",
+			"color": "lemonchiffon"
+		},
+		{
+			"x": 8,
+			"low": "Date.UTC(2017,2,30)",
+			"high": "Date.UTC(2017,3,21)",
+			"name": "VR cycle",
+			"color": "pink"
+		}
+	],
+	"Edwin VR1.5": {
+		"itemlist": [
+			{
+				"itemnumber": 1,
+				"crid": "Pending",
+				"type": "New Feature",
+				"summary": "Pen dynamic security",
+				"requestor": "Raymond Tiernan",
+				"fixer": "Erik Ness",
+				"testteam": "SQ; SIE Ireland",
+				"products": "Edwin",
+				"component": "Ink Security",
+				"status": "Verified"
+			},
+			{
+				"itemnumber": 2,
+				"crid": "356474",
+				"type": "Defect Fix",
+				"summary": "Plang Security fix",
+				"requestor": "Ravi Shankar",
+				"fixer": "Eren",
+				"testteam": "SQ",
+				"products": "Edwin",
+				"component": "UI",
+				"status": "In Progress"
+			}
+		],
+		"pm": "Cliff Wang",
+		"fw": "Kinnal Shankar",
+		"sq": "Lee Cheah Seng",
+		"branch": "frz_2016_edwin_vr1_5",
+		"cat": "Major roll",
+		"datestart": "2017-01-26",
+		"datefc": "2017-02-14",
+		"daterc": "2017-02-28",
+		"datevr": "2017-04-07",
+		"uniquefw": "1",
+		"skus": "Edwin"
+	},
+	"Triptane VR1.3.1": {
+		"itemlist": [
+			{
+				"itemnumber": 1,
+				"crid": "321747",
+				"type": "Defect Fix",
+				"summary": "Plang Security fix",
+				"requestor": "Management",
+				"fixer": "Eren",
+				"testteam": "SQ",
+				"products": "Triptane",
+				"component": "General Security",
+				"status": "In Progress"
+			},
+			{
+				"itemnumber": 2,
+				"crid": "234352",
+				"type": "Defect Fix",
+				"summary": "Rootfs readonly",
+				"requestor": "Carl",
+				"fixer": "Eren",
+				"testteam": "SQ",
+				"products": "Triptane",
+				"component": "General Security",
+				"status": "In Progress"
+			}
+		],
+		"pm": "Nigel Loh",
+		"fw": "Ravi Shankar",
+		"sq": "Lee Cheah Seng",
+		"branch": "frz_2016_triptane_limtane_vr1_3_1",
+		"cat": "Minor roll",
+		"datestart": "2017-02-01",
+		"datefc": "2017-02-09",
+		"daterc": "2017-02-16",
+		"datevr": "2017-02-24",
+		"uniquefw": "4",
+		"skus": "Iceman DN; Iceman DW; Maverick DN; Maverick DW"
+	},
+	"Muscatel VR3": {
+		"itemlist": [
+			{
+				"itemnumber": "1",
+				"crid": "75557",
+				"type": "Defect Fix",
+				"summary": "Gauss Chip corruption issue in MFG line",
+				"requestor": "Leong Soon",
+				"fixer": "Need to check",
+				"testteam": "SIE",
+				"products": "Edwin",
+				"component": "Acumen",
+				"status": "Fixed"
+			},
+			{
+				"itemnumber": "2",
+				"crid": "99999",
+				"type": "New Feature",
+				"summary": "New Fax Chip",
+				"requestor": "Tan Tiong Chuan",
+				"fixer": "Tan Milmar",
+				"testteam": "SQ; QD",
+				"products": "Muscatel; Muscatel Lite",
+				"component": "Fax",
+				"status": "In Progress"
+			}
+		],
+		"pm": "Cliff Wang",
+		"fw": "Kinnal Shankar",
+		"sq": "Duma Gaylord",
+		"branch": "frz_2016_muscatel_ddcr_vr3",
+		"cat": "Major roll",
+		"datestart": "2016-12-05",
+		"datefc": "2017-02-13",
+		"daterc": "2017-03-06",
+		"datevr": "2017-04-24",
+		"uniquefw": "2",
+		"skus": "Muscatel Base; Muscatel High; Muscatel Lite"
+	},
+	"Weber VR2": {
+		"itemlist": [
+			{
+				"itemnumber": "1",
+				"crid": "75557",
+				"type": "Defect Fix",
+				"summary": "OOBE - customer experience enhancement on user setup option",
+				"requestor": "NPI",
+				"fixer": "CPSE",
+				"testteam": "SQ",
+				"products": "Edwin",
+				"component": "UI",
+				"status": "In Progress"
+			}
+		],
+		"pm": "Cliff Wang",
+		"fw": "Ravi Shankar",
+		"sq": "Lee Cheah Seng",
+		"branch": "frz_2016_muscatel_vr3",
+		"cat": "Major roll",
+		"datestart": "2016-12-20",
+		"datefc": "2017-01-25",
+		"daterc": "2017-02-25",
+		"datevr": "2017-04-05",
+		"uniquefw": "2",
+		"skus": "Weber Mid; Weber Base"
+	},
+	"Edwin VR2": {
+		"itemlist": [
+			{
+				"itemnumber": "1",
+				"crid": "75557",
+				"type": "New Feature",
+				"summary": "Safe Stop feature follow-up implementation",
+				"requestor": "David Novak",
+				"fixer": "Need to check",
+				"testteam": "SIE",
+				"products": "Edwin",
+				"component": "Acumen",
+				"status": "In Progress"
+			},
+			{
+				"itemnumber": "2",
+				"crid": "Pending",
+				"type": "Defect Fix",
+				"summary": "New Fax chip",
+				"requestor": "Tiong Chuan",
+				"fixer": "Fax Asset team",
+				"testteam": "SQ; QD",
+				"products": "Edwin",
+				"component": "Fax",
+				"status": "In Progress"
+			}
+		],
+		"pm": "Simrat Siddhu",
+		"fw": "Ravi Shankar",
+		"sq": "Lee Cheah Seng",
+		"branch": "frz_2017_edwin_vr2",
+		"cat": "Major roll",
+		"datestart": "2017-03-15",
+		"datefc": "2017-04-24",
+		"daterc": "2017-05-08",
+		"datevr": "2017-06-23",
+		"uniquefw": "1",
+		"skus": "Edwin"
+	},
+	"Shaolin Plus VR3": {
+		"itemlist": [
+			{
+				"itemnumber": "1",
+				"crid": "12345",
+				"type": "Defect Fix",
+				"summary": "New Fax",
+				"requestor": "Tiong Chuan",
+				"fixer": "Milmar",
+				"testteam": "SQ; QD",
+				"products": "Shaolin Plus\/Plus IA",
+				"component": "Fax",
+				"status": "In Progress"
+			},
+			{
+				"itemnumber": "2",
+				"crid": "279598",
+				"type": "Defect Fix",
+				"summary": "[SECURITY] SSL RC4 Cipher Suites are insecure and should be disabled",
+				"requestor": "NA",
+				"fixer": "Hub Team",
+				"testteam": "SQ",
+				"products": "Shaolin Plus",
+				"component": "General Security",
+				"status": "In Progress"
+			},
+			{
+				"itemnumber": "3",
+				"crid": "302058",
+				"type": "Defect Fix",
+				"summary": "[BYS] [Corfu Plus\/IA\/Naples Minus\/IA VR2\/Iceman\/Maverick\/Hi] GCP: The GCP job cannot be printed out and \"Print failure\" or \"Queued\" shows on GCP job details page when sending a GCP job while the previous privet local job is printing.",
+				"requestor": "NA",
+				"fixer": "Hub Team",
+				"testteam": "SQ",
+				"products": "Shaolin Plus",
+				"component": "SIPs",
+				"status": "In Progress"
+			},
+			{
+				"itemnumber": "4",
+				"crid": "302060",
+				"type": "Defect Fix",
+				"summary": "[BYS] [Corfu Plus\/IA\/Naples Minus\/IA VR2\/Iceman\/Maverick\/Hi] GCP: The GCP job cannot be printed out and \"Print failure\" or \"Queued\" shows on GCP job details page when sending a GCP job while the previous privet local job is printing.",
+				"requestor": "NA",
+				"fixer": "Hub Team",
+				"testteam": "SQ",
+				"products": "Shaolin Plus IA",
+				"component": "General SIPs",
+				"status": "In Progress"
+			},
+			{
+				"itemnumber": "5",
+				"crid": "311612",
+				"type": "Defect Fix",
+				"summary": "[Duration]:Error: 0x003a5e26 - 58:RedPM.c occurred on Topaz during mechless wireless testing",
+				"requestor": "NA",
+				"fixer": "Hub Team",
+				"testteam": "SQ",
+				"products": "Shaolin Plus",
+				"component": "OS Related",
+				"status": "In Progress"
+			},
+			{
+				"itemnumber": "6",
+				"crid": "313796",
+				"type": "Defect Fix",
+				"summary": "[XMO2]OOBE_FinishSetupOnline(Non_XMO2) instead of OOBE_FinishSetupOnline(XMO2) screen if powering cycle the printer on OOBE_AlignmentSuccessful screen in OOBE XMO2 flow.",
+				"requestor": "NA",
+				"fixer": "Hub Team",
+				"testteam": "SQ",
+				"products": "Shaolin Plus",
+				"component": "Ink Sub",
+				"status": "In Progress"
+			},
+			{
+				"itemnumber": "7",
+				"crid": "317171",
+				"type": "Defect Fix",
+				"summary": "[BYS] Shaolin Plus UIA (MP1)\/Shaolin Plus VR2\/Shaolin Plus IA VR2(PP) EWS: The Printer status is displayed as \"Ready\" on printer information page when printer enter sleep mode\".",
+				"requestor": "NA",
+				"fixer": "Hub Team",
+				"testteam": "SQ",
+				"products": "Shaolin Plus",
+				"component": "EWS",
+				"status": "In Progress"
+			},
+			{
+				"itemnumber": "8",
+				"crid": "317172",
+				"type": "Defect Fix",
+				"summary": "[BYS] Shaolin Plus UIA (MP1)\/Shaolin Plus VR2\/Shaolin Plus IA VR2(PP) EWS: The Printer status is displayed as \"Ready\" on printer information page when printer enter sleep mode\".",
+				"requestor": "NA",
+				"fixer": "Hub Team",
+				"testteam": "SQ",
+				"products": "Shaolin Plus IA",
+				"component": "EWS",
+				"status": "In Progress"
+			},
+			{
+				"itemnumber": "9",
+				"crid": "354713",
+				"type": "Defect Fix",
+				"summary": "WSD InstanceID needs to be incremented after Printer IP changes as required by WSD Spec.",
+				"requestor": "CIE Team",
+				"fixer": "Hub Team",
+				"testteam": "SQ",
+				"products": "Shaolin Plus",
+				"component": "Connectivity",
+				"status": "In Progress"
+			},
+			{
+				"itemnumber": "10",
+				"crid": "311612",
+				"type": "Defect Fix",
+				"summary": "[Duration]:Error: 0x003a5e26 - 58:RedPM.c occurred on Topaz during mechless wireless testing",
+				"requestor": "NA",
+				"fixer": "Hub Team",
+				"testteam": "SQ",
+				"products": "Shaolin Plus",
+				"component": "OS Related",
+				"status": "In Progress"
+			},
+			{
+				"itemnumber": "11",
+				"crid": "328920",
+				"type": "Defect Fix",
+				"summary": "CVAA Accessibility: Ensure off-screen and hidden content is not rendered by assistive technology (Embedded Web Server).",
+				"requestor": "NA",
+				"fixer": "Hub Team",
+				"testteam": "SQ",
+				"products": "Shaolin Plus",
+				"component": "General Security",
+				"status": "In Progress"
+			},
+			{
+				"itemnumber": "12",
+				"crid": "354910",
+				"type": "Defect Fix",
+				"summary": "UDP packets sent for UNICAST_UDP_REPEAT and MULTICAST_UDP_REPEAT by printer to be increased from 2 packets to 4 packets for reliability purposes",
+				"requestor": "CIE Team",
+				"fixer": "Hub Team",
+				"testteam": "SQ",
+				"products": "Shaolin Plus",
+				"component": "Connectivity",
+				"status": "In Progress"
+			},
+			{
+				"itemnumber": "13",
+				"crid": "357943",
+				"type": "Defect Fix",
+				"summary": "UDP_MAX_DELAY for both unicast and multicast to be reduced from 250ms to 100ms for reliability purposes",
+				"requestor": "CIE Team",
+				"fixer": "Hub Team",
+				"testteam": "SQ",
+				"products": "Shaolin Plus",
+				"component": "Connectivity",
+				"status": "In Progress"
+			},
+			{
+				"itemnumber": "14",
+				"crid": "357961",
+				"type": "Defect Fix",
+				"summary": "UDP_UPPER_DELAY for both unicast and multicast to be reduced from 250ms to 200ms for reliability purposes",
+				"requestor": "CIE Team",
+				"fixer": "Hub Team",
+				"testteam": "SQ",
+				"products": "Shaolin Plus",
+				"component": "Connectivity",
+				"status": "In Progress"
+			}
+		],
+		"pm": "Subhasree",
+		"fw": "Karan, Robert",
+		"sq": "Duma Gaylord",
+		"branch": "frz_2015_shaolinplus_vr3",
+		"cat": "Major roll",
+		"datestart": "2017-02-01",
+		"datefc": "2017-04-21",
+		"daterc": "2017-04-28",
+		"datevr": "2017-06-05",
+		"uniquefw": "1",
+		"skus": "Shaolin Plus"
+	},
+	"Weber PDL VR2": {
+		"itemlist": [
+			{
+				"itemnumber": "1",
+				"crid": "R80335",
+				"type": "New Feature",
+				"summary": "New Fax Chip enablement",
+				"requestor": "Tan Tiong Chuan",
+				"fixer": "Tan Milmar",
+				"testteam": "QD; SQ",
+				"products": "Weber PDL",
+				"component": "Fax",
+				"status": "In Progress"
+			},
+			{
+				"itemnumber": "2",
+				"crid": "284064",
+				"type": "Defect Fix",
+				"summary": "BYS WBR Base\/Mid Security: The proxy server\u2019s user name and password can be captured via Charles tool.",
+				"requestor": "CA",
+				"fixer": "Vineeth R SQ",
+				"testteam": "SQ",
+				"products": "Weber PDL",
+				"component": "LEDM",
+				"status": "Fixed"
+			},
+			{
+				"itemnumber": "3",
+				"crid": "327219",
+				"type": "Defect Fix",
+				"summary": "Printer Shows Incorrect Information On Network Configuration Page When Placed On IPv6 Only Network Protocol.",
+				"requestor": "CA",
+				"fixer": "Evelyn Mary Rangel",
+				"testteam": "SQ",
+				"products": "Weber PDL",
+				"component": "Connectivity",
+				"status": "Fixed"
+			},
+			{
+				"itemnumber": "4",
+				"crid": "303387",
+				"type": "Defect Fix",
+				"summary": "EWS cartridge level gauage display HP logo under TYPE when insert safe stop ink condition I\/o Ref 65939",
+				"requestor": "SIE",
+				"fixer": "CPE",
+				"testteam": "SQ",
+				"products": "Weber PDL",
+				"component": "Ink Security",
+				"status": "In Progress"
+			},
+			{
+				"itemnumber": "5",
+				"crid": "306312",
+				"type": "Defect Fix",
+				"summary": "Cartridge Number observe in EWS when insert safe stop ink i\/o ref 65939.",
+				"requestor": "SIE",
+				"fixer": "CPE",
+				"testteam": "SQ",
+				"products": "Weber PDL",
+				"component": "Ink Security",
+				"status": "In Progress"
+			},
+			{
+				"itemnumber": "6",
+				"crid": "313693",
+				"type": "Defect Fix",
+				"summary": "HTTP Upgrade fails  in  IPP Everywhere Printer Self-Certification Tools",
+				"requestor": "CA",
+				"fixer": "H, Ravindra",
+				"testteam": "SQ",
+				"products": "Weber PDL",
+				"component": "Connectivity",
+				"status": "Fixed"
+			},
+			{
+				"itemnumber": "7",
+				"crid": "327174",
+				"type": "Defect Fix",
+				"summary": "WBR PDL and PDL Hi Tesla NW IO: Device Announcement Agent (DAA) is disabled by default after OOBE reset",
+				"requestor": "CA",
+				"fixer": "Paul Walrath",
+				"testteam": "SQ",
+				"products": "Weber PDL",
+				"component": "General Security",
+				"status": "Fixed"
+			},
+			{
+				"itemnumber": "8",
+				"crid": "332685",
+				"type": "Defect Fix",
+				"summary": "FP failed to return to Home screen after initiating a job when \u201cEnable Automatic Sign Out\u201d is enabled",
+				"requestor": "CA",
+				"fixer": "Teik Hor Soon",
+				"testteam": "SQ",
+				"products": "Weber PDL",
+				"component": "OXPD",
+				"status": "Fixed"
+			},
+			{
+				"itemnumber": "9",
+				"crid": "334075",
+				"type": "Defect Fix",
+				"summary": "Error message \u201cB8110A06\u201c showed on LCD after printed a few pages.",
+				"requestor": "CA",
+				"fixer": "LS, Mamatha",
+				"testteam": "SQ",
+				"products": "Weber PDL",
+				"component": "UI",
+				"status": "Fixed"
+			},
+			{
+				"itemnumber": "10",
+				"crid": "334337",
+				"type": "Defect Fix",
+				"summary": "Link Local Address test fails at Subsequent Conflicts",
+				"requestor": "CA",
+				"fixer": "Richard Powers",
+				"testteam": "SQ",
+				"products": "Weber PDL",
+				"component": "Connectivity",
+				"status": "In Progress"
+			},
+			{
+				"itemnumber": "11",
+				"crid": "317061",
+				"type": "Defect Fix",
+				"summary": "The printer shown a \u201cPaper Problem\u201d instead of \u201cOut of Paper\u201d title",
+				"requestor": "CA",
+				"fixer": "CPE",
+				"testteam": "SQ",
+				"products": "Weber PDL",
+				"component": "UI",
+				"status": "In Progress"
+			},
+			{
+				"itemnumber": "12",
+				"crid": "337036",
+				"type": "Defect Fix",
+				"summary": "Scan to Email fails when firewall is enabled.",
+				"requestor": "CA",
+				"fixer": "Brian Gorman",
+				"testteam": "SQ",
+				"products": "Weber PDL",
+				"component": "Connectivity",
+				"status": "Fixed"
+			},
+			{
+				"itemnumber": "13",
+				"crid": "354696",
+				"type": "Defect Fix",
+				"summary": "WSD InstanceID needs to be incremented after Printer IP changes as required by WSD Spec.",
+				"requestor": "CA",
+				"fixer": "Neeraj Gupta",
+				"testteam": "SQ",
+				"products": "Weber PDL",
+				"component": "Connectivity",
+				"status": "Fixed"
+			},
+			{
+				"itemnumber": "14",
+				"crid": "354975",
+				"type": "Defect Fix",
+				"summary": "UNICAST_UDP_REPEAT and MULTICAST_UDP_REPEAT to increase from 2 packets to 4 packets sent by printer for reliability purposes during WSD transactions in Windows10",
+				"requestor": "CA",
+				"fixer": "Neeraj Gupta",
+				"testteam": "SQ",
+				"products": "Weber PDL",
+				"component": "Connectivity",
+				"status": "Fixed"
+			},
+			{
+				"itemnumber": "15",
+				"crid": "356418",
+				"type": "Defect Fix",
+				"summary": "UDP_MAX_DELAY for both unicast and multicast to be reduced from 250ms to 100ms for reliability purposes",
+				"requestor": "CA",
+				"fixer": "Neeraj Gupta",
+				"testteam": "SQ",
+				"products": "Weber PDL",
+				"component": "Connectivity",
+				"status": "Fixed"
+			},
+			{
+				"itemnumber": "16",
+				"crid": "356461",
+				"type": "Defect Fix",
+				"summary": "UDP packets sent for UNICAST_UDP_REPEAT and MULTICAST_UDP_REPEAT by printer to be increased from 2 packets to 4 packets for reliability purposes",
+				"requestor": "CA",
+				"fixer": "Neeraj Gupta",
+				"testteam": "SQ",
+				"products": "Weber PDL",
+				"component": "Connectivity",
+				"status": "Fixed"
+			},
+			{
+				"itemnumber": "17",
+				"crid": "340367",
+				"type": "Defect Fix",
+				"summary": "SQL Fax Asset: Improvements in modem version 7.9.1",
+				"requestor": "CA",
+				"fixer": "Tan, Milmar Quebrar",
+				"testteam": "SQ",
+				"products": "Weber PDL",
+				"component": "Fax",
+				"status": "Fixed"
+			},
+			{
+				"itemnumber": "18",
+				"crid": "349468",
+				"type": "Defect Fix",
+				"summary": "Safe Stop field cannot be found in 10 tap\/EWS\/hidden Service menu",
+				"requestor": "David Novak",
+				"fixer": "CPE",
+				"testteam": "SQ",
+				"products": "Weber PDL",
+				"component": "EWS",
+				"status": "In Progress"
+			},
+			{
+				"itemnumber": "19",
+				"crid": "368115",
+				"type": "Defect Fix",
+				"summary": "inSafeStopMode I\/O 65939 showing Cartridge Number in Estimated Cartridge Levels and Cartridge Info screen",
+				"requestor": "David Novak",
+				"fixer": "CPE",
+				"testteam": "SQ",
+				"products": "Weber PDL",
+				"component": "UI",
+				"status": "In Progress"
+			},
+			{
+				"itemnumber": "20",
+				"crid": "368118",
+				"type": "Defect Fix",
+				"summary": "[EWS] inSafeStopMode I\/O 65939 showing First Installation Date",
+				"requestor": "David Novak",
+				"fixer": "CPE",
+				"testteam": "SQ",
+				"products": "Weber PDL",
+				"component": "EWS",
+				"status": "In Progress"
+			},
+			{
+				"itemnumber": "21",
+				"crid": "319829",
+				"type": "Defect Fix",
+				"summary": "CHAT assert epochTime should come from the RTC and not account for time zone",
+				"requestor": "CA",
+				"fixer": "Padmanabhan Ramchandran ",
+				"testteam": "SQ",
+				"products": "Weber PDL",
+				"component": "OS Related",
+				"status": "Fixed"
+			},
+			{
+				"itemnumber": "22",
+				"crid": "362027",
+				"type": "Defect Fix",
+				"summary": "Region Settings \u2013 English strings not translated to localized language",
+				"requestor": "CA",
+				"fixer": "Cijo Robert",
+				"testteam": "SQ",
+				"products": "Weber PDL",
+				"component": "UI",
+				"status": "Fixed"
+			},
+			{
+				"itemnumber": "23",
+				"crid": "321810",
+				"type": "Defect Fix",
+				"summary": "Printer schedule off at settings time when execute Phone line in use.",
+				"requestor": "CA",
+				"fixer": "CPE",
+				"testteam": "SQ",
+				"products": "Weber PDL",
+				"component": "UI",
+				"status": "In Progress"
+			},
+			{
+				"itemnumber": "24",
+				"crid": "327214",
+				"type": "Defect Fix",
+				"summary": "SOL16 SIPsCONFORMANCE: Test Service screen capture unable to capture within any SIPs screen",
+				"requestor": "CA",
+				"fixer": "Ramesh N",
+				"testteam": "SQ",
+				"products": "Weber PDL",
+				"component": "SIPs",
+				"status": "Fixed"
+			},
+			{
+				"itemnumber": "25",
+				"crid": "327217",
+				"type": "Defect Fix",
+				"summary": "Assert 0x004fb063 occurs when the printer is unsubscribed while the Instant Ink dashboard is open on the UI",
+				"requestor": "CA",
+				"fixer": "Tee Kai Xin",
+				"testteam": "SQ",
+				"products": "Weber PDL",
+				"component": "UI",
+				"status": "Fixed"
+			},
+			{
+				"itemnumber": "26",
+				"crid": "369665",
+				"type": "Defect Fix",
+				"summary": "OOBE_Admin_FullSetup_Warning should not be shown during the OOBE workflow.",
+				"requestor": "CA",
+				"fixer": "CPE",
+				"testteam": "SQ",
+				"products": "Weber PDL",
+				"component": "UI",
+				"status": "In Progress"
+			}
+		],
+		"skus": "Weber PDL",
+		"uniquefw": "1",
+		"pm": "Cliff Wang",
+		"fw": "Mohinder Gaurav Saini ",
+		"sq": "Duma Gaylord",
+		"branch": "frz_2017_teslapdl_weberpdl_vr2",
+		"cat": "Major roll",
+		"datestart": "2017-03-15",
+		"datefc": "2017-05-05",
+		"daterc": "2017-06-08",
+		"datevr": "2017-06-23"
+	},
+	"Weber VR2.1": {
+		"itemlist": [
+			{
+				"itemnumber": "1",
+				"crid": "368515",
+				"type": "Defect Fix",
+				"summary": "Printer did not go to sleep mode when Fax cable is connected to the printer",
+				"requestor": "Tan Tiong Chuan",
+				"fixer": "Tan Milmar",
+				"testteam": "SQ",
+				"products": "Weber Base\/Mid",
+				"component": "Fax",
+				"status": "Fixed"
+			},
+			{
+				"itemnumber": "2",
+				"crid": "Pending",
+				"type": "Defect Fix",
+				"summary": "Taiwan Conexant Fax Chip regulatory testing failure",
+				"requestor": "Tan Tiong Chuan",
+				"fixer": "Tan Milmar",
+				"testteam": "QD",
+				"products": "Weber High\/Mid; Weber Base",
+				"component": "Fax",
+				"status": "Fixed"
+			}
+		],
+		"skus": "Weber Mid\/Hi; Weber Base",
+		"uniquefw": "2",
+		"pm": "Cliff Wang",
+		"fw": "Mohinder, Gaurav Saini",
+		"sq": "Duma Gaylord",
+		"branch": "frz_2016_weber_base_mid_ddcr_vr2",
+		"cat": "Minor roll",
+		"datestart": "2017-04-14",
+		"datefc": "2017-04-19",
+		"daterc": "2017-04-21",
+		"datevr": "2017-04-28"
+	},
+	"Naples Base\/Fast\/Plus\/Super VR4.1": {
+		"itemlist": [
+		],
+		"skus": "Base\/Fast\/Plus\/Super ",
+		"uniquefw": "Yes",
+		"pm": "Rajendran, Subhasree",
+		"fw": "Karan, Robert",
+		"sq": "Duma, Gaylord",
+		"branch": "frz_2014_naplesplus_vr4_1, frz_2014_naples_vr4_1, frz_2014_naples_super_vr4_1",
+		"cat": "Minor roll",
+		"datestart": "2016-10-03",
+		"datefc": "2017-04-12",
+		"daterc": "2017-03-30",
+		"datevr": "2017-04-21"
+	}
+}

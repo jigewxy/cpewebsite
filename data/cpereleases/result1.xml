@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<productroot>
+  <productlist>
+    <year>2016</year>
+    <product year="2016">Tesla PDL</product>
+    <product year="2016">Weber Mid</product>
+    <product year="2016">Weber Base</product>
+    <year>2010</year>
+    <product year="2010">Coulomb</product>
+    <year>2009</year>
+    <product year="2009">Daimler</product>
+    <year>2014</year>
+    <product year="2014">Farad Mid</product>
+    <year>2012</year>
+    <product year="2012">Forrester</product>
+    <product year="2012">Everett</product>
+    <product year="2014">Farad Base</product>
+  </productlist>
+  <webermidroot>
+    <release>
+      <version>VR6</version>
+      <fwversion>1 2 3</fwversion>
+      <date>2016 1 2</date>
+      <arel>1 2 3</arel>
+      <sarel>1 2 3</sarel>
+      <narel>1 2 3</narel>
+      <branch>frz_2016_weber_vr1</branch>
+      <type>1 2 3</type>
+      <owner>NPI</owner>
+    </release>
+    <release>
+      <version>VR2</version>
+      <fwversion>2</fwversion>
+      <date>2</date>
+      <arel>2</arel>
+      <sarel>2</sarel>
+      <narel>2</narel>
+      <branch>frz_2016_teslapdl_weberpdl_vr1</branch>
+      <type>2</type>
+      <owner>NPI</owner>
+    </release>
+  </webermidroot>
+  <weberbaseroot>
+    <release>
+      <version>1</version>
+      <fwversion>1</fwversion>
+      <date>1</date>
+      <arel>1</arel>
+      <sarel>1</sarel>
+      <narel>1</narel>
+      <branch>frz_2016_weber_vr1</branch>
+      <type>1</type>
+      <owner>NPI</owner>
+    </release>
+    <release>
+      <version>weber base VR2</version>
+      <fwversion>001.1648A</fwversion>
+      <date>2016-12-01</date>
+      <arel>http://www.google.com</arel>
+      <sarel>\\hpmdffs1.ijp.sgp.rd.hpicorp.net\IBPCPE_Shared\Temp\cliff_temp\muscatel\muscatel_vr3\apr-13</sarel>
+      <narel>\\hpmdffs1.ijp.sgp.rd.hpicorp.net\IBPCPE_Shared\Temp\cliff_temp\muscatel\muscatel_vr3\apr-13</narel>
+      <branch>frz_2016_weber_base_vr2</branch>
+      <type>FDU</type>
+      <owner>NPI</owner>
+    </release>
+  </weberbaseroot>
+  <teslapdlroot>
+    <release>
+      <version>VR1</version>
+      <fwversion>001.1701A</fwversion>
+      <date>1</date>
+      <arel>1</arel>
+      <sarel>1</sarel>
+      <narel>1</narel>
+      <branch>frz_2016_weber_vr1</branch>
+      <type>1</type>
+      <owner>NPI</owner>
+    </release>
+    <release>
+      <version>Tesla PDL VR2</version>
+      <fwversion>001.1648A</fwversion>
+      <date>2016-12-01</date>
+      <arel>\\x\y\z</arel>
+      <sarel>\\x\y\z</sarel>
+      <narel>\\X\Y\Z</narel>
+      <branch>frz_2016_weber_base_vr2</branch>
+      <type>FDU</type>
+      <owner>NPI</owner>
+    </release>
+  </teslapdlroot>
+  <coulombroot/>
+  <daimlerroot/>
+  <faradmidroot/>
+  <forresterroot/>
+  <everettroot/>
+  <faradbaseroot/>
+</productroot>

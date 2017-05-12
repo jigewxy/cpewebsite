@@ -532,7 +532,37 @@ text-decoration:underline;
 color:blue;
 }
 
+div.tooltip-item{
+background-color: whitesmoke;
+width: 400px;
+height: 300px;
+opacity: 0;
+transition: all .5s ease ;
+-webkit-transition: all .5s ease ;; /* Safari */
+border-radius: 5px;
+}
+
+div.tooltip-item:before{
+
+   content: "";
+   position: relative;
+   left: -20px;
+   top: 60px;
+   width: 0;
+   height: 0;
+   border-right: 20px solid whitesmoke;
+   border-bottom: 20px solid transparent;
+}
+#tooltip-modal .modal-body{
+
+height: 400pt;
+
+}
 
 
-	
-	
+#tooltip-form > textarea{
+
+	width: 100%;
+	height: 300pt;
+}
+

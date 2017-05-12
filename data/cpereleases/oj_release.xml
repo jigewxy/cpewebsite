@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<productroot>
+  <productlist>
+    <year>2016</year>
+    <year>2017</year>
+    <product year="2016">Muscatel</product>
+    <year>2015</year>
+    <year>2014</year>
+    <year>2013</year>
+    <year>2011</year>
+    <year>2010</year>
+  <product year="2017">Edwin</product></productlist>
+  <muscatelroot>
+    <release>
+      <version>Muscatel VR1</version>
+      <fwversion>1 2 3</fwversion>
+      <date>2016-01-01</date>
+      <arel>1 2 3</arel>
+      <sarel>1 2 3</sarel>
+      <narel>1 2 3</narel>
+      <branch>frz_2016_muscatel_vr1</branch>
+      <type>1 2 3</type>
+      <owner>NPI</owner>
+    </release>
+    <release>
+      <version>Muscatel VR2</version>
+      <fwversion>2</fwversion>
+      <date>2017-01-01</date>
+      <arel>2</arel>
+      <sarel>2</sarel>
+      <narel>2</narel>
+      <branch>frz_2016_muscatel_vr1</branch>
+      <type>2</type>
+      <owner>NPI</owner>
+    </release>
+  </muscatelroot>
+  <pinotroot/>
+  <agaveroot/>
+<edwinroot/></productroot>

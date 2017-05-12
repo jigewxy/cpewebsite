@@ -130,13 +130,11 @@
 	 </table>
 	 </div>	  	 
 	  <hr>
-      <div class="cpe-release-table">
-      <table class="table table-striped table-bordered table-hover table-condensed">
-       <tr style="font-size:14px; font-type:bold"><td>Item</td><td>CRID</td><td>Type</td><td>Summary</td><td>Requestor</td><td>Fix Provider</td><td>Test Partner<td>Affected SKUs</td><td>component</td></tr>
-      <tr style="font-size:12px" ng-repeat="x in projectdata.itemlist"><td>{{x.itemnumber}}</td><td>{{x.crid}}</td><td>{{x.type}}</td><td>{{x.summary}}</td><td>{{x.requestor}}</td><td>{{x.fixer}}</td><td>{{x.testteam}}</td><td>{{x.products}}</td><td>{{x.component}}</td></tr>
+      <table id="cpe-release-table" class="table table-bordered table-condensed">
+       <tr><th>Item</th><th>CRID</th><th>Type</th><th class="cell-summary">Summary</th><th>Requestor</th><th>Fix Provider</th><th>Test Partner<th>Affected SKUs</th><th>Component</th></tr>
+      <tr ng-repeat="x in projectdata.itemlist"><td>{{x.itemnumber}}</td><td>{{x.crid}}</td><td>{{x.type}}</td><td>{{x.summary}}</td><td>{{x.requestor}}</td><td>{{x.fixer}}</td><td>{{x.testteam}}</td><td>{{x.products}}</td><td>{{x.component}}</td></tr>
     </table>
 	
-     </div>
       </div>
       <div class="modal-footer">
 	      <button type="button" class="btn btn-success" data-toggle="modal" data-target="#add-item-modal">Add</button>

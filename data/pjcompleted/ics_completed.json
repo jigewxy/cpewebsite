@@ -1,0 +1,190 @@
+{
+    "Naples": {
+        "year": "2016",
+        "projectlist": []
+    },
+    "Shaolin Plus": {
+        "year": "2015",
+        "projectlist": {
+            "Shaolin Plus VR3": {
+                "itemlist": [
+                    {
+                        "itemnumber": "1",
+                        "crid": "12345",
+                        "type": "Defect Fix",
+                        "summary": "New Fax",
+                        "requestor": "Tiong Chuan",
+                        "fixer": "Milmar",
+                        "testteam": "SQ; QD",
+                        "products": "Shaolin Plus\/Plus IA",
+                        "component": "Fax"
+                    },
+                    {
+                        "itemnumber": "2",
+                        "crid": "279598",
+                        "type": "Defect Fix",
+                        "summary": "[SECURITY] SSL RC4 Cipher Suites are insecure and should be disabled",
+                        "requestor": "NA",
+                        "fixer": "Hub Team",
+                        "testteam": "SQ",
+                        "products": "Shaolin Plus",
+                        "component": "General Security"
+                    },
+                    {
+                        "itemnumber": "3",
+                        "crid": "302058",
+                        "type": "Defect Fix",
+                        "summary": "[BYS] [Corfu Plus\/IA\/Naples Minus\/IA VR2\/Iceman\/Maverick\/Hi] GCP: The GCP job cannot be printed out and \"Print failure\" or \"Queued\" shows on GCP job details page when sending a GCP job while the previous privet local job is printing.",
+                        "requestor": "NA",
+                        "fixer": "Hub Team",
+                        "testteam": "SQ",
+                        "products": "Shaolin Plus",
+                        "component": "SIPs"
+                    },
+                    {
+                        "itemnumber": "4",
+                        "crid": "302060",
+                        "type": "Defect Fix",
+                        "summary": "[BYS] [Corfu Plus\/IA\/Naples Minus\/IA VR2\/Iceman\/Maverick\/Hi] GCP: The GCP job cannot be printed out and \"Print failure\" or \"Queued\" shows on GCP job details page when sending a GCP job while the previous privet local job is printing.",
+                        "requestor": "NA",
+                        "fixer": "Hub Team",
+                        "testteam": "SQ",
+                        "products": "Shaolin Plus IA",
+                        "component": "SIPs"
+                    },
+                    {
+                        "itemnumber": "5",
+                        "crid": "311612",
+                        "type": "Defect Fix",
+                        "summary": "[Duration]:Error: 0x003a5e26 - 58:RedPM.c occurred on Topaz during mechless wireless testing",
+                        "requestor": "NA",
+                        "fixer": "Hub Team",
+                        "testteam": "SQ",
+                        "products": "Shaolin Plus",
+                        "component": "OS Related"
+                    },
+                    {
+                        "itemnumber": "6",
+                        "crid": "313796",
+                        "type": "Defect Fix",
+                        "summary": "[XMO2]OOBE_FinishSetupOnline(Non_XMO2) instead of OOBE_FinishSetupOnline(XMO2) screen if powering cycle the printer on OOBE_AlignmentSuccessful screen in OOBE XMO2 flow.",
+                        "requestor": "NA",
+                        "fixer": "Hub Team",
+                        "testteam": "SQ",
+                        "products": "Shaolin Plus",
+                        "component": "Ink Sub"
+                    },
+                    {
+                        "itemnumber": "7",
+                        "crid": "317171",
+                        "type": "Defect Fix",
+                        "summary": "[BYS] Shaolin Plus UIA (MP1)\/Shaolin Plus VR2\/Shaolin Plus IA VR2(PP) EWS: The Printer status is displayed as \"Ready\" on printer information page when printer enter sleep mode\".",
+                        "requestor": "NA",
+                        "fixer": "Hub Team",
+                        "testteam": "SQ",
+                        "products": "Shaolin Plus",
+                        "component": "EWS"
+                    },
+                    {
+                        "itemnumber": "8",
+                        "crid": "317172",
+                        "type": "Defect Fix",
+                        "summary": "[BYS] Shaolin Plus UIA (MP1)\/Shaolin Plus VR2\/Shaolin Plus IA VR2(PP) EWS: The Printer status is displayed as \"Ready\" on printer information page when printer enter sleep mode\".",
+                        "requestor": "NA",
+                        "fixer": "Hub Team",
+                        "testteam": "SQ",
+                        "products": "Shaolin Plus IA",
+                        "component": "EWS"
+                    },
+                    {
+                        "itemnumber": "9",
+                        "crid": "354713",
+                        "type": "Defect Fix",
+                        "summary": "WSD InstanceID needs to be incremented after Printer IP changes as required by WSD Spec.",
+                        "requestor": "CIE Team",
+                        "fixer": "Hub Team",
+                        "testteam": "SQ",
+                        "products": "Shaolin Plus",
+                        "component": "Connectivity"
+                    },
+                    {
+                        "itemnumber": "10",
+                        "crid": "311612",
+                        "type": "Defect Fix",
+                        "summary": "[Duration]:Error: 0x003a5e26 - 58:RedPM.c occurred on Topaz during mechless wireless testing",
+                        "requestor": "NA",
+                        "fixer": "Hub Team",
+                        "testteam": "SQ",
+                        "products": "Shaolin Plus",
+                        "component": "OS Related"
+                    },
+                    {
+                        "itemnumber": "11",
+                        "crid": "328920",
+                        "type": "Defect Fix",
+                        "summary": "CVAA Accessibility: Ensure off-screen and hidden content is not rendered by assistive technology (Embedded Web Server).",
+                        "requestor": "NA",
+                        "fixer": "Hub Team",
+                        "testteam": "SQ",
+                        "products": "Shaolin Plus",
+                        "component": "EWS"
+                    },
+                    {
+                        "itemnumber": "12",
+                        "crid": "354910",
+                        "type": "Defect Fix",
+                        "summary": "UDP packets sent for UNICAST_UDP_REPEAT and MULTICAST_UDP_REPEAT by printer to be increased from 2 packets to 4 packets for reliability purposes",
+                        "requestor": "CIE Team",
+                        "fixer": "Hub Team",
+                        "testteam": "SQ",
+                        "products": "Shaolin Plus",
+                        "component": "Connectivity"
+                    },
+                    {
+                        "itemnumber": "13",
+                        "crid": "357943",
+                        "type": "Defect Fix",
+                        "summary": "UDP_MAX_DELAY for both unicast and multicast to be reduced from 250ms to 100ms for reliability purposes",
+                        "requestor": "CIE Team",
+                        "fixer": "Hub Team",
+                        "testteam": "SQ",
+                        "products": "Shaolin Plus",
+                        "component": "Connectivity"
+                    },
+                    {
+                        "itemnumber": "14",
+                        "crid": "357961",
+                        "type": "Defect Fix",
+                        "summary": "UDP_UPPER_DELAY for both unicast and multicast to be reduced from 250ms to 200ms for reliability purposes",
+                        "requestor": "CIE Team",
+                        "fixer": "Hub Team",
+                        "testteam": "SQ",
+                        "products": "Shaolin Plus",
+                        "component": "Connectivity"
+                    }
+                ],
+                "pm": "Subhasree",
+                "fw": "Karan, Robert",
+                "sq": "Duma Gaylord",
+                "branch": "123",
+                "cat": "Major roll",
+                "datestart": "2017-02-01",
+                "datefc": "2017-04-21",
+                "daterc": "2017-04-28",
+                "datevr": "2017-03-31",
+                "uniquefw": "1",
+                "skus": "Shaolin Plus",
+                "revision": "1713A",
+                "roi": "$600000",
+                "defectcount": "14",
+                "featurecount": "0",
+                "livedate": "2017-04-02",
+                "fdudate": "2017-04-01",
+                "mfgdate": "2017-04-01",
+                "sha": "123123123",
+                "signature": "123124312412",
+                "fwlink": "123"
+            }
+        }
+    }
+}

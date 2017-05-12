@@ -24,7 +24,7 @@ $(document).on('mouseover',function(){
 /*below function make sure the default OJ pro content (completedproject route)are shown when first time load*/
 $(document).one('mouseover',function(){
 	
-setTimeout("$('.tab-list').first().find('a').click()", 200);
+setTimeout(function(){$('.tab-list').eq(2).find('a').click();}, 200);
 
 });
 
@@ -37,7 +37,7 @@ setTimeout("$('.tab-list').first().find('a').click()", 200);
 /*below function make sure the default OJ pro content (completedproject route) is shown when page reloaded. delay is needed for the DOM loading.*/
 var loadOjpro = function () {
 
-setTimeout("$('.tab-list').first().find('a').click()", 200);	
+setTimeout(function(){$('.tab-list').eq(2).find('a').click();}, 200);	
 	
 };
 
@@ -103,7 +103,7 @@ app.config(function($routeProvider) {
         templateUrl: "cpeprojects/cpereport.html",
 		controller:"reportCtrl"
     })
-	.otherwise({redirectTo :"/dashboard"})
+	.otherwise({redirectTo :"/activeproject"})
 });
 
 
@@ -367,7 +367,11 @@ $scope.selDatabase = function(pname) {
 
 //now identify the current project cycle
 }
-
+$scope.showRemark = function(pname){
+    
+    console.log(pname);
+    
+}
 
 //function to display the different milstones for each project 
 $scope.currentMilestone =function(pname,index) {
@@ -556,27 +560,6 @@ $http.post('php/active_cpe_project_delete.php', $scope.deletedProj).success(func
 }
 
 
-$scope.showMajor=function(){
-
-$(".panel-primary").show();
-$(".panel-info").hide();
-
-}
-
-$scope.showMinor=function(){
-
-$(".panel-primary").hide();
-$(".panel-info").show();
-
-}
-
-$scope.showAll=function(){
-
-$(".panel-primary").show();
-$(".panel-info").show();
-
-}
-
 $scope.catToMove= '';
 
 $scope.loadProductList= function(){
@@ -622,7 +605,10 @@ angular.forEach(dblist, function(value) {
 $http.get(value, {headers:{"cache-control":"no-cache"}}).then(function(response){
 
 /**LEARNING** merge the individual databse into one */ 
-$scope.repo=Object.assign($scope.repo, response.data);
+//$scope.repo= Object.assign($scope.repo, response.data);  doesn't work for IE
+    
+jQuery.extend($scope.repo, response.data);
+    
 }, function(response){
 
 $scope.content="something went wrong";
@@ -692,8 +678,17 @@ function filterDbCons(datevr, livedate, fdudate, mfgdate, revision, defectcount,
 
 function sortObject (objA){
   
-var objB= {};
-var temp= Object.values(objA);
+var objB= {}, 
+    temp=[];
+//var temp= Object.values(objA); not supported in IE.
+
+for (var prop in objA)
+{
+     temp.push(objA[prop]);
+        
+}
+
+
 
 temp.sort(function(a,b){
   
@@ -723,6 +718,10 @@ temp.forEach(function(value){
   return objB;
 }
 
+    
+/* polyfil for Object.assign and object values */
+    
+    
 
 $scope.dateFilter= function() {
 	

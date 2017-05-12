@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<productlist>
+  <ojpro>
+    <product year="2016">Weber PDL</product>
+    <product year="2016">Tesla PDL</product>
+    <product year="2016">Weber Mid</product>
+    <product year="2016">Weber Base</product>
+    <product year="2014">Farad Mid</product>
+    <product year="2014">Farad Base</product>
+    <product year="2010">Lorentz</product>
+    <product year="2011">Coulomb</product>
+    <product year="2012">Forrester</product>
+    <product year="2012">Everett</product>
+    <product year="2011">Thomson</product>
+  </ojpro>
+  <oj>
+    <product year="2016">Muscatel</product>
+    <product year="2017">Edwin</product>
+  </oj>
+  <pws>
+    <product year="2016">Maverick DW</product>
+    <product year="2016">Maverick DN</product>
+    <product year="2016">Maverick Ofax</product>
+    <product year="2016">Iceman DW</product>
+    <product year="2016">Iceman DN</product>
+    <product year="2016">Iceman Ofax</product>
+    <product year="2014">Pentane</product>
+  </pws>
+  <consumer>
+    <product year="2016">Lhasa</product>
+    <product year="2015">Shaolin Wireless</product>
+    <product year="2015">Shaolin Plus</product>
+  </consumer>
+  <mobile>
+    <product year="2016">Topaz</product>
+    <product year="2016">Ruby</product>
+  </mobile>
+</productlist>

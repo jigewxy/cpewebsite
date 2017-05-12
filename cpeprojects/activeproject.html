@@ -13,10 +13,6 @@
 <ul class="list-group">
 <li class="list-group-item tool-box" data-toggle="modal" data-target="#add-new-project-modal"><center><img class="nav-menu-image" src="images/project_create.png"></center><span class="overlay-add overlay"><div class="overlay-text">Add Project</div></span></li>
 <li class="list-group-item tool-box" ng-click="renderProjDeleteModal()"><center><img class="nav-menu-image" src="images/project_delete.png"></center><span class="overlay-del overlay"><div class="overlay-text">Delete Project</div></span></li>
-<!--li class="list-group-item"><center><span><img class="nav-menu-image" src="images/project_report.png"></img></span>REPORT<center> </li-->
-<li class="list-group-item"><center><span> <button class="btn btn-primary btn-circle" ng-click="showMajor()">Major</button></span></center></li>
-<li class="list-group-item"><center><span> <button class="btn btn-info btn-circle" ng-click="showMinor()">Minor</button></span></center></li>
-<li class="list-group-item"><center><span> <button class="btn btn-success btn-circle" ng-click="showAll()">All</button></span></center></li>
 </ul>
 
 
@@ -29,10 +25,9 @@
 <div class="col-md-9" >
 <table class= "table table-hover table-bordered" id="active-pj-table">
 <tr><th>#</th><th>Project Name</th><th>FC Date</th> <th>RC Date</th> <th>VR Date</th><th>Project Manager</th><th>Firmware Integrator</th></tr>
-<tr ng-repeat="project in projectobjs | filter:keyword" data-toggle="modal" data-target="#active-project-modal" ng-click="selDatabase(project.pjname)"><td>{{$index+1}}</td><td><a>{{project.pjname}}</a></td><td>{{projectinfo[project.pjname].datefc}}</td>
+<tr ng-repeat="project in projectobjs | filter:keyword" data-toggle="modal" data-target="#active-project-modal" ng-click="selDatabase(project.pjname)" ng-mouseover="showRemark(project.pjname)"><td>{{$index+1}}</td><td><a>{{project.pjname}}</a></td><td>{{projectinfo[project.pjname].datefc}}</td>
 <td>{{projectinfo[project.pjname].daterc}}</td> <td>{{projectinfo[project.pjname].datevr}}</td><td>{{projectinfo[project.pjname].pm}}</td>
- <td>{{projectinfo[project.pjname].fw}}</td> </tr>
-
+<td>{{projectinfo[project.pjname].fw}}</td> </tr>
 </table>
 
 <!-- always try to avoid to use $index especially there is a filter applied, because the filter will reindex the entries; instead of using $index, it's safer to pass the object itself-->
@@ -82,12 +77,10 @@
 	 </table>
 	 </div>	  
 	  <hr> 
-      <div class="active-project-table">  
-      <table class="table table-striped table-hover table-bordered table-condensed">
+      <table id="active-project-table" class="table table-bordered table-condensed">
       <tr style="font-size:12px; font-type:bold"><th>Item</th><th>CRID</th><th>Type</th><th class="summary">Summary</th><th>Requestor</th><th>Fix Provider</th><th>Test Partner</th><th>Affected SKUs</th><th>component</th><th>Status</th></tr>
       <tr style="font-size:10px" ng-repeat="x in projectitems"><td> {{$index+1}} </td><td>{{x.crid}}</td><td>{{x.type}}</td><td>{{x.summary}}</td><td>{{x.requestor}}</td><td>{{x.fixer}}</td><td>{{x.testteam}}</td><td>{{x.products}}</td><td>{{x.component}}</td><td ng-class="setColor(x.status)">{{x.status}}</td></tr>
       </table>
-     </div>
       </div>
       <div class="modal-footer">
 	    <button class="btn btn-success admin" ng-click="renderAddModal()"> Add </button>

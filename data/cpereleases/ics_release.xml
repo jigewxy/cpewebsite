@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<productroot>
+  <productlist>
+    <year>2016</year>
+    <product year="2016">Lhasa</product>
+    <year>2015</year>
+    <product year="2015">Shaolin Wireless</product>
+    <year>2010</year>
+    <product year="2015">Shaolin Plus</product>
+  </productlist>
+  <lhasaroot/>
+  <shaolinwirelessroot/>
+  <shaolinplusroot/>
+</productroot>

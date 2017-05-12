@@ -45,6 +45,7 @@ $rootindex=sizeof($arr_data['releases'])+1;
  'branch'=>$_POST['branch'],
  'fwlink'=>$_POST['fwlink'],
  'state'=>$_POST['state'],
+ 'tooltip'=>'',
  'rootindex'=>$rootindex,
  );
  

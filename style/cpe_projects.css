@@ -7,6 +7,14 @@ button.release-btn {
 	border-radius: 24px;
 	
 }
+
+
+.btn-primary:focus{
+   background: #33a6cc; 
+    
+}
+    
+    
 p.display-name{
 	font-family: Agency FB;
 	font-size: 17pt;
@@ -485,7 +493,7 @@ input[type="checkbox"]
   -webkit-appearance:checkbox !important;
 }
 
-div.active-project-table table tr:not(:first-child) td{
+#active-project-table tr:not(:first-child) td{
     
     font-size: 12px;
 }
@@ -518,6 +526,42 @@ table#active-pj-table tr:first-child{
 table#active-pj-table tr:not(:first-child):hover{
     cursor: pointer;
 }
+
+#cpe-release-table th,
+#cpe-release-table td,
+#active-project-table th,
+#active-project-table td{
+    
+    border: 1px solid #b9c9fe;
+    
+}
+#cpe-release-table tr:first-child,
+#active-project-table tr:first-child{
+    
+    background-color: #b9c9fe;
+    
+}
+
+#cpe-release-table tr:not(:first-child),
+#active-project-table tr:not(:first-child){
+    
+   font-size:11px;
+       
+    
+}
+
+th.cell-summary {
+    
+    width: 40%;
+    
+}
+
+.modal {
+    
+    overflow: scroll !important;
+}
+
+
 
 
 

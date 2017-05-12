@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<productroot>
+  <productlist>
+    <year>2016</year>
+    <product year="2016">Topaz</product>
+    <product year="2016">Ruby</product>
+  </productlist>
+  <topazroot/>
+  <rubyroot/>
+</productroot>

@@ -1,0 +1,86 @@
+{
+	"releases": [
+		{
+			"itemlist": [
+				{
+					"itemnumber": "1",
+					"crid": "75557",
+					"type": "New Feature",
+					"summary": "Black-only printing copy and disable all color printhead",
+					"fixer": "Ravi Shankar",
+					"testteam": "SQ",
+					"products": "Weber Mid",
+					"component": "IDS",
+					"status": "Verified"
+				}
+			],
+			"customer": "State Farm",
+			"feature": "Black-only printing copy and disable all color printhead",
+			"product": "Weber",
+			"revenue": "$50000",
+			"requestdate": "2016-10-01",
+			"fcdate": "2016-11-01",
+			"rcdate": "2016-12-01",
+			"vrdate": "2017-01-01",
+			"region": "North America",
+			"requestor": "Scott White",
+			"developer": "Ravi Shankar",
+			"branch": "frz_2016_weber_vr2",
+			"fwlink": "\\\\x\\y\\z",
+			"state": "Upcoming",
+			"tooltip": "tooltip for item 1",
+			"rootindex": 1
+		},
+		{
+			"itemlist": [
+				{
+					"itemnumber": "1",
+					"crid": "99999",
+					"type": "Defect Fix",
+					"summary": "Black-only Printing",
+					"fixer": "Ravi Shankar",
+					"testteam": "CPE SQ",
+					"products": "Maverick",
+					"component": "Mech",
+					"status": "In Progress"
+				}
+			],
+			"customer": "Inditex",
+			"feature": "Disable Webscan",
+			"revenue": "$60000",
+			"product": "Iceman",
+			"requestdate": "2017-01-01",
+			"fcdate": "2017-02-01",
+			"rcdate": "2017-03-01",
+			"vrdate": "2017-06-01",
+			"region": "EMEA",
+			"requestor": "Hans",
+			"developer": "Gaurav",
+			"branch": "frz_2017_triptane_vr1_3",
+			"fwlink": "\\\\x\\y\\z",
+			"state": "Completed",
+			"tooltip": "tooltip for item 2May-12-2017 : May-12-2017 : May-12-2017 : May-12-2017 : May-12-2017 : May-12-2017 : May-12-2017 : ",
+			"rootindex": 2
+		},
+		{
+			"itemlist": [
+			],
+			"customer": "ICICI",
+			"feature": "Black-Only Printing",
+			"revenue": "$600000",
+			"product": "Iceman DW",
+			"requestdate": "2017-05-01",
+			"fcdate": "2017-05-08",
+			"rcdate": "2017-05-17",
+			"vrdate": "2017-05-25",
+			"region": "Asia Pacific",
+			"requestor": "Nicole Tay",
+			"developer": "Ravi Shankar",
+			"branch": "frz_2017_triptane_vr1_2",
+			"fwlink": "\\\\x\\y\\z",
+			"state": "Ongoing",
+			"tooltip": "May-12-2017 : May-12-2017 : ",
+			"rootindex": 3
+		}
+	]
+}

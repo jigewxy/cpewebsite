@@ -162,6 +162,79 @@ else
 }
 }
 
+$scope.showRemark = function(e, rootindex){
+
+var x = e.clientX -300;
+var y  = e.clientY-200;
+$scope.ttEntry= $scope.entries[rootindex-1];
+console.log($scope.ttEntry.tooltip);
+
+$('div.tooltip-item').css({'position':'absolute', 'top':y, 'left':x, 'opacity':'0.9'}).show();
+$('div.tooltip-item p').text($scope.ttEntry.tooltip);
+ 
+$(e.target).on({'mouseleave': function(event){
+
+  setTimeout("$('div.tooltip-item').hide()", 300);   
+    
+}, 'contextmenu': function(event){
+
+event.preventDefault();
+$('#tooltip-modal').modal('show').find('textarea').val($scope.ttEntry.tooltip);
+
+}})
+
+}
+
+$scope.insertDate = function(){
+
+var today = new Date();
+
+today = moment(today).format('MMM-DD-YYYY');
+console.log (today);
+console.log(typeof(today));
+$('#tooltip-form textarea').val($('#tooltip-form textarea').val().concat(today+" : "));
+
+}
+
+$scope.submitTooltip = function(){
+
+var formdata = $('#tooltip-form').serialize();
+var newTt  = $('#tooltip-form textarea').val();
+var successMsg = '<div class="alert alert-success"><strong>Success! </strong>'
+var errorMsg = '<div class="alert alert-danger"><strong>Failed! </strong>'
+console.log(formdata);
+
+$.ajax({
+
+url: 'php/srt/active_srt_tooltip_edit.php',
+method: 'POST',
+data: formdata
+}).done(function(resp){
+
+console.log(resp);
+successMsg +=resp +'</div>';
+$('#tooltip-edit-status').html(successMsg);
+$scope.ttEntry.tooltip = newTt;
+}).fail(function(xhr,status, error){
+
+console.log(status + error);
+errorMsg +=status +error +'</div>';
+$('#tooltip-edit-status').html(errorMsg);
+}).always(function(xhr, status, error){
+
+$(document).on('click', function(){
+
+$('#tooltip-edit-status').html('');
+
+});
+    
+});
+
+
+}
+
+
+
 $scope.setStatusColor = function(args) {
 
 return reusableSrcs.statusColor(args);

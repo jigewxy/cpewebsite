@@ -9,6 +9,8 @@ g_currentCat:{},
 g_currentProductCtx:{}/*current product context = li element*/    
 }
 
+/*LEARNING -- try not to bind function directly to DOM element in HTML file, as those functions need to be declared in global context 
+now you see what happend below*/ 
 
 function loadCat(arg){
     return currentRel.loadCat(arg);   
@@ -439,6 +441,8 @@ currentRel.addEntry=function(){
 //  console.log(g_currentCat.textContent);
 $('#add-entry-modal').modal('show');
     
+$('input[name=date]').on({'keypress': validateDateInput, 
+               'keyup': validateDateInput});  
     /*pass values to hidden input - product and category */
 
 }
@@ -483,7 +487,8 @@ $('#modify-entry-modal').modal('show');
 /* $() is a Jquery object which has all Jquery properties */
 //console.log($(g_currentCat).html());
 //  console.log(g_currentCat.textContent);
-
+$('input[name=date]').on({'keypress': validateDateInput, 
+               'keyup': validateDateInput});  
     
 }
 
@@ -548,9 +553,8 @@ currentRel.deleteEntry=function(){
  /*LEARNING --data will be a HTMLcollection in this case,
  alternative is to use g_scopeProductData.childNodes, which will create a nodelist --- this is a better way 
 
-  below is the other alternative for Array.prototype
- [].forEach.call(data, function(child){ 
-Array.prototype.forEach.call(data, function(child, index){ */
+  [] is the syntax sugar for Array.prototype
+ [].forEach.call(data, function(child){  */
     
     [].forEach.call(data, function(child,index){ 
         /* Childnode is [1,3] not [0,2], because XML file is formated with line-break */
@@ -823,7 +827,7 @@ currentRel.entryDeleteSubmit= function(){
         var fb = JSON.parse(resp);
         successMsg += fb.version+' has been removed!';
         that.loadTable(that.g_currentProductCtx);
-        /*LEARNING - instead of AJAX call, can remove the option from the DOM in the modal, which is much more efficient */
+        /*LEARNING - instead of AJAX call, can remove the option from the DOM in the modal, which is more efficient */
          $('#select-del-entry option').get(Number(fb.index)+1).remove();
         $('#del-release-status').html(successMsg);
         
