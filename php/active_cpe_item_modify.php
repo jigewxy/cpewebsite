@@ -2,6 +2,7 @@
 header("Cache-Control:max-age=0, must-revalidate");
 header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); 
 
+//echo '<pre>'.var_export($_POST, true).'</pre>';
 //Lession Learned: 
 //1. The reason why $_POST will only contain the last Posted value with the same name is because PHP will basically just explode 
 //and foreach over the raw query string to populate $_POST. When it encounters a name/value pair that already exists, it will overwrite the previous one.
@@ -23,7 +24,10 @@ if($_SERVER['HTTP_HOST']=='cpse.ijp.sgp.rd.hpicorp.net')
     include "php/util/json_pretty_print.php";
 else
     include "cpe/php/util/json_pretty_print.php";
-//define functions
+
+try { 
+
+//process dates before storing it as chart data 
 function processDates($date)
 {
 $monthstart=stripos($date, '-');
@@ -40,9 +44,6 @@ $day=substr($date, $monthend+1, strlen($date));
 //calculate the UTC month, which is the real month number minus one. need type conversion here.
 
 $month= (string)((int)$month - 1);
-
-//echo '<pre>'.'show the month after change'.'<pre>';
-//echo '<pre>' . var_export($month, true) . '</pre>';
  
  //concat year, month, day together in UTC format - Date.UTC(2017, 1, 25)
 $date= 'Date.UTC('.$year.','.$month.','.$day.')';
@@ -55,8 +56,7 @@ $arr_data=json_decode(file_get_contents($myFile), true);
 
 
 
-try 
-{ 
+
 
 //track the project name 
 $projectname=$_POST['projectname'];
@@ -65,6 +65,7 @@ $projectname=$_POST['projectname'];
 $projectnameindex=$_POST['projectnameindex'];
 
 /* only update the item list when there is item available */
+
 if(isset($_POST['itemnumber']))
 {
 $itemnumber=array();
@@ -72,17 +73,24 @@ $itemnumber=$_POST['itemnumber'];
 
 for($i =0; $i<sizeof($itemnumber); $i++)
 {
+
+ $component = ($_POST['component'][$i])? ($_POST['component'][$i]):'Others';
+
+//LEARNING - need to convert C++/Java unicode to UTF-8, or else PHP can't process it
+$summary = mb_convert_encoding($_POST['summary'][$i], "UTF-8");
+
+//echo '<pre>'.var_export($summary, true).'</pre>';
 $formdata_item[$i]= array(
 		
  'itemnumber'=> $_POST['itemnumber'][$i],
  'crid'=> $_POST['crid'][$i],
   'type'=> $_POST['type'][$i],
- 'summary'=>$_POST['summary'][$i],
+ 'summary'=>$summary,
  'requestor'=>$_POST['requestor'][$i],
  'fixer'=>$_POST['fixer'][$i],
  'testteam'=>$_POST['testteam'][$i],
  'products'=>$_POST['products'][$i],
-  'component'=>$_POST['component'][$i],
+  'component'=>$component,
  'status'=>$_POST['status'][$i],
 		);
 		
@@ -94,7 +102,7 @@ $arr_data[$projectname]['itemlist']= $formdata_item;
 
 }
 
-
+$pjtag = ($_POST['pjtag'])?($_POST['pjtag']):'General Firmware Roll';
 $formdata_summary= array (
 
  'pjskus'=>$_POST['pjskus'],
@@ -108,6 +116,8 @@ $formdata_summary= array (
  'pjuniquefw'=>$_POST['pjuniquefw'],
  'pjbranch'=>$_POST['pjbranch'],
  'pjcat'=>$_POST['pjcat'],
+  'pjclass'=>$_POST['pjclass'],
+ 'pjtag'=>$pjtag,
 
 
 );
@@ -124,8 +134,7 @@ $arr_data[$projectname]['datestart']=$formdata_summary['startdate'];
 $arr_data[$projectname]['datefc']=$formdata_summary['fcdate'];
 $arr_data[$projectname]['daterc']=$formdata_summary['rcdate'];
 $arr_data[$projectname]['datevr']=$formdata_summary['vrdate'];
-//echo '<pre>'.'show the date after change'.'<pre>';
-//echo '<pre>' . var_export($arr_data['dates'], true) . '</pre>';
+
 
 
 //update corresponding project summary details - project manager, fw integrator, SQ lead.
@@ -136,20 +145,19 @@ $arr_data[$projectname]['fw']= $formdata_summary['pjfwlead'];
 $arr_data[$projectname]['sq']= $formdata_summary['pjsq'];
 $arr_data[$projectname]['branch']= $formdata_summary['pjbranch'];
 $arr_data[$projectname]['cat']= $formdata_summary['pjcat'];
-
-
+$arr_data[$projectname]['class']= $formdata_summary['pjclass'];
+$arr_data[$projectname]['tag']= $formdata_summary['pjtag'];
 
 //convert to json data
-$jsondata=json_encode($arr_data,128);
+$jsondata= json_encode($arr_data, 128);
 $jsondata=prettyPrint($jsondata);
 
+if(file_put_contents($myFile, $jsondata, LOCK_EX))
+{}
+else 
+	echo "error - data not saved";
 
-	//Write json data into srt_release.php file
-if(file_put_contents($myFile, $jsondata)){
-	}
-	else 
-     echo "Error"; 
-   }
+}
    catch (Exception $e) {
          echo 'Caught exception: ',  $e->getMessage(), "\n";
    }
@@ -157,7 +165,7 @@ if(file_put_contents($myFile, $jsondata)){
 }
    
 $pre_page = $_SERVER['HTTP_REFERER'];
-header('Refresh:6; url='.$pre_page.'#/activeproject');
+header('Refresh:4; url='.$pre_page.'#/activeproject');
 
 
 

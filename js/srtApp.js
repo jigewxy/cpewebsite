@@ -164,24 +164,29 @@ else
 
 $scope.showRemark = function(e, rootindex){
 
-var x = e.clientX -300;
+var x = e.clientX -200;
 var y  = e.clientY-200;
 $scope.ttEntry= $scope.entries[rootindex-1];
-console.log($scope.ttEntry.tooltip);
 
+var newTooltip = $scope.ttEntry.tooltip.replace('\r\n', '<br>');
+newTooltip = '<p>' + newTooltip+ '</p>';
 $('div.tooltip-item').css({'position':'absolute', 'top':y, 'left':x, 'opacity':'0.9'}).show();
-$('div.tooltip-item p').text($scope.ttEntry.tooltip);
- 
-$(e.target).on({'mouseleave': function(event){
 
-  setTimeout("$('div.tooltip-item').hide()", 300);   
+/* LEARNING - can't use $().text(), because it will not show line break, and other format */
+$('div.tooltip-item').html(newTooltip);
+
+
+/* LEARNING -- below is wrong code, because it will new mouseleave event every time , unless clear the mouseleave event first */
+$(e.target).off('mouseleave').off('contextmenu');
+$(e.target).on({'mouseleave': function(event){
+    $('div.tooltip-item').hide();
     
 }, 'contextmenu': function(event){
 
 event.preventDefault();
 $('#tooltip-modal').modal('show').find('textarea').val($scope.ttEntry.tooltip);
 
-}})
+}}) 
 
 }
 

@@ -47,13 +47,14 @@ $arr_data=json_decode(file_get_contents($myFile),true);
 $projectname = $_POST['projectname'];
 $productname = $_POST['productname'];
 
+$summary = mb_convert_encoding($_POST['summary'], "UTF-8");
 
 $arr_append = array (
 
   'itemnumber'=> $_POST['itemnumber'],
  'crid'=> $_POST['crid'],
  'type'=> $_POST['type'],
- 'summary'=>$_POST['summary'],
+ 'summary'=>$summary,
  'requestor'=>$_POST['requestor'],
  'fixer'=>$_POST['fixer'],
  'testteam'=>$_POST['testteam'],

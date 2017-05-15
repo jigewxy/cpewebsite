@@ -9,29 +9,14 @@
 <div class="container-fluid">
 <div class="product-cat col-md-2">
 <ul class="nav nav-pills nav-stacked">
-<!--note that if use HREF below, it will not work, use data-target instead;
-<li class="active"><a data-toggle="pill" data-target="#ojpro-projects">OJ Pro</a></li>
-<li><a data-toggle="pill" data-target="#oj-projects">Officejet</a></li>
-<li><a data-toggle="pill" data-target="#pws-projects">Pagewide</a></li>
-<li><a data-toggle="pill" data-target="#ics-projects">Consumer</a></li>
-<li><a data-toggle="pill" data-target="#mobile-projects">Mobile</a></li>
-
--->
-
 <!-- use NG-repeat instead, and note that the ng-class need to set in different tabs-->
 <li class="tab-list" ng-repeat="tab in tabs"> <a data-toggle="pill" data-target="{{tab.link}}" ng-click="setSelectedTab(tab)"><i class="glyphicon glyphicon-star-empty"></i>{{tab.label}} </a></li>
 </ul>
-<ul class="list-group list-menu-proj">
-<li class="list-group-item" data-toggle="modal" data-target="#add-new-product-modal"><center><span><img class="nav-menu-image" src="images/project_create.png">
-    </span></center>Create Product </li>
-    <li class="list-group-item" data-toggle="modal" data-target="#delete-product-modal"><center><span><img class="nav-menu-image" src="images/project_delete.png"></span></center>Delete Product</li>
-<!--li class="list-group-item"><center><span><img class="nav-menu-image" src="images/project_report.png" ng-click="genReport()"></img></span><center>REPORT</li-->
-</ul>
-
-<ul class="list-group list-menu-aux">
-<li class="list-group-item" data-toggle="modal" data-target="#add-new-project-modal"><center><span><img class="nav-menu-image" src="images/add_project.png">
-    </span></center>Add Project </li>
-    <li class="list-group-item" data-toggle="modal" data-target="#remove-project-modal"><center><span><img class="nav-menu-image" src="images/remove_project.png"></span></center>Remove Project</li>
+<ul class="list-group">
+<li class="list-group-item" data-toggle="modal" data-target="#add-new-product-modal"><center><img class="nav-menu-image" src="images/project_create.png"></center></li>
+<li class="list-group-item" data-toggle="modal" data-target="#delete-product-modal"><center><img class="nav-menu-image" src="images/project_delete.png"></center></li>
+<li class="list-group-item" data-toggle="modal" data-target="#add-new-project-modal"><center><img class="nav-menu-image" src="images/add_project.png"></li>
+<li class="list-group-item" data-toggle="modal" data-target="#remove-project-modal"><center><img class="nav-menu-image" src="images/remove_project.png"></center></li>
 </ul>
 </div>
 

@@ -57,6 +57,8 @@ $formdata= array (
 'uniquefw'=>$_POST['uniquefw'],
 'branch'=>$_POST['branch'],
 'cat'=>$_POST['cat'],
+'class'=>$_POST['class'],
+'tag'=>$_POST['tag'],
 );
 
 $projectname = $formdata['projectname'];
@@ -81,6 +83,8 @@ $new_summary_arr = array (
 'datefc'=>$formdata['datefc'],
 'daterc'=>$formdata['daterc'],
 'datevr'=>$formdata['datevr'],
+'class'=>$formdata['class'],
+'tag'=>$formdata['tag'],
 );
 
 $arr_data[$projectname]= $new_summary_arr;
@@ -121,9 +125,9 @@ $new_date_arr3 = array (
 array_push($arr_data['dates'], $new_date_arr1, $new_date_arr2, $new_date_arr3);
 
 $json_data= json_encode($arr_data, 128);
-$jsondata=prettyPrint($jsondata);
+$jsondata=prettyPrint($json_data);
 
-if(file_put_contents($myFile, $json_data))
+if(file_put_contents($myFile, $jsondata))
 {}
 else 
 	echo "error - data not saved";

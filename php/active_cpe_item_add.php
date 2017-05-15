@@ -15,14 +15,14 @@ else
 
 try 
 { 
-	
+	$summary = mb_convert_encoding($_POST['summary'], "UTF-8");
 	//get form data
  $formdata=array (
  
  'itemnumber'=> $_POST['itemnumber'],
  'crid'=> $_POST['crid'],
  'type'=> $_POST['type'],
- 'summary'=>$_POST['summary'],
+ 'summary'=>$summary,
  'requestor'=>$_POST['requestor'],
  'fixer'=>$_POST['fixer'],
  'testteam'=>$_POST['testteam'],

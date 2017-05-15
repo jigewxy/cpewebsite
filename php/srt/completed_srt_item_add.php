@@ -24,13 +24,13 @@ $arr_data=json_decode (file_get_contents($myFile), true);
 
 
 $rootindex = $_POST['rootindex'];
-
+$summary = mb_convert_encoding($_POST['summary'], "UTF-8");
 $arr_append= array(
 
   'itemnumber' =>$_POST['itemnumber'],
   'crid' => $_POST['crid'],
   'type' => $_POST['type'],
-  'summary' => $_POST['summary'],
+  'summary' => $summary,
   'fixer' => $_POST['fixer'],
   'testteam' => $_POST['testteam'],
   'products' => $_POST['products'],

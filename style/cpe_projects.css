@@ -234,10 +234,11 @@ select.component-select
     background: transparent url("../images/select.png") no-repeat right center;
     background-size: 20px 20px;
 	width:30%;
-	height:22pt;
+	height:25pt;
 	font-size:12px;	
 	
 }
+
 
 
 
@@ -327,6 +328,7 @@ div.left-nav-menu
 {
 	margin-top: 10pt;
 	margin-left: 5pt;
+	height: 1300pt;
 	
 }
 
@@ -342,8 +344,8 @@ div.left-nav-menu>ul>li
 img.nav-menu-image
 
 {
-	width: 60px;
-	height:60px;
+	width: 50px;
+	height:50px;
 	
 }
 
@@ -516,16 +518,13 @@ color:white !important ;
     background-color: #337ab7;
 }
 
-table#active-pj-table tr:first-child{
-    
-    
-    background-color: #016FB9;
-    color: white;
-}
 
-table#active-pj-table tr:not(:first-child):hover{
+
+
+table.active-pj-table tr td.td-pj:hover{
     cursor: pointer;
 }
+
 
 #cpe-release-table th,
 #cpe-release-table td,
@@ -561,10 +560,64 @@ th.cell-summary {
     overflow: scroll !important;
 }
 
+li.list-btn
+{
+	  border: none;
+      height: 60px;
+      margin: 5pt;
+}
+
+li.list-btn:hover
+{
+background-color: white;
+}
 
 
+/*
+:focus {
+    -webkit-appearance: none;
+}*/
 
+li.list-btn>button {
+    
+    width: 100%;
+    font-size: 18px;
+    font-weight: bold;
+    box-shadow: 2px 2px 2px;
+    
+}
 
+table.active-pj-table tr th:first-child{
+    
+width: 2%;
+    
+}
+
+table.active-pj-table tr th:nth-child(2){
+    
+width: 25%;
+    
+}
+
+table.active-pj-table tr th:nth-child(3),
+table.active-pj-table tr th:nth-child(4),
+table.active-pj-table tr th:nth-child(5){
+    
+width: 10%;
+    
+}
+
+table.active-pj-table tr th:nth-child(6){
+    
+width: 20%;
+    
+}
+
+table.active-pj-table tr th:nth-child(7){
+    
+width: 20%;
+    
+}
 
 	
 	

@@ -29,7 +29,6 @@ $arr_append= array (
 'mfgdate'=>$mfgdate,
 'sha'=>$_POST['sha'],
 'signature'=>$_POST['signature'],
-'branch'=> $_POST['branch'],
 'fwlink'=> $_POST['fwlink'],
 );
 
@@ -76,8 +75,7 @@ $arr_data[$productname]['projectlist'][$projectname]= $activepj[$projectname];
  
 
 
- $json_data = json_encode($arr_data, 128);
- $jsondata=prettyPrint($jsondata);
+ $json_data = prettyPrint(json_encode($arr_data, 128));
  
 if(file_put_contents($myFile, $json_data))
 {}

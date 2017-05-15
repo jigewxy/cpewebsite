@@ -56,14 +56,13 @@
 <h4 class="header-parking"> {{filterCust.headers[3]}}</h4>
 <table id="table-parking" class="table table-hover table-condensed table-filtered">
 <tr><th>#</th><th>Customer</th><th>Product</th><th>Main Feature</th><th>VR Date</th><th>Revenue</th><th>Requestor</th><th>Status</th></tr>
-<tr ng-repeat="x in entries | filter:keyword | filter:filterCust.filters[3]" data-toggle="modal" data-target="#active-srt-modal" ng-click="setEntryDb(x.rootindex)" ng-mouseenter="showRemark($event, x.rootindex)">
-<td>{{$index+1}}</td><td>{{x.customer}}</td><td>{{x.product}}</td><td class="td-feature">{{x.feature}}</td><td>{{x.vrdate}}</td><td>{{x.revenue}}</td><td>{{x.requestor}}</td><td>{{x.state}}</td></tr>
+<tr ng-repeat="x in entries | filter:keyword | filter:filterCust.filters[3]" data-toggle="modal" data-target="#active-srt-modal">
+<td>{{$index+1}}</td><td>{{x.customer}}</td><td>{{x.product}}</td><td class="td-feature" ng-click="setEntryDb(x.rootindex)" ng-mouseenter="showRemark($event, x.rootindex)">{{x.feature}}</td><td>{{x.vrdate}}</td><td>{{x.revenue}}</td><td>{{x.requestor}}</td><td>{{x.state}}</td></tr>
 </table>       
 </div>
 
 
 <div class="tooltip-item"> 
-<p></p>
 </div>
 </div>
 </div>

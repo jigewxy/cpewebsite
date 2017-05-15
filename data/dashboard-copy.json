@@ -205,7 +205,7 @@
 	"Edwin VR1.5": {
 		"itemlist": [
 			{
-				"itemnumber": "1",
+				"itemnumber": 1,
 				"crid": "Pending",
 				"type": "New Feature",
 				"summary": "Pen dynamic security",
@@ -217,7 +217,7 @@
 				"status": "Verified"
 			},
 			{
-				"itemnumber": "2",
+				"itemnumber": 2,
 				"crid": "356474",
 				"type": "Defect Fix",
 				"summary": "Plang Security fix",
@@ -239,9 +239,7 @@
 		"daterc": "2017-02-28",
 		"datevr": "2017-04-07",
 		"uniquefw": "1",
-		"skus": "Edwin",
-		"class": "Officejet",
-		"tag": "Pen Security"
+		"skus": "Edwin"
 	},
 	"Triptane VR1.3.1": {
 		"itemlist": [
@@ -319,9 +317,7 @@
 		"daterc": "2017-03-06",
 		"datevr": "2017-04-24",
 		"uniquefw": "2",
-		"skus": "Muscatel Base; Muscatel High; Muscatel Lite",
-		"class": "Officejet",
-		"tag": "New Fax Chip"
+		"skus": "Muscatel Base; Muscatel High; Muscatel Lite"
 	},
 	"Weber VR2": {
 		"itemlist": [
@@ -341,16 +337,14 @@
 		"pm": "Cliff Wang",
 		"fw": "Ravi Shankar",
 		"sq": "Lee Cheah Seng",
-		"branch": "frz_2016_weber_base_mid_vr2",
+		"branch": "frz_2016_muscatel_vr3",
 		"cat": "Major roll",
 		"datestart": "2016-12-20",
 		"datefc": "2017-01-25",
 		"daterc": "2017-02-25",
 		"datevr": "2017-04-05",
 		"uniquefw": "2",
-		"skus": "Weber Mid; Weber Base",
-		"class": "Officejet Pro",
-		"tag": "New Fax Chip"
+		"skus": "Weber Mid; Weber Base"
 	},
 	"Edwin VR2": {
 		"itemlist": [
@@ -389,9 +383,7 @@
 		"daterc": "2017-05-08",
 		"datevr": "2017-06-23",
 		"uniquefw": "1",
-		"skus": "Edwin",
-		"class": "Officejet",
-		"tag": "New Fax Chip"
+		"skus": "Edwin"
 	},
 	"Shaolin Plus VR3": {
 		"itemlist": [
@@ -901,9 +893,7 @@
 		"datestart": "2017-03-15",
 		"datefc": "2017-05-05",
 		"daterc": "2017-06-08",
-		"datevr": "2017-06-23",
-		"class": "Officejet Pro",
-		"tag": "New Fax Chip"
+		"datevr": "2017-06-23"
 	},
 	"Weber VR2.1": {
 		"itemlist": [

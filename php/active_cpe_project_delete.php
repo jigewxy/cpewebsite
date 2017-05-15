@@ -2,8 +2,6 @@
 header("Cache-Control:max-age=0, must-revalidate");
 header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); 
 if(isset($_POST)){
-echo '<pre>'.'Posted Data'.'</pre>';
-echo '<pre>'.var_export($_POST, true).'</pre>';
 
 $myFile="../data/dashboard.json";
 $arr_data=array();
@@ -32,8 +30,6 @@ $catIndex= array_search($proj, $arr_data['category']);
 //remove the selected project from category.
 array_splice($arr_data['category'], $catIndex, 1);
 
-echo '<pre>'.'after splice'.'</pre>';
-echo '<pre>'.var_export($arr_data['category'], true).'</pre>';
 
 
 /*remove the selected project from main list*/
@@ -61,8 +57,7 @@ for ($i=0; $i<$nod; $i++)
 }
 
 
-$json_data=json_encode($arr_data, 128);
-$jsondata=prettyPrint($jsondata);
+$json_data=prettyPrint(json_encode($arr_data, 128));
 
 if(file_put_contents($myFile, $json_data))
 {}

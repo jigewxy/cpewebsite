@@ -33,45 +33,6 @@
 	to {opacity:1;}
 }
 
-
-div.srt-project-panel {
-
-margin-top: 20px;
-box-shadow: 5pt 5pt 5pt #777;
-
-		
-}
-
-
-div.srt-project-panel :hover{
-
-cursor:pointer;
-background-color:gainsboro;
-		
-}
-
-
-div.srt-panel-body {
-
-height: 180px;
-		
-}
-
-div.srt-panel-body table tr td {
-	
-	font-size: 12px;
-	
-}
-
-
-div.srt-panel-heading {
-
-height: 60px;
-	
-	
-	
-}
-
 div.left-nav-menu{
 	
 	height:1000pt;
@@ -316,9 +277,9 @@ color: blue;
 
 }
 
-#table-completed-proj tr:not(:first-child):hover {
+#table-completed-proj tr:not(:first-child) >td:nth-child(4):hover{
 		
-	cursor: pointer;
+	cursor: pointer !important;
 
 }
 
@@ -436,12 +397,6 @@ color: #2a8a85;
 table.table-filtered tr:not(:first-child){
     
     font-size: 13px;
-    
-}
-
-table.table-filtered tr:not(:first-child):hover{
-    
-    cursor: pointer;
     
 }
 
@@ -566,3 +521,8 @@ height: 400pt;
 	height: 300pt;
 }
 
+.td-feature{
+		
+	cursor: pointer !important;
+
+}

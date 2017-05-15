@@ -21,26 +21,6 @@ $(document).on('mouseover',function(){
 	  );
 }); 
 
-/*below function make sure the default OJ pro content (completedproject route)are shown when first time load*/
-$(document).one('mouseover',function(){
-	
-setTimeout(function(){$('.tab-list').eq(2).find('a').click();}, 200);
-
-});
-
-/*below jquery function doesn't work, so rewrite the loadOjpro() function */
-/*$("#completed-proj").on('click', function(){
-	console.log("completed project clicked");
-setTimeout("$('.tab-list').first().find('a').click()", 200);
-});*/
-
-/*below function make sure the default OJ pro content (completedproject route) is shown when page reloaded. delay is needed for the DOM loading.*/
-var loadOjpro = function () {
-
-setTimeout(function(){$('.tab-list').eq(2).find('a').click();}, 200);	
-	
-};
-
 
 /*validate the date picker, need to disable the input if dates is not applicable. */
 
@@ -117,7 +97,7 @@ var init= function () {
 
 $("#search-box").hide();
 $scope.$parent.currentTab = 'projCompleted';
-
+setTimeout(function(){$('.tab-list').eq(0).find('a').click();}, 200);
 };
 
 init();
@@ -134,7 +114,7 @@ $scope.tabs = [
 
 ];
 
-/*viewcontentloaded can be used to set event during initialization */
+/*LEARNING viewcontentloaded can be used to set event during initialization */
 /*$scope.$on('$viewContentLoaded', function(event){
 
 console.log("ojpro initialized");
@@ -292,16 +272,21 @@ $window.open('cpe_projects.html#/cpereport', '_blank');
 /*****************************************************************/
 app.controller('activeProCtrl', function($scope, $http, $window, $timeout) {
 
-	$scope.projectobjs =[];
+$scope.projectobjs =[];
+  
+init();
 
-var init= function () {
+
+function init () {
 
 $("#search-box").show();
 $scope.$parent.currentTab = 'projActive';
 
+//at landing page, shows all project in one table by simulating the click on "show all" button
+setTimeout(function(){$('li.list-btn').eq(0).find('button').trigger('click');}, 200);
+
 };
 
-init();
 
 //Prevent cache while reading the json file, as the "Last-Modified" response header always have latency, so browser doesn't load the updated data.
   $http.get("data/dashboard.json", { headers: { 'Cache-Control' : 'no-cache' } }).then(function(response){
@@ -367,59 +352,6 @@ $scope.selDatabase = function(pname) {
 
 //now identify the current project cycle
 }
-$scope.showRemark = function(pname){
-    
-    console.log(pname);
-    
-}
-
-//function to display the different milstones for each project 
-$scope.currentMilestone =function(pname,index) {
- 
- //need a multiplier (x3) to browse the array
-  //$scope.startdate=$scope.projectinfo[project].datestart;
-  $scope.startdate=$scope.projectinfo.dates[index*3].low;
-  $scope.fcdate=$scope.projectinfo.dates[index*3].high;
-  $scope.rcdate=$scope.projectinfo.dates[index*3+1].high;
-  $scope.vrdate=$scope.projectinfo.dates[index*3+2].high;
-  
-  
-  var currentdate= moment().format("YYYY-MM-DD");
-   
-if (currentdate > $scope.vrdate)
-  { 
-  $(".vr-date").eq(index).addClass("project-completed"); 
-  } 
- else if (currentdate > $scope.rcdate && currentdate <=$scope.vrdate)
-  {  
-  $(".vr-date").eq(index).addClass("active-milestone"); 
-  }
-	 
-	else if (currentdate >= $scope.fcdate && currentdate <=$scope.rcdate )
-  {  
-  $(".rc-date").eq(index).addClass("active-milestone"); 
-  }
- 	 
-	else if (currentdate >= $scope.startdate && currentdate <=$scope.fcdate)
-  { 
-   $(".fc-date").eq(index).addClass("active-milestone"); 
-// $('.fc-date:nth-child(4)').addClass("active-milestone"); 
-// nth-child() is not working here, need to figure out why.
-  }
-  else 
-  {
-     $(".start-date").eq(index).addClass("project-not-started"); 
-  }
-  
-  //piggy-bag the function to display different colors for major/minor roll
-  
-  if ($scope.projectinfo[pname]['cat']=='Minor roll')
-  { $(".project-panel").eq(index).removeClass("panel-primary"); 
-   $(".project-panel").eq(index).addClass("panel-info");}
-  
-
-  }
-  
   
 //functions to render modals to add and mofidy
 
@@ -429,9 +361,12 @@ $scope.renderAddModal=function(){
 $("#add-item-modal").modal("show");
 }
 
-$scope.renderModifyModal=function(){
+// pass correct value for select boxes
+$scope.renderModifyModal=function(arg){
 
 $("#modify-item-modal").modal("show");
+$("select[name='pjcat']").val(arg);
+
 }
 
 $scope.renderDeleteModal=function(){
@@ -509,6 +444,18 @@ $(".component-modify-box").eq(index).val(comp);
 //$(".component-modify-box").eq(index).attr("value", comp);
 }
 
+// minor or major release
+
+$scope.selectRightCat =function(arg)
+{
+console.log('selectrightCat called');
+//use .val() to assign the stored status to the select option, alternative is to add attribute 'selected' to the member option.
+$("select[name='pjcat']").val(arg);
+
+//add VALUE attribute in order to submit the table data through AJAX call, because innerHTML of select box return all options hence not useful.
+//$(".component-modify-box").eq(index).attr("value", comp);
+}
+
 
 //below function determine the display of the DELETE button in delete-item-modal
 $scope.checkboxValue = [];
@@ -577,6 +524,226 @@ $scope.content="something went wrong";
 
 
 };
+
+$scope.setFilter = function(e){
+
+$('li.list-btn>button').removeClass('btn-warning');
+$('#'+e.target.id).addClass('btn-warning');
+
+var today = new Date();
+var selFilter= e.target.id;
+var tagList = [];
+var tagFunc =[];
+var tagObj ={};
+
+$scope.projectobjs.forEach(function(obj){
+
+ tagList.push(obj.tag);
+
+})
+
+//remove replicate items in the array 
+tagList= $.unique(tagList);
+
+//replace all space in the string and form a new array for the function names
+//alternatively we can just use an anonymous function.
+/*tagList.forEach(function(val, index){
+var newVal = val.replace(/ /g, '');
+tagFunc.push(newVal);
+newVal = function(arg){
+ var tag= $scope.projectinfo[arg.pjname].tag;
+if ( tag==val)
+return true;
+else 
+return false;
+}
+
+tagObj[val] = newVal;
+
+}); */
+
+tagList.forEach(function(val, index){
+
+tagObj[val] = function(arg){
+ var tag= $scope.projectinfo[arg.pjname].tag;
+if ( tag==val)
+return true;
+else 
+return false;
+}
+
+
+});
+
+
+
+
+switch (selFilter){
+
+
+  case 'show-all-btn':
+     $scope.filterMap = {
+     'All Projects': showAll
+    }
+    break;
+
+  case 'state-filter-btn':
+     $scope.filterMap ={
+    'Completed':  vrCompleted,
+    'Reaching VR': checkVr,
+    'Reaching RC': checkRc,
+    'Reaching FC': checkFc,
+    'Not Started': checkStart
+
+     }
+     break;
+  
+  case 'cat-filter-btn':
+     $scope.filterMap ={
+    'Officejet Pro':  checkOjp,
+    'Officejet': checkOj,
+    'Consumer':checkIcs,
+    'Pagewide': checkPws,
+     'Mobile':checkMobile
+     }
+     break;
+
+  case 'tag-filter-btn':
+    
+     $scope.filterMap =tagObj;
+
+    break;
+  
+
+}
+
+//LEARNING -- set delay to wait for the DOM ready, console log is not accurate enough to know if the table is rendered 
+  setTimeout(function(){setTableBg()}, 100);
+
+function setTableBg () {
+// 10 different colors for tagnames should be more than enough 
+var bgColor=['#2a8a85',' #016FB9', '#5299D3', '#7D53DE', '#247BA0', '#2D3047', '#C3EB78', '#040926', '#87BFFF0', '#C65B7C'];
+var tableList= document.getElementsByClassName('active-pj-table');
+var headerList=document.getElementsByClassName('table-header');
+/* LEARNING : how to deal with HTMLCollection Object */
+//console.log(Object.getOwnPropertyNames(HTMLCollection.prototype));
+//console.log(Object.prototype.toString.call(tableList));
+for (var i=0; i<tableList.length; i++)
+{
+  tableList.item(i).getElementsByTagName('tr')[0].style.backgroundColor = bgColor[i];
+  tableList.item(i).getElementsByTagName('tr')[0].style.color = 'white';
+  headerList.item(i).style.color = bgColor[i];}
+}
+
+function showAll(arg){
+  return true;
+}
+
+function vrCompleted(arg){
+var vrdate= new Date($scope.projectinfo[arg.pjname].datevr);
+if (vrdate<=today)
+return true;
+else 
+return false;
+
+}
+
+function checkVr(arg) {
+var vrdate= new Date($scope.projectinfo[arg.pjname].datevr);
+var rcdate= new Date($scope.projectinfo[arg.pjname].daterc);
+if (vrdate>today && rcdate<=today)
+return true;
+else 
+return false;
+
+}
+function checkRc(arg) {
+var fcdate= new Date($scope.projectinfo[arg.pjname].datefc);
+var rcdate= new Date($scope.projectinfo[arg.pjname].daterc);
+if (rcdate>today && fcdate<=today)
+return true;
+else 
+return false;
+
+}
+function checkFc(arg) {
+var fcdate= new Date($scope.projectinfo[arg.pjname].datefc);
+var start= new Date($scope.projectinfo[arg.pjname].datestart);
+if (fcdate>today && start<=today)
+return true;
+else 
+return false;
+
+}
+function checkStart(arg) {
+var start= new Date($scope.projectinfo[arg.pjname].datestart);
+if ( start>today)
+return true;
+else 
+return false;
+}
+
+function checkOjp(arg) {
+var cat= $scope.projectinfo[arg.pjname].class;
+if ( cat=='Officejet Pro')
+return true;
+else 
+return false;
+}
+
+function checkOj(arg) {
+var cat= $scope.projectinfo[arg.pjname].class;
+if ( cat=='Officejet')
+return true;
+else 
+return false;
+
+}
+function checkIcs(arg) {
+  var cat= $scope.projectinfo[arg.pjname].class;
+if ( cat=='Consumer')
+return true;
+else 
+return false;
+
+}
+function checkPws(arg) {
+var cat= $scope.projectinfo[arg.pjname].class;
+if ( cat=='Pagewide')
+return true;
+else 
+return false;
+
+}
+function checkMobile(arg) {
+var cat= $scope.projectinfo[arg.pjname].class;
+if ( cat=='Mobile')
+return true;
+else 
+return false;
+
+}}
+
+$scope.defectCounter = function(){
+
+var defectNum = 0;
+var featureNum = 0;
+var itemData = $scope.projectitems;
+
+/*LEARNING - see the problem below? it's dangerous to use the reference type directly, anything wrong it will corrupt the data */ 
+//$scope.projectitems.forEach(function(val){
+  //   if (val.type ="Defect Fix")
+  itemData.forEach(function(val){
+   if (val.type =="Defect Fix")
+    defectNum++;
+    else
+    featureNum++;
+  });
+$scope.pjDefectCount = defectNum;
+$scope.pjFeatureCount = featureNum;
+console.log(defectNum +' ' + featureNum);
+
+}
 
 });
 
@@ -652,14 +819,13 @@ $scope.reportHide = function () {
 
 $scope.$watch('startdate', function(newValue, oldValue){
 	
-
-	 $scope.dateFilter();
+ dateFilter();
 });
 
 $scope.$watch('enddate', function(newValue, oldValue){
 	
 
-	 $scope.dateFilter();
+	dateFilter();
 });
 
 /*constructor function for the filtered Project Data */
@@ -676,6 +842,7 @@ function filterDbCons(datevr, livedate, fdudate, mfgdate, revision, defectcount,
 	this.uniquefw=uniquefw;
 }
 
+//place the items with higher number first
 function sortObject (objA){
   
 var objB= {}, 
@@ -723,8 +890,8 @@ temp.forEach(function(value){
     
     
 
-$scope.dateFilter= function() {
-	
+function dateFilter() {
+
 $scope.filteredProj={};
 $scope.numOfProj=0;
 $scope.roi=0;
@@ -739,16 +906,61 @@ $scope.itemType ={'UI':0, 'EWS':0,'Fax':0,'Scan':0,'Mech':0,'ADF':0, 'Copy':0, '
 
 var i=0;
 
-angular.forEach($scope.repo, function(value,key){
-	
-angular.forEach(value['projectlist'], function(value1,key1){
-	
-	var temp= new Date(value1.datevr);
-	if((temp > $scope.startdate) && (temp < $scope.enddate))
+for (var x in $scope.repo)
+{
+
+var objx = $scope.repo[x]['projectlist'];
+
+for(var y in objx)
+ {
+
+
+var objy = objx[y];
+
+  console.log('objy is');
+    console.log(objy);
+var vrdate = new Date(objy.datevr);
+
+	if((vrdate > $scope.startdate) && (vrdate < $scope.enddate))
 	{
-		/*remove non-digit characters */
+		roi_temp= objy.roi.replace(/\D/g, '');
+		$scope.numOfProj++;
+		$scope.filteredProj[y]= new filterDbCons( objy.datevr,  objy.livedate, objy.fdudate, 
+		 objy.mfgdate,objy.revision, objy.defectcount,  objy.featurecount, objy.cat,  objy.uniquefw);
+		$scope.roi+=parseInt(roi_temp);
+		$scope.defectcount+=parseInt( objy.defectcount);
+		$scope.featurecount+=parseInt( objy.featurecount);
+		$scope.uniquefw+=parseInt( objy.uniquefw);
+		if ( objy.cat =='Major roll')
+		$scope.majorcount++;
+	    else
+		$scope.minorcount++;
+    for (var z in  objy['itemlist']){
+
+     	    $scope.itemType[objy['itemlist'][z].component]++;
+
+    }
+
+   }
+
+ }
+}
+$scope.itemType=sortObject($scope.itemType);
+
+
+
+
+/*angular.forEach($scope.repo, function(value,key){
+	console.log('1 Called');
+angular.forEach(value['projectlist'], function(value1,key1){
+		console.log('2 Called');
+	var temp= new Date(value1.datevr);
+  console.log(temp);
+  console.log($scope.filterMinDate);
+    console.log($scope.filterMaxDate);
+	if((temp > $scope.filterMinDate) && (temp < $scope.filterMaxDate))
+	{
 		roi_temp= value1.roi.replace(/\D/g, '');
-		
 		$scope.numOfProj++;
 		$scope.filteredProj[key1]= new filterDbCons(value1.datevr, value1.livedate, value1.fdudate, 
 		value1.mfgdate,value1.revision, value1.defectcount, value1.featurecount,value1.cat, value1.uniquefw);
@@ -770,9 +982,7 @@ angular.forEach(value['projectlist'], function(value1,key1){
 });
 	
 		
-})
-
-$scope.itemType=sortObject($scope.itemType);
+}) */
 
 };
 

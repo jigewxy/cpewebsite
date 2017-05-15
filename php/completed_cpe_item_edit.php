@@ -95,11 +95,14 @@ if (isset($_POST['itemnumber']))
 $totalnumber= sizeof($_POST['itemnumber']);
 for ($i=0; $i<$totalnumber; $i++)
 {
+
+$summary = mb_convert_encoding($_POST['summary'][$i], "UTF-8");
+
 $itemlist[$i] = array(
    'itemnumber'=> $_POST['itemnumber'][$i],
    'crid'=> $_POST['crid'][$i],
    'type'=> $_POST['type'][$i],
-   'summary'=> $_POST['summary'][$i],
+   'summary'=> $summary,
    'requestor'=> $_POST['requestor'][$i],
    'fixer'=> $_POST['fixer'][$i],
    'testteam'=> $_POST['testteam'][$i],

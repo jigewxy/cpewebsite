@@ -34,12 +34,14 @@ $itemnumber=$_POST['itemnumber'];
 
 for($i =0; $i<sizeof($itemnumber); $i++)
 {
+
+  $summary = mb_convert_encoding($_POST['summary'][$i], "UTF-8");
 $formdata_item[$i]= array(
 		
  'itemnumber'=> $_POST['itemnumber'][$i],
  'crid'=> $_POST['crid'][$i],
   'type'=> $_POST['type'][$i],
- 'summary'=>$_POST['summary'][$i],
+ 'summary'=>$summary,
  'fixer'=>$_POST['fixer'][$i],
  'testteam'=>$_POST['testteam'][$i],
  'products'=>$_POST['products'][$i],
