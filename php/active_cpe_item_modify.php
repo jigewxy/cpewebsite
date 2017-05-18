@@ -155,7 +155,7 @@ $jsondata=prettyPrint($jsondata);
 if(file_put_contents($myFile, $jsondata, LOCK_EX))
 {}
 else 
-	echo "error - data not saved";
+	echo "error - data not saved, please try again";
 
 }
    catch (Exception $e) {

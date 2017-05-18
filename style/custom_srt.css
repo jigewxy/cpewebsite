@@ -155,6 +155,7 @@ td.itemverified {
 	background-color: mediumseagreen;
 }
 
+
 #table-full-detail tr td{
 	
 font-size: 13px;
@@ -167,9 +168,9 @@ font-size: 13px;
 	background-color: #d9edf7;
 }
 
-#table-full-detail tr td:nth-child(even){
+/*#table-full-detail tr td:nth-child(even){
 	
-}
+}*/
 
 
 select.srt-region-select,
@@ -526,3 +527,4 @@ height: 400pt;
 	cursor: pointer !important;
 
 }
+

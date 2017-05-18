@@ -82,6 +82,7 @@
       </div>
 
       <div class="modal-body">
+    <div class="col-md-6">
 	 <table id="table-full-detail" class= "table table-bordered table-hover table-condensed">
 	 <tr><td>customer </td><td>{{selectedEntry.customer}}</td></tr>
 	 <tr><td>Main Feature </td> <td> {{selectedEntry.feature}}</td></tr>
@@ -98,6 +99,12 @@
 	 <tr><td>Firmware Link </td> <td> {{selectedEntry.fwlink}}</td></tr>
 	 <tr><td>Current State </td> <td> {{selectedEntry.state}}</td></tr>
 	 </table>
+   </div>
+
+   <div class="form col-md-6">
+     <textarea rows="22" class="form-control" readonly>{{selectedEntry.tooltip}}</textarea>
+    <!--placeholder for the tooltip -->
+   </div>
 	 </div>	  
 	  <hr> 
      <table id="active-pj-table" class="table table-hover table-bordered table-condensed">

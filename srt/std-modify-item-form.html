@@ -1,3 +1,4 @@
+	<div class="col-md-6">
 	<table id="modify-sum-table" class= "table table-condensed">
 	 <tr><td width="30%">Customer</td> <td><input class="form-control"  name="customer" type="text" value ="{{selectedEntry.customer}}"></td></tr>
 	 <tr><td> Main Feature</td> <td><input class="form-control" name="feature" type="text" value ="{{selectedEntry.feature}}"></td></tr>
@@ -24,6 +25,11 @@
                </select></td></tr>
 	 <input type="hidden" class="form-control" name="rootindex" value="{{selectedEntry.rootindex}}">
 	 </table>
+	 </div class="col-md-6">
+     <div class="col-md-6">
+     <textarea id="textarea-edit-tooltip" rows="22" class="form-control" name="tooltip">{{selectedEntry.tooltip}}</textarea> 
+    </div>
+
       <hr>
       <table id = "modify-item-table" class="table table-bordered table-condensed">
       <tr><th>Item</th><th>CRID</th><th>Type</th><th>Summary</th><th>Fix Provider</th><th>Test Partner</th><th>Affected SKUs</th><th>component</th><th class="item-status-sel" ng-show="{{activeOrComp}}">Status</th></tr>

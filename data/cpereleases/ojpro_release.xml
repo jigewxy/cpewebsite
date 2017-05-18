@@ -18,6 +18,10 @@
     <product year="2012">Forrester</product>
     <product year="2012">Everett</product>
     <product year="2011">Thomson</product>
+    <product year="2011">Coulomb Base</product>
+    <product year="2011">Coulomb Base Kaiser</product>
+    <product year="2011">Coulomb Kaiser</product>
+    <product year="2011">Thomson Kaiser</product>
   </productlist>
   <weberpdlroot>
     <release>
@@ -53,4 +57,8 @@
   <forresterroot/>
   <everettroot/>
   <thomsonroot/>
+  <coulombbaseroot/>
+  <coulombbasekaiserroot/>
+  <coulombkaiserroot/>
+  <thomsonkaiserroot/>
 </productroot>

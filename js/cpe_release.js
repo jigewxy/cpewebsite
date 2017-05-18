@@ -168,35 +168,31 @@ switch (arg)
 
 {
 case 'Officejet Pro':
-this.g_xmlResource= "data/cpereleases/ojpro_release.xml"
-return this.g_xmlResource;
+this.g_xmlResource= "data/cpereleases/ojpro_release.xml";
 break;
 
 case 'Officejet':
-this.g_xmlResource= "data/cpereleases/oj_release.xml"
-return "data/cpereleases/oj_release.xml";
+this.g_xmlResource= "data/cpereleases/oj_release.xml";
 break;
 
 case 'Pagewide':
-this.g_xmlResource= "data/cpereleases/pws_release.xml"
-return "data/cpereleases/pws_release.xml";
+this.g_xmlResource= "data/cpereleases/pws_release.xml";
 break;
 
 case 'Consumer':
-this.g_xmlResource= "data/cpereleases/ics_release.xml"
-return "data/cpereleases/ics_release.xml";
+this.g_xmlResource= "data/cpereleases/ics_release.xml";
 break;
 
 case 'Mobile':
-this.g_xmlResource= "data/cpereleases/mobile_release.xml"
-return "data/cpereleases/mobile_release.xml";
+this.g_xmlResource= "data/cpereleases/mobile_release.xml";
 break;
 
 default: 
-return "data/cpereleases/oj_release.xml";
+this.g_xmlResource= "data/cpereleases/ojpro_release.xml";
 break;
 }
 
+return this.g_xmlResource;
 
 };
 
@@ -306,12 +302,12 @@ if (this.readyState==4 && this.status==200){
 
 	var years = xmlDoc.getElementsByTagName('year');
     var products= xmlDoc.getElementsByTagName('product');
-
+   //loop year
     for (var i=0; i <years.length; i++)
     {
        var temp= years[i].childNodes[0].nodeValue;;
        obj_list[temp]=[];
-       
+    //loop product
        for (var j=0; j <products.length; j++)
        {
          if (products[j].getAttribute('year')==temp)
@@ -321,6 +317,9 @@ if (this.readyState==4 && this.status==200){
          }
 
        }
+
+       //sort product name in alphabetical order
+      obj_list[temp].sort();
 
     }
     
@@ -340,7 +339,7 @@ if (this.readyState==4 && this.status==200){
     var id= arg.id+ year;
     panelgroup+= '<div class="panel panel-primary"> <div class="panel panel-heading" data-toggle="collapse" data-target="#'+id+'"><center><h4>' +  year + '</h4></center></div> <div class="panel panel-body collapse in" id="'+id+'"><ul class="list-group">';
     
-   obj_list[year].forEach(function(elems){
+    obj_list[year].forEach(function(elems){
 
      panelgroup+= '<li class="list-group-item" onclick="loadTable(this)">'+ elems + '</li>';
 
