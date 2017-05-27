@@ -19,8 +19,8 @@
     <product year="2012">Everett</product>
     <product year="2011">Thomson</product>
     <product year="2011">Coulomb Base</product>
-    <product year="2011">Coulomb Base Kaiser</product>
     <product year="2011">Coulomb Kaiser</product>
+    <product year="2011">Coulomb Base Kaiser</product>
     <product year="2011">Thomson Kaiser</product>
   </productlist>
   <weberpdlroot>
@@ -58,7 +58,7 @@
   <everettroot/>
   <thomsonroot/>
   <coulombbaseroot/>
-  <coulombbasekaiserroot/>
   <coulombkaiserroot/>
+  <coulombbasekaiserroot/>
   <thomsonkaiserroot/>
 </productroot>

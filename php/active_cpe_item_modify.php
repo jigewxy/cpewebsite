@@ -77,7 +77,7 @@ for($i =0; $i<sizeof($itemnumber); $i++)
  $component = ($_POST['component'][$i])? ($_POST['component'][$i]):'Others';
 
 //LEARNING - need to convert C++/Java unicode to UTF-8, or else PHP can't process it
-$summary = mb_convert_encoding($_POST['summary'][$i], "UTF-8");
+$summary =utf8_encode($_POST['summary'][$i]);
 
 //echo '<pre>'.var_export($summary, true).'</pre>';
 $formdata_item[$i]= array(

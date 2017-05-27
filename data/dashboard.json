@@ -9,7 +9,8 @@
 		"Shaolin Plus VR3",
 		"Weber PDL VR2",
 		"Weber VR2.1",
-		"Naples Base\/Fast\/Plus\/Super VR4.1"
+		"Naples Base\/Fast\/Plus\/Super VR4.1",
+		"Lhasa WL\/WL IA\/FnF VR2.1 "
 	],
 	"dates": [
 		{
@@ -127,14 +128,14 @@
 		{
 			"x": 5,
 			"low": "Date.UTC(2017,3,21)",
-			"high": "Date.UTC(2017,3,28)",
+			"high": "Date.UTC(2017,4,22)",
 			"name": "RC cycle",
 			"color": "lemonchiffon"
 		},
 		{
 			"x": 5,
-			"low": "Date.UTC(2017,3,28)",
-			"high": "Date.UTC(2017,5,05)",
+			"low": "Date.UTC(2017,4,22)",
+			"high": "Date.UTC(2017,5,12)",
 			"name": "VR cycle",
 			"color": "pink"
 		},
@@ -200,6 +201,27 @@
 			"high": "Date.UTC(2017,3,21)",
 			"name": "VR cycle",
 			"color": "pink"
+		},
+		{
+			"x": 9,
+			"low": "Date.UTC(2017,3,20)",
+			"high": "Date.UTC(2017,4,12)",
+			"name": "FC cycle",
+			"color": "deepskyblue"
+		},
+		{
+			"x": 9,
+			"low": "Date.UTC(2017,4,12)",
+			"high": "Date.UTC(2017,4,18)",
+			"name": "RC cycle",
+			"color": "lemonchiffon"
+		},
+		{
+			"x": 9,
+			"low": "Date.UTC(2017,4,18)",
+			"high": "Date.UTC(2017,4,26)",
+			"name": "VR cycle",
+			"color": "pink"
 		}
 	],
 	"Edwin VR1.5": {
@@ -246,7 +268,7 @@
 	"Triptane VR1.3.1": {
 		"itemlist": [
 			{
-				"itemnumber": 1,
+				"itemnumber": "1",
 				"crid": "321747",
 				"type": "Defect Fix",
 				"summary": "Plang Security fix",
@@ -258,7 +280,7 @@
 				"status": "In Progress"
 			},
 			{
-				"itemnumber": 2,
+				"itemnumber": "2",
 				"crid": "234352",
 				"type": "Defect Fix",
 				"summary": "Rootfs readonly",
@@ -280,7 +302,9 @@
 		"daterc": "2017-02-16",
 		"datevr": "2017-02-24",
 		"uniquefw": "4",
-		"skus": "Iceman DN; Iceman DW; Maverick DN; Maverick DW"
+		"skus": "Iceman DN; Iceman DW; Maverick DN; Maverick DW",
+		"class": "Pagewide",
+		"tag": "Plang security"
 	},
 	"Muscatel VR3": {
 		"itemlist": [
@@ -440,7 +464,7 @@
 				"fixer": "Hub Team",
 				"testteam": "SQ",
 				"products": "Shaolin Plus IA",
-				"component": "General SIPs",
+				"component": "OS Related",
 				"status": "In Progress"
 			},
 			{
@@ -452,7 +476,7 @@
 				"fixer": "Hub Team",
 				"testteam": "SQ",
 				"products": "Shaolin Plus",
-				"component": "OS Related",
+				"component": "Ink Sub",
 				"status": "In Progress"
 			},
 			{
@@ -464,7 +488,7 @@
 				"fixer": "Hub Team",
 				"testteam": "SQ",
 				"products": "Shaolin Plus",
-				"component": "Ink Sub",
+				"component": "EWS",
 				"status": "In Progress"
 			},
 			{
@@ -488,7 +512,7 @@
 				"fixer": "Hub Team",
 				"testteam": "SQ",
 				"products": "Shaolin Plus IA",
-				"component": "EWS",
+				"component": "Connectivity",
 				"status": "In Progress"
 			},
 			{
@@ -500,7 +524,7 @@
 				"fixer": "Hub Team",
 				"testteam": "SQ",
 				"products": "Shaolin Plus",
-				"component": "Connectivity",
+				"component": "OS Related",
 				"status": "In Progress"
 			},
 			{
@@ -512,7 +536,7 @@
 				"fixer": "Hub Team",
 				"testteam": "SQ",
 				"products": "Shaolin Plus",
-				"component": "OS Related",
+				"component": "General Security",
 				"status": "In Progress"
 			},
 			{
@@ -524,7 +548,7 @@
 				"fixer": "Hub Team",
 				"testteam": "SQ",
 				"products": "Shaolin Plus",
-				"component": "General Security",
+				"component": "Connectivity",
 				"status": "In Progress"
 			},
 			{
@@ -560,7 +584,7 @@
 				"fixer": "Hub Team",
 				"testteam": "SQ",
 				"products": "Shaolin Plus",
-				"component": "Connectivity",
+				"component": "Others",
 				"status": "In Progress"
 			}
 		],
@@ -571,10 +595,12 @@
 		"cat": "Major roll",
 		"datestart": "2017-02-01",
 		"datefc": "2017-04-21",
-		"daterc": "2017-04-28",
-		"datevr": "2017-06-05",
+		"daterc": "2017-05-22",
+		"datevr": "2017-06-12",
 		"uniquefw": "1",
-		"skus": "Shaolin Plus"
+		"skus": "Shaolin Plus",
+		"class": "Consumer",
+		"tag": "New Fax Chip"
 	},
 	"Weber PDL VR2": {
 		"itemlist": [
@@ -594,7 +620,7 @@
 				"itemnumber": "2",
 				"crid": "284064",
 				"type": "Defect Fix",
-				"summary": "BYS WBR Base\/Mid Security: The proxy server\u2019s user name and password can be captured via Charles tool.",
+				"summary": "BYS WBR Base\/Mid Security: The proxy server'user name and password can be captured via Charles tool.",
 				"requestor": "CA",
 				"fixer": "Vineeth R SQ",
 				"testteam": "SQ",
@@ -624,7 +650,7 @@
 				"testteam": "SQ",
 				"products": "Weber PDL",
 				"component": "Ink Security",
-				"status": "In Progress"
+				"status": "Fixed"
 			},
 			{
 				"itemnumber": "5",
@@ -636,7 +662,7 @@
 				"testteam": "SQ",
 				"products": "Weber PDL",
 				"component": "Ink Security",
-				"status": "In Progress"
+				"status": "Fixed"
 			},
 			{
 				"itemnumber": "6",
@@ -666,7 +692,7 @@
 				"itemnumber": "8",
 				"crid": "332685",
 				"type": "Defect Fix",
-				"summary": "FP failed to return to Home screen after initiating a job when \u201cEnable Automatic Sign Out\u201d is enabled",
+				"summary": "FP failed to return to Home screen after initiating a job when \"Enable Automatic Sign Out\" is enabled",
 				"requestor": "CA",
 				"fixer": "Teik Hor Soon",
 				"testteam": "SQ",
@@ -678,7 +704,7 @@
 				"itemnumber": "9",
 				"crid": "334075",
 				"type": "Defect Fix",
-				"summary": "Error message \u201cB8110A06\u201c showed on LCD after printed a few pages.",
+				"summary": "Error message \"B8110A06\" showed on LCD after printed a few pages.",
 				"requestor": "CA",
 				"fixer": "LS, Mamatha",
 				"testteam": "SQ",
@@ -702,13 +728,13 @@
 				"itemnumber": "11",
 				"crid": "317061",
 				"type": "Defect Fix",
-				"summary": "The printer shown a \u201cPaper Problem\u201d instead of \u201cOut of Paper\u201d title",
+				"summary": "The printer shown a \"Paper Problem \" instead of \"Out of Paper \" title",
 				"requestor": "CA",
 				"fixer": "CPE",
 				"testteam": "SQ",
 				"products": "Weber PDL",
 				"component": "UI",
-				"status": "In Progress"
+				"status": "Fixed"
 			},
 			{
 				"itemnumber": "12",
@@ -756,7 +782,7 @@
 				"testteam": "SQ",
 				"products": "Weber PDL",
 				"component": "Connectivity",
-				"status": "Fixed"
+				"status": "In Progress"
 			},
 			{
 				"itemnumber": "16",
@@ -792,7 +818,7 @@
 				"testteam": "SQ",
 				"products": "Weber PDL",
 				"component": "EWS",
-				"status": "In Progress"
+				"status": "Fixed"
 			},
 			{
 				"itemnumber": "19",
@@ -804,7 +830,7 @@
 				"testteam": "SQ",
 				"products": "Weber PDL",
 				"component": "UI",
-				"status": "In Progress"
+				"status": "Fixed"
 			},
 			{
 				"itemnumber": "20",
@@ -816,7 +842,7 @@
 				"testteam": "SQ",
 				"products": "Weber PDL",
 				"component": "EWS",
-				"status": "In Progress"
+				"status": "Fixed"
 			},
 			{
 				"itemnumber": "21",
@@ -834,7 +860,7 @@
 				"itemnumber": "22",
 				"crid": "362027",
 				"type": "Defect Fix",
-				"summary": "Region Settings \u2013 English strings not translated to localized language",
+				"summary": "Region Settings - English strings not translated to localized language",
 				"requestor": "CA",
 				"fixer": "Cijo Robert",
 				"testteam": "SQ",
@@ -889,6 +915,30 @@
 				"products": "Weber PDL",
 				"component": "UI",
 				"status": "In Progress"
+			},
+			{
+				"itemnumber": "27",
+				"crid": "370425",
+				"type": "Defect Fix",
+				"summary": "ASSERT: 0x005e1dc5, line: 94, file: SOL-lib_fax_destinations.c\"occurs if Press Cancel button on Fax_SubLevel_OffHook screen.",
+				"requestor": "CA",
+				"fixer": "CPE",
+				"testteam": "SQ",
+				"products": "Weber PDL",
+				"component": "UI",
+				"status": "Fixed"
+			},
+			{
+				"itemnumber": "28",
+				"crid": "371191",
+				"type": "Defect Fix",
+				"summary": "German Translation Issue: Incorrect Translation on Fax Receiving.",
+				"requestor": "CA",
+				"fixer": "CPE",
+				"testteam": "SQ",
+				"products": "Weber PDL",
+				"component": "UI",
+				"status": "Fixed"
 			}
 		],
 		"skus": "Weber PDL",
@@ -942,7 +992,9 @@
 		"datestart": "2017-04-14",
 		"datefc": "2017-04-19",
 		"daterc": "2017-04-21",
-		"datevr": "2017-04-28"
+		"datevr": "2017-04-28",
+		"class": "Officejet Pro",
+		"tag": "New Fax Chip"
 	},
 	"Naples Base\/Fast\/Plus\/Super VR4.1": {
 		"itemlist": [
@@ -957,6 +1009,25 @@
 		"datestart": "2016-10-03",
 		"datefc": "2017-04-12",
 		"daterc": "2017-03-30",
-		"datevr": "2017-04-21"
+		"datevr": "2017-04-21",
+		"class": "Consumer",
+		"tag": "WSD Fixes"
+	},
+	"Lhasa WL\/WL IA\/FnF VR2.1 ": {
+		"itemlist": [
+		],
+		"skus": "Wireless; Wireless IA; Fast n Furious",
+		"uniquefw": "3",
+		"pm": "Subhasree Rajendran",
+		"fw": "Robert Karan",
+		"sq": "Lee Cheah Seng",
+		"branch": "frz_2016_lhasa_wl_lhasa_wl_ia_vr2_1",
+		"cat": "Minor roll",
+		"datestart": "2017-04-20",
+		"datefc": "2017-05-12",
+		"daterc": "2017-05-18",
+		"datevr": "2017-05-26",
+		"class": "Consumer",
+		"tag": "WSD Fixes"
 	}
 }

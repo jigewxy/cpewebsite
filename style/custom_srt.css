@@ -33,17 +33,15 @@
 	to {opacity:1;}
 }
 
-div.left-nav-menu{
-	
-	height:1000pt;
+li.nav-menu{
+
+    width: 120pt;
 }
 
+li.nav-menu >a:hover{
 
-.nav-menu:hover {
-	
-	background-color:#337ab7;
-	color:white !important;
-	
+  cursor: pointer;
+  background-color: #337ab7 !important;
 }
 
 span.srt-customer{

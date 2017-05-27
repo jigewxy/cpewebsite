@@ -1,0 +1,55 @@
+<?php header('Content-type: text/html; charset=utf-8');
+header("Cache-Control:max-age=0, must-revalidate");
+header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); 
+
+include '../util/xmldomutil.php';
+
+/*special note -- instead of modifying the corresponding Node directly, the old node was deleted first, and then insert the new node by comparing the node value of <date/>, this is to make sure release entry are re-arranged in chronological order */
+if(isset($_POST)){
+$pname = $_POST['product'];
+$cat = $_POST['cat'];
+$index = $_POST['deletion'];
+$returnData = array();
+
+try {
+$pjdb = new DOMDocument('1.0');
+$pjdb -> formatOutput=true;
+$pjdb -> preserveWhiteSpace=false;
+
+$dbFile=DomUtility::getDbFile($cat);
+$pjdb->load($dbFile);
+
+$dbPath= new DOMXpath($pjdb);
+
+$pnode = $dbPath -> query('//'.$pname)->item(0);
+
+$relNodes = $dbPath -> query('//'.$pname.'//release');
+
+$nodeToDel = $relNodes -> item($index);
+
+$pnode -> removeChild($nodeToDel);
+
+
+$version = $nodeToDel->getElementsByTagName('version')->item(0)->nodeValue;
+echo 'version is '.$version;
+echo 'index is '.$index;
+
+$returnData=array(
+'version'=>$version,
+'index'=>$index,
+);
+
+if($pjdb -> save($dbFile))
+  echo $index.$version;
+else 
+    echo 'Something is wrong';
+}
+    
+catch (Exception $e) {
+         echo 'Caught exception: ',  $e->getMessage(), "\n";
+   }
+
+}
+
+
+?>

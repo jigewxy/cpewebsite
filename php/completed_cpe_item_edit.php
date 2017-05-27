@@ -96,7 +96,7 @@ $totalnumber= sizeof($_POST['itemnumber']);
 for ($i=0; $i<$totalnumber; $i++)
 {
 
-$summary = mb_convert_encoding($_POST['summary'][$i], "UTF-8");
+$summary = utf8_encode($_POST['summary'][$i]);
 
 $itemlist[$i] = array(
    'itemnumber'=> $_POST['itemnumber'][$i],

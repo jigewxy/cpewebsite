@@ -13,13 +13,15 @@
     <product year="2012">Everett</product>
     <product year="2011">Thomson</product>
     <product year="2011">Coulomb Base</product>
-    <product year="2011">Coulomb Base Kaiser</product>
     <product year="2011">Coulomb Kaiser</product>
+    <product year="2011">Coulomb Base Kaiser</product>
     <product year="2011">Thomson Kaiser</product>
   </ojpro>
   <oj>
     <product year="2016">Muscatel</product>
     <product year="2017">Edwin</product>
+    <product year="2016">Muscatel Lite</product>
+    <product year="2016">Muscatel Lite XXL</product>
   </oj>
   <pws>
     <product year="2016">Maverick DW</product>

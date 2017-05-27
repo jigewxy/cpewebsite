@@ -20,7 +20,7 @@ $arr_data=json_decode (file_get_contents($myFile), true);
 
 
 $rootindex = $_POST['rootindex'];
-	$summary = mb_convert_encoding($_POST['summary'], "UTF-8");
+	$summary =utf8_encode($_POST['summary']);
 $arr_append= array(
 
   'itemnumber' =>$_POST['itemnumber'],
@@ -67,7 +67,7 @@ header('Refresh:6; url='.$pre_page);
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <script src="js/jquery-3.1.1.min.js"></script>
+ 
   <script>
   $(document).ready(function(){
   progressBarTranshalf();

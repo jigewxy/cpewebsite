@@ -1,7 +1,7 @@
 <?php
 class DomUtility
 {
-    
+    date_default_timezone_set('Asia/Singapore');
     
   public static $DbMap = array (
         'Officejet Pro'=> "../../data/cpereleases/ojpro_release.xml",

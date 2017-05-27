@@ -2,6 +2,12 @@
 must use dynamic initialization instead of static, (document).ready function does't work well with angular route
 in which view is partially rendered.*/
 
+
+/*initialize bootstrap tooltip;*/
+$(document).ready(function(){
+  //  G_topNavHover();
+});
+
 $(document).on('mouseover','[data-hover="tooltip"]',function(){
    $(this).tooltip('show');
 });
@@ -282,6 +288,7 @@ function init () {
 $("#search-box").show();
 $scope.$parent.currentTab = 'projActive';
 
+console.log('init called');
 //at landing page, shows all project in one table by simulating the click on "show all" button
 setTimeout(function(){$('li.list-btn').eq(0).find('button').trigger('click');}, 200);
 
@@ -1026,6 +1033,7 @@ $scope.currentTab = '';
 
 $scope.$watch ('currentTab', function(newValue, oldValue){
     
+  console.log(newValue);
 switch (newValue){
         
     case 'dashboardPage': 
@@ -1050,7 +1058,7 @@ switch (newValue){
         $('#li-cr').addClass('selected-tab');
        break;
    
-}});
+}}); 
     
 
 

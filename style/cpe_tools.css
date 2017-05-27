@@ -1,0 +1,67 @@
+
+
+div#nav-top{
+
+position:fixed;
+width: 98%;
+z-index: 2;
+
+}
+
+li.nav-menu{
+
+    width: 120pt;
+}
+
+li.nav-menu :hover{
+
+  background-color: #337ab7 !important;
+  cursor: pointer;
+}
+
+li.nav-menu>a:hover{
+color: white !important;
+
+}
+
+
+div.col-md-2{
+
+position: fixed;
+top: 100pt;
+
+}
+
+
+div.col-md-2>ul>li{
+
+width: 150pt;
+height: 30pt;
+margin: 5pt;
+font-size: 16px;
+}
+
+div#main-content{
+top: 50pt;
+}
+
+blockquote {
+
+    font-size: 15px;
+    font-style: italic;
+}
+
+
+p.intro-count{
+
+    color: blue;
+    font-size: 12px;
+}
+
+div#add-status-update,
+div#edit-status-update,
+div#delete-status-update,
+{
+
+    height: 50pt;
+}

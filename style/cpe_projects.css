@@ -340,6 +340,10 @@ div.left-nav-menu>ul>li
 	
 }
 
+li.dropdown{
+
+    width: 120pt;
+}
 
 img.nav-menu-image
 

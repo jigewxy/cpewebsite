@@ -8,7 +8,7 @@ include '../util/xmldomutil.php';
 if (isset($_POST)){
 
 
-if (empty(trim($_POST['sarel'])))
+if (trim($_POST['sarel'])==false)
     $sarel = 'NA';
 else 
     $sarel = $_POST['sarel'];

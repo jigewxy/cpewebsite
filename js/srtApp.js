@@ -13,6 +13,7 @@
 /*initialize bootstrap tooltip;*/
 $(document).ready(function(){
     $('[data-toggle="tooltip"]').tooltip();   
+   // G_topNavHover();
 });
 
 //use datepick for the project date information in order to standardize the data.

@@ -76,8 +76,10 @@ function entryChangeSubmit(arg){
 /*some initializations are required */
 $(document).ready(function(){
 
+//set up hover behavior
+//G_topNavHover();
 /*trigger a click on first menu */
-$('ul.navbar-nav li:first-child>a').click();
+$('ul#list-cat li:first-child>a').click();
 
 /*initialize date-picker */
 currentRel.initDatepicker();
@@ -275,6 +277,15 @@ setTimeout(function(){$('div.panel-primary:first-child li:first-child').click();
     
 }
 
+/*function to change the nav tab color */
+/*currentRel.navTabColor = function(id){
+
+$('li.nav-menu').css('background-color','#f8f8f8');
+$('li.nav-menu a').css('color','#777');
+$('li.'+id).css('background-color','#337ab7');
+$('a#'+id).css('color','white');
+
+}*/
 
 /*render the left navigation panel when product category selected */
 currentRel.loadPartial=function(arg){
@@ -286,10 +297,7 @@ var arr_years=[];
 this.g_currentCat=arg;
 var that = this;
 
-$('li.nav-menu').css('background-color','#f8f8f8');
-$('li.nav-menu a').css('color','#777');
-$('li.'+arg.id).css('background-color','#337ab7');
-$('a#'+arg.id).css('color','white');
+G_navTabColor(arg.id);
 /*wipe out existing release table - but why? */
 //document.getElementById('release-content').innerHTML = '';
 

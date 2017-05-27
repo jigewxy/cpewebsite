@@ -15,7 +15,7 @@ else
 
 try 
 { 
-	$summary = mb_convert_encoding($_POST['summary'], "UTF-8");
+	$summary = utf8_encode($_POST['summary']);
 	//get form data
  $formdata=array (
  

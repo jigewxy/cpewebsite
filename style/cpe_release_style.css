@@ -2,16 +2,20 @@ body {
     background-color: white;
 }
 
-li.nav-menu:hover{
+li.nav-menu{
 
-background-color: #337ab7 !important;
-cursor:pointer;
-
+    width: 120pt;
 }
 
-li.nav-menu:hover a{
 
-color:black !important;
+li.nav-menu:hover{
+
+  background-color: #337ab7 !important;
+  cursor: pointer;
+}
+
+li.nav-menu>a:hover{
+color: white !important;
 
 }
 
