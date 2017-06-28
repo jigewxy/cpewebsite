@@ -440,8 +440,8 @@ currentRel.addEntry=function(){
 //  console.log(g_currentCat.textContent);
 $('#add-entry-modal').modal('show');
     
-$('input[name=date]').on({'keypress': validateDateInput, 
-               'keyup': validateDateInput});  
+$('input[name=date]').on({'keypress': Utility.validateDateInput, 
+               'keyup': Utility.validateDateInput});  
     /*pass values to hidden input - product and category */
 
 }
@@ -486,8 +486,8 @@ $('#modify-entry-modal').modal('show');
 /* $() is a Jquery object which has all Jquery properties */
 //console.log($(g_currentCat).html());
 //  console.log(g_currentCat.textContent);
-$('input[name=date]').on({'keypress': validateDateInput, 
-               'keyup': validateDateInput});  
+$('input[name=date]').on({'keypress': Utility.validateDateInput, 
+               'keyup': Utility.validateDateInput});  
     
 }
 

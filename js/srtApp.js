@@ -13,7 +13,7 @@
 /*initialize bootstrap tooltip;*/
 $(document).ready(function(){
     $('[data-toggle="tooltip"]').tooltip();   
-   // G_topNavHover();
+   // Utility.topNavHover();
 });
 
 //use datepick for the project date information in order to standardize the data.
@@ -206,7 +206,7 @@ $scope.submitTooltip = function(){
 
 var formdata = $('#tooltip-form').serialize();
 var newTt  = $('#tooltip-form textarea').val();
-var successMsg = '<div class="alert alert-success"><strong>Success! </strong>'
+var successMsg = '<div class="alert alert-success"><strong>Successful! </strong>'
 var errorMsg = '<div class="alert alert-danger"><strong>Failed! </strong>'
 console.log(formdata);
 
@@ -593,7 +593,7 @@ $scope.evalCkBox = function(arg1, arg2) {
 /**controller for the dash board page     **/
 /*******************************************/
 
-app.controller('srtDashCtrl', function($scope, $http, reusableSrcs,$location){
+app.controller('srtDashCtrl', function($scope, $window, $http, reusableSrcs,$location){
 
 $scope.$parent.activeOrComp = true; 
 $scope.$parent.currentRoute= $location.url();
@@ -819,21 +819,7 @@ var optionSchedule=
 
 
 // need to add the error status check to the AJAX call, or the response is silent with no error shown
-	 /*below function convert the 2017-02-02 to Date.UTC(2017,1,2) */    
-var dateProcess= function(arg1)
-{
-  
- var x= new Date(arg1);
-  
-  var day= x.getDate();
-  var year=x.getFullYear();
-  var month=x.getMonth();
-  
- return 'Date.UTC('+year+','+month+','+day+')';
-  
-}
-
-       
+//below function convert the 2017-02-02 to Date.UTC(2017,1,2) */         
   var scheduleData= {
             'category':[],
             'dates':[],  /*array of object */
@@ -842,35 +828,7 @@ var dateProcess= function(arg1)
 
 
       var pjtitles=[];
-      var temp=[]; /* to store the formated dates */
-
-/*constructor function for the appropriate data structure for highchart usage */
-      function DatesCons(requestdate, fcdate, rcdate, vrdate, index){
-
-        return [{
-            "x": index,
-            "low": eval(dateProcess(requestdate)),
-            "high": eval(dateProcess(fcdate)),
-            "name": "FC cycle",
-            "color": "deepskyblue"
-        },
-        {
-            "x": index,
-            "low": eval(dateProcess(fcdate)),
-            "high": eval(dateProcess(rcdate)),
-            "name": "RC cycle",
-            "color": "lemonchiffon"
-        },
-        {
-            "x": index,
-            "low": eval(dateProcess(rcdate)),
-            "high": eval(dateProcess(vrdate)),
-            "name": "VR cycle",
-            "color": "pink"
-        }];
-
-      }
-
+      var temp=[]; // to store the formated dates 
 
 /* loop through the database and process the date */
        $scope.entries.forEach(function(elems,index){
@@ -879,7 +837,7 @@ var dateProcess= function(arg1)
         
          pjtitles.push(title.slice(0,40));
          
-        temp=temp.concat(DatesCons(elems.requestdate, elems.fcdate, elems.rcdate, elems.vrdate, index));
+        temp=temp.concat($window.Utility.datesCons(elems.requestdate, elems.fcdate, elems.rcdate, elems.vrdate, index));
      
        });
 

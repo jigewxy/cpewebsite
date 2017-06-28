@@ -1,0 +1,106 @@
+<!-- Add new project modal is defined -->
+<div class="modal fade" id="add-new-project-modal">
+
+<div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-success">
+          <button type="button" class="close" data-dismiss="modal"><small>Cancel</small>&times;</button>
+          <h4 class="modal-title">New Active Project</h4>
+        </div>
+<div class="modal-body">
+<div class="panel">
+<div class="panel-body">
+<form id ="add-project-form" ng-submit="addPjSubmit()"> 
+<div class="form-group">
+<div class="form">
+<label class="control-label"><small>Project Name</small></label>
+<!--item number will be a readonly self-generated number for a better database control-->
+<input type="text" class="form-control input-sm" name="projectname" required>
+</div>
+<div class="form">
+<label class="control-label"><small>Affected SKUs</small></label>
+<!--item number will be a readonly self-generated number for a better database control-->
+<input type="text" class="form-control input-sm" name="skus" required>
+</div>
+<div class="form">
+<label class="control-label"><small>Tagname</small></label>
+<!--item number will be a readonly self-generated number for a better database control-->
+<input type="text" class="form-control input-sm" name="tag" required>
+</div>
+<label class="control-label"><small>Product Category</small></label>
+<!--item number will be a readonly self-generated number for a better database control-->
+<select class="form-control input-sm status-select" name="division" ng-model="prodcat" ng-change="getPdList(prodcat)"> 
+<option>Officejet Pro</option>
+<option>Officejet</option>
+<option>Consumer</option>
+<option>Pagewide</option>
+<option>Mobile</option>
+</select>
+<label class="control-label"><small>Product</small><span class="sidenote"> (If you can't find the product, please add new product in <a href="#completedproject" target="_blank">[Project Completed] </a>tab)
+</span></label>
+<!--item number will be a readonly self-generated number for a better database control-->
+<select class="form-control input-sm status-select" name="product" id="select-product"> 
+</select>
+</div>
+<div class="form">
+<label class="control-label"><small>Start Date</small></label>
+<!--regular express allow only from 2000-01-01 to 2029-12-30-->
+<input type="text" class="date-picker form-control input-sm" name="datestart" pattern="[2][0][0-2][0-9][-]([0][1-9]|[1][0-2])[-]([0][1-9]|[1][0-9]|[2][0-9]|[3][0-1])" required>
+</div>
+<div class="form">
+<label class="control-label"><small>FC Date</small></label>
+<input type="text" class="date-picker form-control input-sm" name="datefc" pattern="[2][0][0-2][0-9][-]([0][1-9]|[1][0-2])[-]([0][1-9]|[1][0-9]|[2][0-9]|[3][0-1])" required>
+</div>
+<div class="form">
+<label class="control-label"><small>RC Date</small></label>
+<input type="text" class="date-picker form-control input-sm" name="daterc" pattern="[2][0][0-2][0-9][-]([0][1-9]|[1][0-2])[-]([0][1-9]|[1][0-9]|[2][0-9]|[3][0-1])" required>
+</div>
+<div class="form">
+<label class="control-label"><small>VR Date</small></label>
+<input type="text" class="date-picker form-control input-sm" name="datevr" pattern="[2][0][0-2][0-9][-]([0][1-9]|[1][0-2])[-]([0][1-9]|[1][0-9]|[2][0-9]|[3][0-1])" required>
+</div>
+<div class="form">
+<label class="control-label"><small>Program Manager</small></label>
+<input type="text" class="form-control input-sm" name="pm" required>
+</div>
+<div class="form">
+<label class="control-label"><small>Firmware Integrator</small></label>
+<input type="text" class="form-control input-sm" name="fw" required>
+</div>
+<div class="form">
+<label class="control-label"><small>SQ Lead</small></label>
+<input type="text" class="form-control input-sm" name="sq" required>
+</div>
+<div class="form">
+<label class="control-label"><small>Unique Firmware</small></label>
+<input type="text" class="form-control input-sm" name="uniquefw" required>
+</div>
+<div class="form">
+<label class="control-label"><small>Branch</small></label>
+<input type="text" class="form-control input-sm" name="branch" required>
+</div>
+<div class="form">
+<label class="control-label"><small>Category</small></label>
+<select class="form-control input-sm status-select" name="cat"> 
+<option>Major roll</option>
+<option>Minor roll</option>
+</select>
+</div>
+
+
+<br><br>
+<div id ="add-pj-status"></div>
+<input class="admin btn btn-primary" type="submit" value="Submit">
+</form>
+</div>
+</div>
+</div>
+</div>
+<div class="modal-footer"> 
+</div>
+</div>
+
+</div>
+</div>
+
+<!-- Add new project modal ends -->

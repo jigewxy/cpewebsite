@@ -32,13 +32,16 @@ div.btn-group-layout{
 
 .nav-pills>li {
 
-border-bottom: 2px solid #777;
-border-top: 2px solid #777;
+border-bottom: 2px solid #04A777;
+border-top: 2px solid #04A777;
 }
 
 .nav-pills>li>a {
 
-color:#777;
+color:#04A777;
+font-family:  Agency FB;
+font-size: 18px;
+font-weight: bold;
 background-color: transparent;
 }
 
@@ -47,7 +50,7 @@ background-color: transparent;
 .nav-pills>li.active>a:focus,
 .nav-pills>li.active>a:hover {
     color: #fff;
-	background-color:#777
+	background-color:#04A777;
 }
 div.tab-content{
 	
@@ -235,7 +238,7 @@ select.component-select
     background-size: 20px 20px;
 	width:30%;
 	height:25pt;
-	font-size:12px;	
+	font-size:11px;	
 	
 }
 
@@ -314,7 +317,7 @@ select::-ms-expand {
 
 .modal-lg
 {
-	width: 80%;
+	width: 95%;
 	
 }
 
@@ -555,7 +558,7 @@ table.active-pj-table tr td.td-pj:hover{
 
 th.cell-summary {
     
-    width: 40%;
+    width: 30%;
     
 }
 
@@ -623,5 +626,77 @@ width: 20%;
     
 }
 
+span.sidenote{
+
+font-size: 10px;
+
+}
+
+div#add-pj-status,
+div#del-pj-status,
+div#add-item-status,
+div#del-item-status,
+div#import-item-status,
+div#add-pd-status{
+
+width: 100%;
+height: 60px;
+
+}
+
+
+div#edit-item-status{
+
+width: 50%;
+height: 60px;
+
+}
+
+
+h4.alert-modal-title{
+
+color:red;
 	
+}
+
+table#summary-table tr td
+{
+font-size: 12px;
+}
+
+table#summary-table tr td:first-child
+{
+background-color: #d9edf7;
+}
+
+input.btn{
+
+margin: 5px;
+
+}
+
+table#preview-table tr th
+{
+    background-color: #d9edf7;
+
+}
+
+table#preview-table tr td
+{
+    font-size: 10px;
+
+}
+
+td.cell-error{
+
+background-color: #f2dede;
+
+}
+
+td.cell-warning{
+
+background-color: #fcf8e3;
+
+}
+
 	

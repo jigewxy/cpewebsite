@@ -1,14 +1,14 @@
 
 (function(){
 var g_numberoftools =0;
-var g_successmsg ='<div class="alert alert-success"><strong>Success! </strong>';
+var g_successmsg ='<div class="alert alert-success"><strong>Successful! </strong>';
 var g_errmsg = '<div class="alert alert-danger"><strong>Failed! </strong>';
 var g_alltools ={};
 
 $(document).ready(function(){
 
 loadContent();
-//G_topNavHover();
+//Utility.topNavHover();
 
 //add event listener for add button
 $('#btn-add').on('click', function(){
@@ -16,7 +16,7 @@ $('#btn-add').on('click', function(){
 $("#add-modal").modal('show');
 
 //framwork function in utility.js, to add input character counter 
-inputCharCounter("textarea[name=description]", "span#char-count", 200);
+Utility.inputCharCounter("textarea[name=description]", "span#char-count", 200);
 
 $("#btn-add-entry").click(function(){
 
@@ -189,7 +189,7 @@ function loadContent(){
  $.get('php/cpetools/gettools.php?'+new Date().getTime(), function(resp){
 // $.get('php/cpetools/gettools.php', function(resp){
 
-console.log('success!');
+console.log('Successful!');
 resp = JSON.parse(resp);
 g_alltools = resp;
 var temp = '';

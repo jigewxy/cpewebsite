@@ -1,0 +1,84 @@
+<div class="modal fade" id="add-item-modal">
+<div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-success">
+          <button type="button" class="close" data-dismiss="modal"><small>Cancel</small>&times;</button>
+          <h4 class="modal-title">Add New Item</h4>
+        </div>
+<div class="modal-body">
+<div class="panel">
+<div class="panel-body">
+<form id="form-add-item" ng-submit="addItemSubmit()"> 
+<label class="control-label"><small>CRID</small></label>
+<input type="text" class="form-control input-sm" name="crid" required>
+<label class="control-label"><small>Type</small></label>
+<select class="form-control type-select" name="type">
+<option>Defect Fix</option>
+<option>New Feature</option>
+</select>
+<label class="control-label"><small>Summary</small></label>
+<input type="text" class="form-control input-sm" name="summary" required>
+<label class="control-label"><small>Requestor</small></label>
+<input type="text" class="form-control input-sm" name="requestor" required>
+<label class="control-label"><small>Fix Provider</small></label>
+<input type="text" class="form-control input-sm" name="fixer" required>
+<label class="control-label"><small>Qualification Team</small></label>
+<input type="text" class="form-control input-sm" name="testteam" required>
+<label class="control-label"><small>Affected Products</small></label>
+<input type="text" class="form-control input-sm" name="products" required>
+<label class="control-label"><small>SHA</small></label>
+<input type="text" class="form-control input-sm" name="sha" placeholder="Put N/A if not applicable" required>
+<label class="control-label"><small>component</small></label>
+<select class="form-control component-select" name="component">
+<option>UI</option>
+<option>EWS</option>
+<option>Fax</option>
+<option>Scan</option>
+<option>Mech</option>
+<option>ADF</option>
+<option>Copy</option>
+<option>IDS</option>
+<option>Acumen</option>
+<option>Ink Sub</option>
+<option>Ink Security</option>
+<option>Connectivity</option>
+<option>SIPs</option>
+<option>OXPD</option>
+<option>Digital Send</option>
+<option>LEDM</option>
+<option>General Security</option>
+<option>Mobility</option>
+<option>Datapath</option>
+<option>Board Config</option>
+<option>ASIC</option>
+<option>Power</option>
+<option>Boot Loader</option>
+<option>OS Related</option>
+<option>Others</option>
+</select>
+<label class="control-label"><small>Status</small></label>
+<select class="form-control status-select" name="status">
+<option>In Progress</option>
+<option>Fixed</option>
+<option>Verified</option>
+<option>Reopen</option>
+</select>
+
+<!--div class="form">
+<input type="hidden" class="form-control" name="projectname" value="{{projectname}}">
+</div-->
+
+<br><br>
+<input class="admin btn btn-primary" type="submit" value="Submit" >
+<br><br>
+</form>
+<div id="add-item-status"></div>
+</div>
+</div>
+</div>
+<div class="modal-footer"> 
+</div>
+</div>
+
+</div>
+</div>

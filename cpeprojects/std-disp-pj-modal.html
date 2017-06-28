@@ -1,0 +1,48 @@
+<div id="release-modal" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title text-primary">Project Summary</h4>
+      </div>
+      <div class="modal-body">
+	  <div class="cpe-sumary-table">
+	 <table class= "table table-striped table-bordered table-hover table-condensed summary-table">
+	 <tr><td class="bg-info" width="20%">Category </td> <td>{{projectdata.cat}}</td></tr>
+	 <tr><td class="bg-info"> FW Version </td> <td>{{projectdata.revision}}</td></tr>
+	 <tr><td class="bg-info"> Affected SKUs</td> <td>{{projectdata.skus}}</td></tr>
+	 <tr><td class="bg-info"> Unique Firmware </td> <td>{{projectdata.uniquefw}}</td></tr>
+	 <tr><td class="bg-info"> R.O.I </td> <td>{{projectdata.roi}}</td></tr>
+	 <tr><td class="bg-info"> VR Date </td> <td>{{projectdata.datevr}}</td></tr>
+	 <tr><td class="bg-info"> Cloud Publish Date </td> <td>{{projectdata.livedate}}</td></tr>
+	 <tr><td class="bg-info"> FDU Publish Date </td> <td>{{projectdata.fdudate}}</td></tr>
+	 <tr><td class="bg-info"> MFG Roll-in Date </td> <td>{{projectdata.mfgdate}}</td></tr>
+	 <tr><td class="bg-info"> Program Manager </td> <td>{{projectdata.pm}}</td></tr>
+	 <tr><td class="bg-info"> Firmware Integrator </td> <td>{{projectdata.fw}}</td></tr>
+	 <tr><td class="bg-info"> SQ Lead </td> <td>{{projectdata.sq}}</td></tr>
+	 <tr><td class="bg-info"> Defects Fixed </td> <td>{{projectdata.defectcount}}</td></tr>
+	 <tr><td class="bg-info"> Features Delivered</td> <td>{{projectdata.featurecount}}</td></tr>
+	 <tr><td class="bg-info"> SHA  </td> <td>{{projectdata.sha}}</td></tr>
+	 <tr><td class="bg-info"> Signature </td> <td>{{projectdata.signature}}</td></tr>
+	 <tr><td class="bg-info"> Branch </td> <td>{{projectdata.branch}}</td></tr>
+	 <tr><td class="bg-info"> Firmware Link </td> <td>{{projectdata.fwlink}}</td></tr>
+	 </table>
+	 </div>	  	 
+	  <hr>
+      <table id="cpe-release-table" class="table table-bordered table-condensed">
+       <tr><th>Item</th><th>CRID</th><th>Type</th><th class="cell-summary">Summary</th><th>Requestor</th><th>Fix Provider</th><th>Test Partner<th>Affected SKUs</th><th>Component</th></tr>
+       <tr ng-repeat="x in itemlist"><td>{{$index+1}}</td><td>{{x.crid}}</td><td>{{x.type}}</td><td>{{x.summary}}</td><td>{{x.requestor}}</td><td>{{x.fixer}}</td><td>{{x.testteam}}</td><td>{{x.products}}</td><td>{{x.component}}</td></tr>
+    </table>
+	
+      </div>
+      <div class="modal-footer">
+	      <button type="button" class="btn btn-success" data-toggle="modal" data-target="#add-item-modal">Add</button>
+		  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#edit-item-modal">Edit</button>
+	      <button type="button" class="btn btn-danger" data-toggle="modal"  data-target="#remove-item-modal">Delete</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>

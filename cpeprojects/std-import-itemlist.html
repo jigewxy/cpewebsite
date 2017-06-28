@@ -1,0 +1,29 @@
+<div class="modal fade" id="import-item-modal">
+<div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-success">
+          <button type="button" class="close" data-dismiss="modal"><small>Cancel</small>&times;</button>
+          <h4 class="modal-title">Import itemlist from CSV/TXT File</h4>
+        </div>
+<div class="modal-body">
+<div class="panel">
+<div class="panel-body">
+<form id="form-import-item" ng-submit="uploadItem()">
+<label class="control-label"><small>Note: Please use <a href="http://localhost:8080/cpewebsite/downloads/template.csv" target ="_blank">standard template</a> </small></label>
+<hr>
+<input ng-click="resetValidator()" type="file" id="spreadsheet" name="spreadsheet" required>
+<hr>
+<input class="btn btn-primary admin" type="button" value="Validate" ng-click="validateFile()">
+<input class="btn btn-success admin" type="submit" value="Upload">
+</form>
+<br>
+<div id="import-item-status"></div>
+</div>
+</div>
+</div>
+<div class="modal-footer"> 
+</div>
+</div>
+
+</div>
+</div>

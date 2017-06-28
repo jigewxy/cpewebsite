@@ -1,0 +1,8 @@
+<div class="col-md-2" ng-repeat="(product,data) in productdata"> 
+<center><p class="display-name" ng-bind="product"></p>
+<p class="bg-danger display-year">{{data.year}}</p>
+<div class="btn-group-vertical btn-group-layout">
+<button type="button" class="btn btn-primary release-btn" ng-repeat="pj in data.projectlist" data-toggle="modal" data-target="#release-modal" ng-click="setDatabase(pj.id)">{{pj.name}} - {{pj.rev}} </button>
+</div>
+</center>
+</div>

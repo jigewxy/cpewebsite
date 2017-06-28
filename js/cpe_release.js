@@ -77,7 +77,7 @@ function entryChangeSubmit(arg){
 $(document).ready(function(){
 
 //set up hover behavior
-//G_topNavHover();
+//Utility.topNavHover();
 /*trigger a click on first menu */
 $('ul#list-cat li:first-child>a').click();
 
@@ -94,7 +94,7 @@ setTimeout(function(){$('div.panel-primary:first-child li:first-child').click();
 });
 currentRel.g_alertMsg = '<div class="alert alert-warning"><strong> No entry is selected</strong></div>';
 
-currentRel.g_successMsg ='<div class="alert alert-success"><strong>Success! </strong>';
+currentRel.g_successMsg ='<div class="alert alert-success"><strong>Successful! </strong>';
 currentRel.g_errMsg = '<div class="alert alert-danger"><strong>Failed! </strong>';
 currentRel.getEntity = function(elems, tag){
     
@@ -297,7 +297,7 @@ var arr_years=[];
 this.g_currentCat=arg;
 var that = this;
 
-G_navTabColor(arg.id);
+Utility.navTabColor(arg.id);
 /*wipe out existing release table - but why? */
 //document.getElementById('release-content').innerHTML = '';
 
@@ -447,9 +447,8 @@ currentRel.addEntry=function(){
 //console.log($(g_currentCat).html());
 //  console.log(g_currentCat.textContent);
 $('#add-entry-modal').modal('show');
-    
-$('input[name=date]').on({'keypress': validateDateInput, 
-               'keyup': validateDateInput});  
+$('input[name=date]').on({'keypress': Utility.validateDateInput.bind(this, 'input[name=date]'), 
+               'keyup': Utility.validateDateInput.bind(this, 'input[name=date]')});  
     /*pass values to hidden input - product and category */
 
 }
@@ -494,8 +493,8 @@ $('#modify-entry-modal').modal('show');
 /* $() is a Jquery object which has all Jquery properties */
 //console.log($(g_currentCat).html());
 //  console.log(g_currentCat.textContent);
-$('input[name=date]').on({'keypress': validateDateInput, 
-               'keyup': validateDateInput});  
+$('input[name=date]').on({'keypress': Utility.validateDateInput.bind(this, 'input[name=date]'), 
+               'keyup': Utility.validateDateInput.bind(this, 'input[name=date]')});  
     
 }
 

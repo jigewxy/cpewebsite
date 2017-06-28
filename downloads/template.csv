@@ -1,0 +1,11 @@
+id,crid,type,summary,requestor,fixer,testteam,products,sha,component,project_id,status
+1,284064,Defect Fix,BYS WBR Base/Mid Security: The proxy server's user name and password can be captured via Charles tool.,CA,Vineeth R SQ,SQ,Weber PDL,123,LEDM,1,In Progress
+2,327219,Defect Fix,Printer Shows Incorrect Information On Network Configuration Page When Placed On IPv6 Only Network Protocol.,CA,Evelyn Mary Rangel,SQ,Weber PDL,123,Connectivity,1,In Progress
+3,303387,Defect Fix,EWS cartridge level gauage display HP logo under TYPE when insert safe stop ink condition I/o Ref 65939,SIE,CPE,SQ,Weber PDL,123,Ink Security,1,In Progress
+4,306312,Defect Fix,Cartridge Number observe in EWS when insert safe stop ink i/o ref 65939.,SIE,CPE,SQ,Weber PDL,123,Ink Security,1,In Progress
+5,313693,Defect Fix,HTTP Upgrade fails  in  IPP Everywhere Printer Self-Certification Tools,CA,"H, Ravindra",SQ,Weber PDL,123,Connectivity,1,In Progress
+6,327174,Defect Fix,WBR PDL and PDL Hi Tesla NW IO: Device Announcement Agent (DAA) is disabled by default after OOBE reset,CA,Paul Walrath ,SQ,Weber PDL,123,General Security,1,In Progress
+7,332685,Defect Fix,"FP failed to return to Home screen after initiating a job when ""Enable Automatic Sign Out"" is enabled",CA,Teik Hor Soon ,SQ,Weber PDL,123,OXPD,1,In Progress
+8,334075,Defect Fix,"Error message ""B8110A06"" showed on LCD after printed a few pages.",CA,"LS, Mamatha",SQ,Weber PDL,123,UI,1,In Progress
+9,334337,Defect Fix,Link Local Address test fails at Subsequent Conflicts,CA,Richard Powers,SQ,Weber PDL,123,Connectivity,1,In Progress
+10,317061,Defect Fix,"The printer shown a ""Paper Problem"" instead of ""Out of Paper"" title",CA,CPE,SQ,Weber PDL,123,UI,1,In Progress
