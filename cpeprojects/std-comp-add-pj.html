@@ -1,0 +1,84 @@
+<div id="add-pj-modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title text-primary">Add New Project Entry</h4>
+      </div>
+ <div class="modal-body">
+<form id="add-new-pj" ng-submit="addPjObj.submit()"> 
+<div class="form-group">
+<label class="control-label"><small>Category:</small></label>
+<select type="text" class="form-control input-sm" name="division" ng-model="addPjObj.division" ng-change="addPjObj.evalProductList(addPjObj.division)" style="width:50%">
+<option ng-repeat="tab in tabs">{{tab.label}}</option>
+</select>
+<label class="control-label"><small>Select A Product:</small></label>
+<select class="form-control status-select"  name="product">
+<option ng-repeat="product in addPjObj.pdList">{{product}}</option>
+</select>
+
+<label class="control-label"><small>New Project Name:</small></label>
+<input type="text" class="form-control input-sm" name="project_name" style="width:50%" required>
+<label class="control-label"><small>Type:</small></label>
+<select class="form-control status-select" name="cat"> 
+<option>Major roll</option>
+<option>Minor roll</option>
+</select>
+<label class="control-label"><small>Firmware Version:</small></label>
+<input type="text" class="form-control input-sm" name="revision" style="width:50%" required>
+<label class="control-label"><small>Affected SKUs:</small></label>
+<input type="text" class="form-control input-sm" name="skus" style="width:50%" required>
+<label class="control-label"><small>Tagname:</small></label>
+<input type="text" class="form-control input-sm" name="tag" style="width:50%" required>
+<label class="control-label"><small>Unique Firmware:</small></label>
+<input type="text" class="form-control input-sm" name="uniquefw" style="width:50%" required>
+<label class="control-label"><small>Return of Investment:</small></label>
+<input type="text" class="form-control input-sm" name="roi" style="width:50%" required>
+<label class="control-label"><small>Program Manager:</small></label>
+<input type="text" class="form-control input-sm" name="pm" style="width:50%" required>
+<label class="control-label"><small>Firmware Integrator:</small></label>
+<input type="text" class="form-control input-sm" name="fw" style="width:50%" required>
+<label class="control-label"><small>SQ Lead:</small></label>
+<input type="text" class="form-control input-sm" name="sq" style="width:50%" required>
+<br>
+<label class="control-label"><small>VR Date:</small></label>
+<input class="date-picker form-control" name="datevr" type="text" style="width:50%">
+<label class="control-label"><small>Cloud Publish Date:</small></label>
+<br>
+<input class="date-picker form-control" id="live-date-input" name="datelive" type="text">
+<small>  --or--  </small>
+<label class="checkbox-inline"><input type="checkbox" id="live-date-check" onchange="inputBoxValidate(event)">Not Applicable</label>
+<br>
+<label class="control-label"><small>FDU Publish Date:</small></label>
+<br>
+<input class="date-picker form-control" id="fdu-date-input" name="datefdu" type="text" >
+<small>  --or--  </small>
+<label class="checkbox-inline"><input type="checkbox" id="fdu-date-check" onchange="inputBoxValidate(event)">Not Applicable</label>
+<br>
+<label class="control-label"><small>MFG Roll-in Date:</small></label>
+<br>
+<input class="date-picker form-control" id="mfg-date-input" name="datemfg" type="text">
+<small>  --or--  </small>
+<label class="checkbox-inline"><input type="checkbox" id="mfg-date-check" onchange="inputBoxValidate(event)">Not Applicable</label>
+<br>
+<label class="control-label"><small>SHA:</small></label>
+<input type="text" class="form-control input-sm" name="scmkey" style="width:90%" required>
+<label class="control-label"><small>Signature:</small></label>
+<input type="text" class="form-control input-sm" name="signature" style="width:90%" required>
+<label class="control-label"><small>Branch:</small></label>
+<input type="text" class="form-control input-sm" name="branch" style="width:90%" required>
+<label class="control-label"><small>Firmware Link:</small></label>
+<input type="text" class="form-control input-sm" name="fwlink" style="width:90%" required>
+<br>
+<input type="hidden" name="currentstate" value="Completed">
+<input type="submit" class="btn btn-primary" value="submit">	  
+ </div>
+
+</div>
+ </form>
+<div id="add-pj-comp-status"></div>
+
+</div>
+</div>
+</div>
+</div>

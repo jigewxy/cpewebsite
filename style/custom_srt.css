@@ -153,6 +153,10 @@ td.itemverified {
 	background-color: mediumseagreen;
 }
 
+td.itemreopen {
+	
+	background-color: indianred;
+}
 
 #table-full-detail tr td{
 	

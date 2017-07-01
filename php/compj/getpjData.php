@@ -8,7 +8,7 @@
 require_once '../util/ServerConfig.class.php'; //CLASS ServerConfig
 require_once '../util/UtilityFunc.class.php'; //class UtilityFunc
 
-$pjid = $_POST[0];
+$pjid = $_POST['value'];
 $returndata = array();
 
 $conn = ServerConfig::setPdo(PJDB);
@@ -32,14 +32,6 @@ $stm_item->execute();
 $itemlist = $stm_item->fetchAll(PDO::FETCH_ASSOC);
 
 $returndata['itemlist'] = $itemlist;
-
-//get full product lsit
-$stm_pl = $conn -> prepare("SELECT * FROM product");
-$stm_pl->execute();
-
-$pdlist = $stm_pl->fetchAll(PDO::FETCH_ASSOC);
-
-$returndata['pdlist']= $pdlist;
 
 
 echo json_encode($returndata, JSON_PRETTY_PRINT);

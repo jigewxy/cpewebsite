@@ -637,9 +637,11 @@ div#del-pj-status,
 div#add-item-status,
 div#del-item-status,
 div#import-item-status,
-div#add-pd-status{
+div#add-pd-status,
+#add-pj-comp-status,
+#del-pj-comp-status{
 
-width: 100%;
+width: 90%;
 height: 60px;
 
 }
@@ -699,4 +701,11 @@ background-color: #fcf8e3;
 
 }
 
+
+#live-date-input,
+#fdu-date-input,
+#mfg-date-input{
+
+	display: inline-block;
+}
 	

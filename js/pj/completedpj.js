@@ -4,13 +4,6 @@
 app.controller('CompProCtrl', function ($scope, $http, $window, $timeout, CpePjService, CustomEnums, ajaxService) {
 
 
-	var pool = {
-     'Officejet Pro': {},
-	 'Officejet':{},
-	 'Page Wide':{},
-	 'Consumer':{},
-	 'Mobile':{}
-	};
 
 /*	var map ={
     'Officejet Pro': 'ojpro',
@@ -22,6 +15,7 @@ app.controller('CompProCtrl', function ($scope, $http, $window, $timeout, CpePjS
 
 
 var init= function () {
+
 
 $("#search-box").hide();
 $scope.$parent.currentTab = 'projCompleted';
@@ -38,20 +32,33 @@ init();
 
 function refreshData(callback){
 
+
+//clear the object while refreshing the data everytime
+ var pool = {
+     'Officejet Pro': {},
+	 'Officejet':{},
+	 'Page Wide':{},
+	 'Consumer':{},
+	 'Mobile':{}
+	};
+
 // Ajax service, dummy data
+
 var xhrobj = ajaxService.xhrConfig('', 'GET', 'php/compj/getpjlist.php?');
 
 ajaxService.xhrPromise(xhrobj).then(function(resp){
 
 $scope.pjlist= resp.pjlist;
+console.log(resp.pjlist);
+$scope.pjlistArray = _.pluck($scope.pjlist, 'project_name');
 $scope.fullPdList = _.pluck(resp.pdlist, 'product_name');
 
+console.log($scope.pjlistArray);
 _.each(resp.pdlist, function(value, index){
 
 pool[value.division][value.product_name]={'projectlist':[], 'year':value.year};
 
 });
-
 
 for (var prop in $scope.pjlist)
 {
@@ -60,6 +67,7 @@ for (var prop in $scope.pjlist)
 }
 
 $scope.datapool = pool;
+console.log('datapool=');
 console.log(pool);
 callback();
 
@@ -129,111 +137,299 @@ $scope.setSelectedTab= function(tab){
 }
 
 $scope.tabClass=function(tab){
-if ($scope.selectedTab==tab)
-{return "active";}
-else {
-return "";
-}
+	if ($scope.selectedTab==tab)
+		{return "active";}
+		else {
+		return "";
+	}
 }
 
 //set the database for different buttons
 $scope.setDatabase=function(id){
 
-var xhrobj = ajaxService.xhrConfig(id, 'POST', 'php/compj/getpjData.php?');
+	console.log(id);
+	var xhrobj = ajaxService.xhrConfig(id, 'POST',  'php/compj/getpjData.php?', null, 'singleValue');
 
-ajaxService.xhrPromise(xhrobj).then(function(resp){
+	ajaxService.xhrPromise(xhrobj).then(function(resp){
 
-//console.log(resp);
-$scope.projectdata= resp.pjdata;
-$scope.itemlist = resp.itemlist;
+	console.log(resp);
+	$scope.projectdata= resp.pjdata;
+	$scope.itemlist = resp.itemlist;
+	//LEARNING --pick the 'type' as a individual array
 
-//LEARNING --pick the 'type' as a individual array
-var type_arr = _.pluck($scope.itemlist, 'type');
+	if ($scope.itemlist.length===0)
+	{
+		//if itemlist is empty, set defectcount and featurecount to 0 as default;
+	_.extend($scope.projectdata,{'defectcount':0, 'featurecount':0});
+	}
 
-//get defect fix and feature count
-var cntObj= _.countBy(type_arr, function(df){
-   
-   return df==='Defect Fix'?'defectcount':'featurecount';
+	else
+	{
+		var type_arr = _.pluck($scope.itemlist, 'type');
 
- }); 
+	//get defect fix and feature count
+	var cntObj= _.countBy(type_arr, function(df){
+	
+	return df==='Defect Fix'?'defectcount':'featurecount';
 
-cntObj['featurecount']= type_arr.length - cntObj['defectcount'];
+	}); 
 
-_.extend($scope.projectdata, cntObj);
-
-}, function(resp){
-
-console.log("something went wrong");
-
-});
-/*$scope.projectdata= item;
-$scope.projectname= project;
-$scope.productname= product;*/
-
-}
-
-$scope.addPdSubmit = function(){
-
-var data= $('#form-add-pd').serializeArray();
-var alertElems = 'div#add-pd-status';
-var cat = data[0].value;
-var name = data[1].value;
-var flag =0;
-var found ='';
-
-//check if product name already exist
-_.each($scope.fullPdList, function(elems, index){
-
-if (elems.toLowerCase()== name.trim().toLowerCase())   
-	{flag=1;}
-})
-
-if (flag)
-{
- console.log(name + ' already exist in database');
-CpePjService.emitAlertMsg(4, alertElems, 'Error!', name+' already exist in database!');
-}
-else
-{
-console.log('okay, will add');
-
-    var xhrobj = ajaxService.xhrConfig(data,'POST','php/compj/addpd.php?');
-
-    ajaxService.xhrPromise(xhrobj).then(function(resp){
-
-    console.log(resp);
-
-   if (resp.trim() =="success")
-    {
-        CpePjService.emitAlertMsg(1, alertElems, 'Successful!', name+' has been successfully added!');
-		refreshData(function(){	$scope.productdata = $scope.datapool[$scope.selectedTab.label];})
-    }
-    else 
-    {  
-        CpePjService.emitAlertMsg(4, alertElems, 'Failed!', ' Database connection error!');
-    }
-
-    },  function(error){
-        CpePjService.emitAlertMsg(4, alertElems, 'Failed!', 'something is wrong with server! '+error);
-    });
+	cntObj['featurecount']= type_arr.length - cntObj['defectcount'];
 
 
-  //  refreshData(dummycallback);
-}
+	_.extend($scope.projectdata, cntObj);}
 
 
-};
+	}, function(resp){
 
+	console.log("something went wrong");
 
-$scope.trackDelBoxChange = function () {
-
-$scope.delPressed = false;
+	});
 
 }
 
-$scope.deleteButtonPressed = function () {
 
-$scope.delPressed = true;
+
+//Add product object 
+
+$scope.addPdObj = {
+
+	alertElems: 'div#add-pd-status',
+	submit: function(){
+
+		//serialize form data as name/value pair
+		var data= $('#form-add-pd').serializeArray();
+		var cat = data[0].value;
+		var pname = data[1].value;
+		var flag =0;  //
+		var found ='';
+		var that = this;
+
+		//check if product name already exist in product lists
+		_.each($scope.fullPdList, function(elems, index){
+
+		if (elems.toLowerCase()== pname.trim().toLowerCase())   
+			{flag=1;}
+		})
+
+		if (flag)
+		{
+		console.log(pname + ' already exist in database');
+		CpePjService.emitAlertMsg(4, that.alertElems, 'Error!', pname+' already exist in database!');
+		}
+		else
+		{
+		console.log('okay, will add');
+
+			var xhrobj = ajaxService.xhrConfig(data,'POST','php/compj/addpd.php?');
+
+			ajaxService.xhrPromise(xhrobj).then(function(resp){
+
+			console.log(resp);
+
+		//if successful, add new product to datapool and update the scope.
+		if (resp.trim() =="success")
+			{
+				CpePjService.emitAlertMsg(1, that.alertElems, 'Successful!', name+' has been successfully added!');
+				refreshData(function(){	$scope.productdata = $scope.datapool[$scope.selectedTab.label];}) 
+			}
+			else 
+			{  
+				CpePjService.emitAlertMsg(4, that.alertElems, 'Failed!', ' Database connection error!');
+			}
+
+			},  function(error){
+				CpePjService.emitAlertMsg(4, that.alertElems, 'Failed!', 'something is wrong with server! '+error);
+			});
+
+		}
+
+	}
+
+}
+
+
+
+
+//delete product object
+
+$scope.delPdObj = {
+
+
+	alertElems: 'div#del-pd-status',
+
+	submit: function(){
+	
+		var data = $('#form-del-product').serializeArray();
+		var that = this;
+		var currentDiv = data[0].value;
+		var pdname = data[1].value;
+		// console.log(currentDiv);
+		var xhrObj =  ajaxService.xhrConfig(data,'POST','php/compj/delpd.php?');
+			ajaxService.xhrPromise(xhrObj).then(function(resp){
+
+			//	console.log(resp);
+
+		if (resp.trim() =="success")
+			{
+				CpePjService.emitAlertMsg(1, that.alertElems, 'Successful!', pdname+' has been removed!');
+				refreshData(function(){	
+				$scope.productdata = $scope.datapool[$scope.selectedTab.label];
+				//   console.log($scope.datapool);
+				that.evalProductList(currentDiv);
+			}); 
+			}
+			else 
+			{  
+				CpePjService.emitAlertMsg(4, that.alertElems, 'Failed!', ' Database connection error!');
+			}
+
+			},  function(error){
+				CpePjService.emitAlertMsg(4, that.alertElems, 'Failed!', 'something is wrong with server! '+error);
+			});
+	},
+
+//evaluate the product list based on selected category
+	evalProductList: function(tabLabel){
+
+		this.pdList = _.keys($scope.datapool[tabLabel]);
+
+   },
+
+	trackDelBoxChange: function () {
+
+		this.delPressed = false;
+
+	}, 
+
+
+	deleteButtonPressed: function () {
+
+		this.delPressed = true;
+
+	}
+
+
+}
+
+$scope.addPjObj = {
+
+	alertElems: 'div#add-pj-comp-status',
+
+//evaluate the product list based on selected category
+    evalProductList: function(tabLabel){
+
+		this.pdList = _.keys($scope.datapool[tabLabel]);
+
+   },
+   submit: function(){
+        var data = $('#add-new-pj').serializeArray();
+		var pjname = data[2].value.trim();
+		var that=this;
+        console.log(data);
+		if (_.indexOf($scope.pjlistArray, pjname)!==-1)
+		   {
+				CpePjService.emitAlertMsg(4, that.alertElems, 'Failed!  ', pjname+' already exist in database');
+		   }
+		else 
+		   {
+				var xhrObj =  ajaxService.xhrConfig(data,'POST','php/compj/addPj.php?');
+				ajaxService.xhrPromise(xhrObj).then(function(resp){
+
+				if (resp.trim() =="success")
+				{
+					CpePjService.emitAlertMsg(1, that.alertElems, 'Successful!  ', pjname+' has been added');
+					refreshData(function(){	
+					$scope.productdata = $scope.datapool[$scope.selectedTab.label];
+					//   console.log($scope.datapool);
+				}); 
+				}
+				else 
+				{  
+					CpePjService.emitAlertMsg(4, that.alertElems, 'Failed!  ', ' Database connection error!');
+				}
+				
+				},  function(error){
+					CpePjService.emitAlertMsg(4, that.alertElems, 'Failed!  ', 'something is wrong with server! '+error);
+				}); 
+		  }
+         }
+
+}
+
+$scope.delPjObj ={
+
+	alertElems: 'div#del-pj-comp-status',
+	evalPdList: function(tabLabel){
+			this.delBtnPressed = false;
+            this.pj = null;
+			this.product =null;
+			this.division = tabLabel;
+			this.pdList = _.keys($scope.datapool[tabLabel]);
+	},
+	evalPjList: function(pdname){
+
+		var temp = $scope.datapool[this.division][pdname]['projectlist'];
+		this.pjList=_.pluck(temp,'name');	
+	},
+
+	pjChange: function () {
+
+		this.delBtnPressed = false;
+
+	},
+
+	preDeletion: function () {
+
+		this.delBtnPressed = true;
+
+	},
+
+	submit: function(){
+        var data = $('#form-del-pj').serializeArray();
+		var that=this;
+		var pdname = data[1].value;
+		var pjname = data[2].value;
+        console.log(data);
+
+				var xhrObj =  ajaxService.xhrConfig(data,'POST','php/compj/delPj.php?');
+				ajaxService.xhrPromise(xhrObj).then(function(resp){
+
+                console.log(resp);
+				if (resp.trim() =="success")
+				{
+					CpePjService.emitAlertMsg(1, that.alertElems, 'Successful!  ', pjname+' has been deleted');
+					refreshData(function(){	
+					//update data for current tab and project list in the modal;
+					$scope.productdata = $scope.datapool[$scope.selectedTab.label];
+					that.evalPjList(pdname);
+				}); 
+
+				}
+				else 
+				{  
+					CpePjService.emitAlertMsg(4, that.alertElems, 'Failed!  ', ' Database connection error!');
+				} 
+				
+				},  function(error){
+					CpePjService.emitAlertMsg(4, that.alertElems, 'Failed!  ', 'something is wrong with server! '+error);
+				});
+		  }
+	}
+
+
+
+$scope.renderModal = {
+
+	addPj: function(){
+	$('#add-pj-modal').modal('show').find('input.date-picker').attr("pattern","20[0-2]\\d-(0[1-9]|1[0-2])-(0[1-9]|1\\d|2\\d|3[0-1])").css("width","50%");
+
+	},
+	delPj: function(){
+
+	$('#del-pj-modal').modal('show');
+
+	}
 
 }
 

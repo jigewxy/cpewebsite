@@ -146,10 +146,12 @@ $scope.selectRight ={
         
     case "Verified":
         return "itemverified";
+    
+    case "Reopen":
+        return "itemreopen";
         
     default:
-
-    return "bg-default";
+         return "bg-default";
 
     }}
 

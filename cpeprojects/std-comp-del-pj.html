@@ -1,0 +1,40 @@
+<!--Delete project Modal -->
+<div id="del-pj-modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title text-primary">Remove a Project</h4>
+      </div>
+ <div class="modal-body">
+<form id="form-del-pj" ng-submit="delPjObj.submit()"> 
+<div class="form-group">
+<label class="control-label"><small>Category</small></label>
+<select type="text" class="form-control input-sm" name="division" ng-model="delPjObj.division" ng-change="delPjObj.evalPdList(delPjObj.division)" style="width:50%">
+<option ng-repeat="tab in tabs">{{tab.label}}</option>
+</select>
+<label class="control-label"><small>Select A Product:</small></label>
+<select class="form-control status-select"  name="product" ng-model="delPjObj.product" ng-change="delPjObj.evalPjList(delPjObj.product)" style="width:50%">
+<option ng-repeat="product in delPjObj.pdList">{{product}}</option>
+</select>
+<p class="text-primary" ng-show="!delPjObj.product"> Choose a product from the list </p>
+<label class="control-label"><small>Choose a Project</small></label>
+<select class="form-control remove-project-select" ng-model="delPjObj.pj" ng-change="delPjObj.pjChange()" name="pjToDel">
+<option ng-repeat="project in delPjObj.pjList">{{project}}</option>
+</select>
+<p class="text-primary" ng-show="!delPjObj.pj"> Choose a project from the list </p>
+</div>
+<br>
+
+<button class="btn btn-danger" type="button" ng-hide="delPjObj.delBtnPressed || (!delPjObj.product) || (!delPjObj.pj)" ng-click="delPjObj.preDeletion()"> Delete </button>
+<p class="text-success" ng-show="delPjObj.delBtnPressed && delPjObj.product && delPjObj.pj"> Do you confirm to remove above project? </p>
+<input class="btn btn-primary" ng-show="delPjObj.delBtnPressed && delPjObj.product && delPjObj.pj" type="submit" value="Confirm">
+ </form>
+ <div id="del-pj-comp-status"></div>	  
+ </div>
+ </div>
+</div>
+</div>
+</div>
+<!-- delete project Modal end-->

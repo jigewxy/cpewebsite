@@ -239,7 +239,6 @@ var xhrPromise = function(obj){
    //$httpTransformRequest for form data 
   formdata: function (data){
 
-    console.log('form data');
   if (data ===undefined){
 
      return data;
@@ -249,6 +248,7 @@ var xhrPromise = function(obj){
      return $.param(data);
 
   },
+
   //$httpTransformRequest for json object -- used in file uploading
   json: function (data){
    console.log('json object');
@@ -257,22 +257,18 @@ var xhrPromise = function(obj){
 //LEARNING - to strip any properties used by Angular (start with $$, for example: $$hashKey)
 //use Angular.toJson instead of JSON.stringify
 
-    //return JSON.stringify(data);
-     return angular.toJson(data);
+    return angular.toJson(data);
    
-  }
+  },
+
+// for single value  -- used in getPjdata.php
+ singleValue: function(data){
+
+ return $.param({'value':data});
+
+ }
+
 }
-
-  var defaultReqTrans = function (data){
-  if (data ===undefined){
-
-     return data;
-  }
- 
-     else 
-     return $.param(data);
-
-  }
 
   
   $http({
@@ -387,6 +383,31 @@ app.directive('dispPjModal', function(){
 return {
 restrict: "EA",
 templateUrl: "cpeprojects/std-disp-pj-modal.html",
+replace:false
+
+};
+
+});
+
+
+//display project modal
+app.directive('compAddPjModal', function(){
+
+return {
+restrict: "EA",
+templateUrl: "cpeprojects/std-comp-add-pj.html",
+replace:false
+
+};
+
+});
+
+//display project modal
+app.directive('compDelPjModal', function(){
+
+return {
+restrict: "EA",
+templateUrl: "cpeprojects/std-comp-del-pj.html",
 replace:false
 
 };

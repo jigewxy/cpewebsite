@@ -39,6 +39,18 @@ return false;
 
 }
 
+/*Function to unset multiple keys in an array */
+public static function unsetKeys($arr, $keys){
+
+foreach ($keys as $value){
+unset($arr[$value]);
+};
+
+return $arr;
+
+}
+
+
 
 }
 
