@@ -77,6 +77,7 @@ $scope.selDatabase = function(pname) {
     $scope.projectdata=$scope.projectinfo[pname];
     $scope.projectid= $scope.projectdata.id;
     $scope.projectitems=$scope.projectinfo[pname].itemlist;
+    $scope.renderModal.displayPj();
     }
 
 }
@@ -99,23 +100,33 @@ $scope.renderModal ={
 
     editItem: function(arg){
 
-    $("#modify-item-modal").modal("show");
-    $("select[name='pjcat']").val(arg);
+        $("#modify-item-modal").modal("show");
+        $("select[name='pjcat']").val(arg);
 
     },
 
     delItem:function(){
 
-    //below is to make sure the "Delete" Button is shown instead of "Confirm" after user close the modal without confirm
-    $("#delete-item-modal").modal("show");
+        //below is to make sure the "Delete" Button is shown instead of "Confirm" after user close the modal without confirm
+        $("#delete-item-modal").modal("show");
     },
 
     delPj: function(){
 
-    $scope.deletePressed=false;
-    $scope.deletedProj = $scope.projectlist[0]; //initialize the ngoption
-    //below is to make sure the "Delete" Button is shown instead of "Confirm" after user close the modal without confirm
-    $("#delete-project-modal").modal("show");
+        $scope.deletePressed=false;
+        $scope.deletedProj = $scope.projectlist[0]; //initialize the ngoption
+        //below is to make sure the "Delete" Button is shown instead of "Confirm" after user close the modal without confirm
+        $("#delete-project-modal").modal("show");
+    },
+
+    displayPj:function(){
+        $("#active-project-modal").modal("show");
+        //set tooltip height references to summary table
+        $timeout(function(){ $('div#div-tooltip').height($('div.table-summary').height());}, 200);
+        var tooltip = $scope.projectdata.tooltip;
+        //replace line break with seperate paragraph.
+        tooltip = tooltip.replace(/\r\n/g, '</p><p class="p-tooltip">');
+        $('div#div-tooltip').html('<p class="p-tooltip">'+ tooltip + '</p>');
     }
 
 };
@@ -525,7 +536,8 @@ ajaxService.xhrPromise(xhrobj).then(
                 refreshData(function(){
                     //update project data
                     $scope.projectitems=$scope.projectinfo[$scope.projectname].itemlist;
-                    $scope.projectdata=$scope.projectinfo[$scope.projectname];});
+                    $scope.projectdata=$scope.projectinfo[$scope.projectname];
+                    $scope.renderModal.displayPj(); });
             }
         else 
            { CpePjService.emitAlertMsg(4, alertElems, 'Failed!', ' Database connection error.');}

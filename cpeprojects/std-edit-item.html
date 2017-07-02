@@ -1,0 +1,109 @@
+<div class="modal fade" id="modify-item-modal">
+
+	<div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header bg-info">
+        	<button type="button" class="close" data-dismiss="modal"><small>Cancel</small>&times;</button>
+            <h4 class="modal-title">Modify Project Details - <span>{{projectname}}</span></h4>
+        </div>
+		<div class="modal-body">
+			<div class="panel">
+				<div class="panel-body">
+					<form id="form-edit-item" ng-submit="editItemSubmit()">
+   						 	<div class="col-md-6">
+	 							<table id="summary-table" class= "table table-condensed">
+									<tr><td  width="30%"> Project Name </td><td><input class="form-control"  name="skus" type="text" value ="{{projectdata.project_name}}"></td></tr>
+									<tr><td> SKUs </td><td><input class="form-control"  name="skus" type="text" value ="{{projectdata.skus}}"></td></tr>
+									<tr><td> Tagname </td> <td><input class="form-control" name="tag" value ="{{projectdata.tag}}"></td></tr>
+									<tr><td> Start Date </td> <td><input class="date-picker form-control" name="datestart" type="text" value ="{{projectdata.datestart}}" pattern="20[0-2][0-9]-(0[1-9]|1[0-2])-(0[1-9]|1[0-9]|2[0-9]|3[0-1])"></td></tr>
+									<tr><td> FC Date </td> <td><input class="date-picker form-control" name="datefc" type="text" value ="{{projectdata.datefc}}" pattern="20[0-2][0-9]-(0[1-9]|1[0-2])-(0[1-9]|1[0-9]|2[0-9]|3[0-1])"></td></tr>
+									<tr><td> RC Date </td> <td><input class="date-picker form-control" name="daterc" type="text" value ="{{projectdata.daterc}}" pattern="20[0-2][0-9]-(0[1-9]|1[0-2])-(0[1-9]|1[0-9]|2[0-9]|3[0-1])"></td></tr>
+									<tr><td> VR Date </td> <td><input class="date-picker form-control" name="datevr" type="text" value ="{{projectdata.datevr}}" pattern="20[0-2][0-9]-(0[1-9]|1[0-2])-(0[1-9]|1[0-9]|2[0-9]|3[0-1])"></td></tr>
+									<tr><td> Program Manager </td> <td><input class="form-control" name="pm"type="text" value ="{{projectdata.pm}}"></td></tr>
+									<tr><td> Firmware Integrator </td><td><input class="form-control" name="fw"type="text" value ="{{projectdata.fw}}"></td></tr>
+									<tr><td> SQ Lead </td> <td><input class="form-control" type="text" name="sq" value ="{{projectdata.sq}}"></td></tr>
+									<tr><td> Unique Firmware </td> <td><input class="form-control" type="text" name="uniquefw" value ="{{projectdata.uniquefw}}"></td></tr>
+									<tr><td> Branch </td> <td><input class="form-control" type="text" name="branch" value ="{{projectdata.branch}}"></td></tr>
+									<tr><td> Project Category </td> <td><select class="form-control status-select" name="cat"> 
+										<option>Major roll</option>
+										<option>Minor roll</option>
+										</select></td></tr>
+									<input type="hidden" class="form-control" name="project_name" value="{{projectname}}">
+									<input type="hidden" class="form-control" name="project_id" value="{{projectdata.id}}">
+	 							</table>
+	 					 	</div>
+						<div class="form col-md-6">
+    						 <textarea rows="25" class="form-control" name="tooltip">{{projectdata.tooltip}}</textarea>
+    							<!--placeholder for the tooltip -->
+    					</div>
+
+
+						<table id = "item-table" class="table table-bordered table-condensed">
+							<tr style="font-size:12px" class="fixed-cell"><th>#</th><th>CRID</th><th>Type</th><th class="cell-summary">Summary</th><th>Requestor</th><th>Fix Provider</th><th>Test Partner</th><th>Affected SKUs</th><th>SHA</th><th>Component</th><th>Status</th></tr>
+							<tr ng-repeat="x in projectitems">
+								<td width="3%">{{$index+1}}</td>
+								<td><input class="form-control input-sm input-expand" name="crid[]" type="text" value ="{{x.crid}}"></td>
+								<td class="sel-box-col">
+									<select class="form-control type-modify-box" name="type[]" ng-init="selectRight.type(x.type, $index)"> 
+										<option>Defect Fix</option>
+										<option>New Feature</option>
+									</select>
+								</td>
+								<td><input class="form-control input-sm input-expand-more"  name="summary[]" type="text" value ="{{x.summary}}"></td>
+								<td><input class="form-control input-sm input-expand" name="requestor[]" type="text" value ="{{x.requestor}}"></td>
+								<td><input class="form-control input-sm input-expand" name="fixer[]" type="text" value ="{{x.fixer}}"></td>
+								<td><input class="form-control input-sm input-expand" name="testteam[]" type="text" value ="{{x.testteam}}"></td>
+								<td><input class="form-control input-sm input-expand" name="products[]" type="text" value ="{{x.products}}"></td>
+								<td><input class="form-control input-sm input-expand" name="sha[]" type="text" value ="{{x.sha}}"></td>
+								<td class="sel-box-col">
+									<select class="form-control component-modify-box" name="component[]" ng-init="selectRight.component(x.component, $index)"> 
+										<option>UI</option>
+										<option>EWS</option>
+										<option>Fax</option>
+										<option>Scan</option>
+										<option>Mech</option>
+										<option>ADF</option>
+										<option>Copy</option>
+										<option>IDS</option>
+										<option>Acumen</option>
+										<option>Ink Sub</option>
+										<option>Ink Security</option>
+										<option>Connectivity</option>
+										<option>SIPs</option>
+										<option>OXPD</option>
+										<option>Digital Send</option>
+										<option>LEDM</option>
+										<option>General Security</option>
+										<option>Mobility</option>
+										<option>Datapath</option>
+										<option>Board Config</option>
+										<option>ASIC</option>
+										<option>Power</option>
+										<option>Boot Loader</option>
+										<option>OS Related</option>
+										<option>Others</option>
+									</select></td>
+								<td class="sel-box-col">
+									<select class="form-control status-modify-box" name="status[]" ng-init="selectRight.status(x.status, $index)"> 
+										<option>In Progress</option>
+										<option>Fixed</option>
+										<option>Verified</option>
+										<option>Reopen</option>
+									</select>
+								</td>
+								<input class="form-control input-sm" name="id[]" type="hidden" value ="{{x.id}}">
+								
+							</tr>
+						</table>
+						<input class="admin btn btn-primary" type="submit" value="Save" >
+					</form>
+				    <br>
+					<div id="edit-item-status"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer"></div>
+	</div>
+</div>
+<!-- Modify item modal ends -->

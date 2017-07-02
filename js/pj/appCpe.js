@@ -341,25 +341,37 @@ app.directive("stdAddNewProject", function(){
 //add-item-modal directive
 app.directive('addItemModal', function(){
 
-return {
-restrict: "EA",
-templateUrl: "cpeprojects/std-add-new-item.html",
-replace:false
+  return {
+  restrict: "EA",
+  templateUrl: "cpeprojects/std-add-new-item.html",
+  replace:false
 
-};
+  };
 
 });
+
+app.directive('modifyItemModal', function(){
+
+  return {
+  restrict: "EA",
+  templateUrl: "cpeprojects/std-edit-item.html",
+  replace:false
+
+  };
+
+});
+
 
 
 //import-item-modal directive
 app.directive('importItemModal', function(){
 
-return {
-restrict: "EA",
-templateUrl: "cpeprojects/std-import-itemlist.html",
-replace:false
+  return {
+  restrict: "EA",
+  templateUrl: "cpeprojects/std-import-itemlist.html",
+  replace:false
 
-};
+  };
 
 });
 
@@ -367,12 +379,12 @@ replace:false
 //display project list
 app.directive('dispPjList', function(){
 
-return {
-restrict: "EA",
-templateUrl: "cpeprojects/std-disp-pj-list.html",
-replace:false
+  return {
+  restrict: "EA",
+  templateUrl: "cpeprojects/std-disp-pj-list.html",
+  replace:false
 
-};
+  };
 
 });
 
@@ -380,12 +392,12 @@ replace:false
 //display project modal
 app.directive('dispPjModal', function(){
 
-return {
-restrict: "EA",
-templateUrl: "cpeprojects/std-disp-pj-modal.html",
-replace:false
+  return {
+  restrict: "EA",
+  templateUrl: "cpeprojects/std-disp-pj-modal.html",
+  replace:false
 
-};
+  };
 
 });
 
@@ -393,26 +405,39 @@ replace:false
 //display project modal
 app.directive('compAddPjModal', function(){
 
-return {
-restrict: "EA",
-templateUrl: "cpeprojects/std-comp-add-pj.html",
-replace:false
+  return {
+  restrict: "EA",
+  templateUrl: "cpeprojects/std-comp-add-pj.html",
+  replace:false
 
-};
+  };
 
 });
 
 //display project modal
 app.directive('compDelPjModal', function(){
 
-return {
-restrict: "EA",
-templateUrl: "cpeprojects/std-comp-del-pj.html",
-replace:false
+  return {
+  restrict: "EA",
+  templateUrl: "cpeprojects/std-comp-del-pj.html",
+  replace:false
 
-};
+  };
 
 });
+
+
+app.directive('compAddItemModal', function(){
+
+  return {
+  restrict: "EA",
+  templateUrl: "cpeprojects/std-comp-add-item.html",
+  replace:false
+
+  };
+
+});
+
 
 
 

@@ -1,3 +1,4 @@
+
 button.release-btn {
 	font-size:12px;
 	background: #33a6cc;
@@ -220,6 +221,11 @@ td.iteminprogress {
 td.itemverified {
 	
 	background-color: mediumseagreen;
+}
+
+td.itemreopen {
+	
+	background-color: indianred;
 }
 
 th.summary {
@@ -639,7 +645,8 @@ div#del-item-status,
 div#import-item-status,
 div#add-pd-status,
 #add-pj-comp-status,
-#del-pj-comp-status{
+#del-pj-comp-status,
+#add-item-comp-status{
 
 width: 90%;
 height: 60px;
@@ -708,4 +715,14 @@ background-color: #fcf8e3;
 
 	display: inline-block;
 }
-	
+
+div#div-tooltip{
+
+overflow:auto;
+
+}
+p.p-tooltip{
+
+color: #808080;
+font-family: Verdana;
+}
