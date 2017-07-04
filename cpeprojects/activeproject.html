@@ -65,11 +65,14 @@
 			<tr><td class="bg-info"> Project Category </td> <td  >{{projectdata.cat}}</td></tr>
 	 	</table>
 	 </div>
-	<div id="div-tooltip" class="col-md-6">
-	<p class="p-tooltip"> {{projectdata.tooltip}} </p>
-     <!--textarea rows="18" class="tooltip" readonly>{{projectdata.tooltip}}</textarea-->
-    <!--placeholder for the tooltip -->
-    </div>
+	<div class="col-md-6">
+			<h5>Project Notes: </h5>
+			<div id="div-tooltip">
+					<p class="p-tooltip"> {{projectdata.tooltip}} </p>
+				<!--textarea rows="18" class="tooltip" readonly>{{projectdata.tooltip}}</textarea-->
+				<!--placeholder for the tooltip -->
+			</div>
+  </div>
 	<hr> 
       	<table id="active-project-table" class="table table-bordered table-condensed">
 			<tr style="font-size:12px; font-weight:bold"><th>#</th><th>CRID</th><th>Type</th><th class="cell-summary">Summary</th><th>Requestor</th><th>Fix Provider</th><th>Test Partner</th><th>Affected SKUs</th><th>SHA</th><th>component</th><th>Status</th></tr>

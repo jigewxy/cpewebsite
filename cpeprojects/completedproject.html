@@ -21,27 +21,27 @@
 </div>
 
 <div class="col-md-10">
-  <div class="tab-content">
-  <!-- Nested ng-repeat, variable can span along the whole div, for example, product can be passed to setDatabase()  -->
-  <div id="ojpro-projects" class="content-container tab-pane" ng-class="tabClass(tab)">
-    <div disp-pj-list></div>
-  </div>
+    <div class="tab-content">
+    <!-- Nested ng-repeat, variable can span along the whole div, for example, product can be passed to setDatabase()  -->
+    <div id="ojpro-projects" class="content-container tab-pane" ng-class="tabClass(tab)">
+      <div disp-pj-list></div>
+    </div>
 
-  <div id="oj-projects" class="content-container tab-pane" ng-class="tabClass(tab)">
-    <div disp-pj-list></div>
-  </div>
+    <div id="oj-projects" class="content-container tab-pane" ng-class="tabClass(tab)">
+      <div disp-pj-list></div>
+    </div>
 
-  <div id="pws-projects" class="content-container tab-pane" ng-class="tabClass(tab)">
-    <div disp-pj-list></div>
-  </div>
+    <div id="pws-projects" class="content-container tab-pane" ng-class="tabClass(tab)">
+      <div disp-pj-list></div>
+    </div>
 
-  <div id="ics-projects" class="content-container tab-pane" ng-class="tabClass(tab)">
-    <div disp-pj-list></div>
-  </div>
+    <div id="ics-projects" class="content-container tab-pane" ng-class="tabClass(tab)">
+      <div disp-pj-list></div>
+    </div>
 
-  <div id="mobile-projects" class="content-container tab-pane" ng-class="tabClass(tab)">
-    <div disp-pj-list></div>
-  </div>
+    <div id="mobile-projects" class="content-container tab-pane" ng-class="tabClass(tab)">
+      <div disp-pj-list></div>
+    </div>
 
 </div>
 </div>
@@ -51,81 +51,11 @@
 <!--individual project end -->
 
 <!-- Add new product Modal -->
-<div id="add-pd-modal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title text-primary">Create New Product Entry</h4>
-      </div>
- <div class="modal-body">
-<form id="form-add-pd" ng-submit="addPdObj.submit()"> 
-    <label class="control-label"><small>Category:</small></label>
-    <select class="form-control" name="division" style="width:50%">
-      <option>Officejet Pro</option>
-      <option>Officejet</option>
-      <option>Page Wide</option>
-      <option>Consumer</option>
-      <option>Mobile</option>
-    </select>
-    <br>
-    <label class="control-label"><small>Product Name:</small></label>
-    <input type="text" class="form-control input-sm" name="productname" style="width:50%" required>
-    <label class="control-label"><small>Year of SOR:</small></label>
-    <input type="text" class="form-control input-sm" name="year" style="width:50%" pattern="[2][0][0-9][0-9]" required>
-    <br>
-    <br>
-    <input type="submit" class="btn btn-primary" value="SUBMIT">
-  </div>
- </form>
- <div id="add-pd-status"></div>
-</div>
-</div>
-</div>
-</div>
+<div comp-add-pd-modal></div>
 <!-- Add new product Modal end-->
 
-
 <!-- Delete product Modal -->
-<div id="del-pd-modal" class="modal fade" role="dialog">
- <div class="modal-dialog">
-
-<div class="modal-content">
- <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title text-primary">Remove A Product</h4>
-      </div>
-<div class="modal-body">
-<form id="form-del-product" ng-submit="delPdObj.submit()"> 
-<div class="form-group">
-<label class="control-label"><small>Category</small></label>
-<select type="text" class="form-control input-sm" name="division" style="width:50%" ng-model="delPdObj.cat" ng-change="delPdObj.evalProductList(delPdObj.cat)">
-<option ng-repeat = "tab in tabs">{{tab.label}}</option>
-</select>
-<br>
-<label class="control-label"><small>Select A Product</small></label>
-<select class="form-control del-product-select" ng-model="delPdObj.pd" ng-change="delPdObj.trackDelBoxChange()" name="product">
-<option ng-repeat="product in delPdObj.pdList">{{product}}</option>
-</select>
-<p class="text-primary" ng-hide= "delPdObj.pd"> Choose a product from the list </p>
-<br>
-<br>
-<div class="form">
-<p class="text-success" ng-show="delPdObj.delPressed && delPdObj.pd"> Do you confirm to remove above product? All projects under it will also be deleted. </p>
-<input ng-show="delPdObj.delPressed && delPdObj.pd" type="submit" class="btn btn-primary" value="Confirm">
-<!--need to specify the type=button, or else it will submit the form unexpectedly -->
-<button class="btn btn-danger" type="button" ng-hide="delPdObj.delPressed || (!delPdObj.pd)" ng-click="delPdObj.deleteButtonPressed()"> Delete </button>
-</div>
- </div>
- </form>
-
- <div id="del-pd-status"></div>
-
-</div>
-</div>
-</div>
-</div>
+<div comp-del-pd-modal></div>
 <!-- Delete product Modal end-->
 
 <!-- Add new project Modal -->
@@ -140,150 +70,41 @@
 <div comp-add-item-modal></div>
 <!-- Add item modal ends -->
 
-<!-- Edit item modal is defined, can't use "draggable" here, it will break the cursor behavior in input field -->
-<div class="modal fade" id="edit-item-modal">
-
-<div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header bg-success">
-          <button type="button" class="close" data-dismiss="modal"><small>Cancel</small>&times;</button>
-            <h4 class="modal-title">Modify Project Details - <span>{{projectname}}</span></h4>
-        </div>
-<div class="modal-body">
-<div class="panel">
-<div class="panel-body">
-<form action="php/completed_cpe_item_edit.php" method="POST">
-<div class="pj-table-modify">
-<table id="pj-summary-table" class= "table table-bordered table-condensed"> 
-<tr><td class="fixed-cell"> Category </td> <td style="font-style:oblique"><select class="form-control status-select" name="pjcat" value ="{{projectdata.cat}}"> 
-         <option>Major roll</option>
-         <option>Minor roll</option>
-         </select></td></tr>	 
-<tr><td class="fixed-cell"> FW Version </td> <td><input class="form-control" name="revision" type="text" value ="{{projectdata.revision}}"></td></tr>
-<tr><td class="fixed-cell"> Affected SKUs </td> <td><input class="form-control" name="skus" type="text" value ="{{projectdata.skus}}"></td></tr>
-<tr><td class="fixed-cell"> Unique Firmware </td> <td><input class="form-control" name="uniquefw" type="text" value ="{{projectdata.uniquefw}}"></td></tr>
-<tr><td class="fixed-cell"> R.O.I </td> <td><input class="form-control" name="roi" type="text" value ="{{projectdata.roi}}"></td></tr>
-<tr><td class="fixed-cell"> VR Date </td> <td><input class="date-picker form-control" name="datevr" type="text" value ="{{projectdata.datevr}}" pattern="[2][0][0-2][0-9][-]([0][1-9]|[1][0-2])[-]([0][1-9]|[1][0-9]|[2][0-9]|[3][0-1])"></td></tr>
-<tr><td class="fixed-cell"> Cloud Publish Date<span><label class="checkbox-inline checkbox-edit"><input id="ld-edit-check" type="checkbox" onchange="inputBoxValidate(event)">Not Applicable</label></span></td>
-<td><input id="ld-edit-input" class="date-picker form-control" name="livedate" type="text" value ="{{projectdata.livedate}}" pattern="[2][0][0-2][0-9][-]([0][1-9]|[1][0-2])[-]([0][1-9]|[1][0-9]|[2][0-9]|[3][0-1])"></td></tr>
-<tr><td class="fixed-cell"> FDU Publish Date<span><label class="checkbox-inline checkbox-edit"><input id="fd-edit-check" type="checkbox" onchange="inputBoxValidate(event)">Not Applicable</label></span> </td> 
-<td><input id="fd-edit-input" class="date-picker form-control" name="fdudate" type="text" value ="{{projectdata.fdudate}}" pattern="[2][0][0-2][0-9][-]([0][1-9]|[1][0-2])[-]([0][1-9]|[1][0-9]|[2][0-9]|[3][0-1])"></td></tr>
-<tr><td class="fixed-cell"> MFG Roll-in Date<span><label class="checkbox-inline checkbox-edit"><input id="md-edit-check" type="checkbox" onchange="inputBoxValidate(event)">Not Applicable</label></span></td> 
-<td><input id="md-edit-input" class="date-picker form-control" name="mfgdate" type="text" value ="{{projectdata.mfgdate}}" pattern="[2][0][0-2][0-9][-]([0][1-9]|[1][0-2])[-]([0][1-9]|[1][0-9]|[2][0-9]|[3][0-1])"></td></tr>
-<tr><td class="fixed-cell"> Program Manager </td> <td><input class="form-control" name="pm"type="text" value ="{{projectdata.pm}}"></td></tr>
-<tr><td class="fixed-cell"> Firmware Integrator </td><td><input class="form-control" name="fw"type="text" value ="{{projectdata.fw}}"></td></tr>						 	 
-<tr><td class="fixed-cell"> SQ Lead </td> <td><input class="form-control" type="text" name="sq" value ="{{projectdata.sq}}"></td></tr>							 
-<tr><td class="fixed-cell"> Defect Fixed </td> <td><input class="form-control" name="defectcount"type="text" value ="{{projectdata.defectcount}}"></td></tr>
-<tr><td class="fixed-cell"> Feature Delivered </td> <td><input class="form-control" name="featurecount"type="text" value ="{{projectdata.featurecount}}"></td></tr>
-<tr><td class="fixed-cell"> SHA </td> <td><input class="form-control" type="text" name="sha" value ="{{projectdata.sha}}"></td></tr>
-<tr><td class="fixed-cell"> Signature </td> <td><input class="form-control" type="text" name="signature" value ="{{projectdata.signature}}"></td></tr>
-<tr><td class="fixed-cell"> Branch </td> <td><input class="form-control" type="text" name="branch" value ="{{projectdata.branch}}"></td></tr>
-<tr><td class="fixed-cell"> Firmware Link </td> <td><input class="form-control" type="text" name="fwlink" value ="{{projectdata.fwlink}}"></td></tr>
-
-<input type="hidden" class="form-control" name="category" value="{{selectedTab.label}}">
-<input type="hidden" class="form-control" name="projectname" value="{{projectname}}">
-<input type="hidden" class="form-control" name="productname" value="{{productname}}">
-
-</table>
-</div>
-<div class="completed-pj-table-modify">  
-      <table id = "item-table" class="table table-bordered table-condensed">
-      <tr style="font-size:12px; font-type:bold" class="fixed-cell"><td>Item</td><td>CRID</td><td>Type</td><td>Summary</td><td>Requestor</td><td>Fix Provider</td><td>Test Partner</td><td>Affected SKUs</td><td>component</td></tr>
-      <tr ng-repeat="x in projectdata.itemlist">
-	  <td><input class="form-control input-sm" name="itemnumber[]" type="text" value ="{{$index+1}}" readonly> </td>
-	  <td><input class="form-control input-sm input-expand" name="crid[]" type="text" value ="{{x.crid}}"></td>
-	  <td class="sel-box-col"><select class="form-control type-modify-box" name="type[]" ng-init="selectRightType(x.type, $index)"> 
-      <option>Defect Fix</option>
-      <option>New Feature</option>
-      </select></td>
-	  <td width="30%"><input class="form-control input-sm input-expand-more"  name="summary[]" type="text" value ="{{x.summary}}"></td>
-	  <td><input class="form-control input-sm input-expand" name="requestor[]" type="text" value ="{{x.requestor}}"></td>
-	  <td><input class="form-control input-sm input-expand" name="fixer[]" type="text" value ="{{x.fixer}}"></td>
-	  <td><input class="form-control input-sm input-expand" name="testteam[]" type="text" value ="{{x.testteam}}"></td>
-	  <td><input class="form-control input-sm input-expand" name="products[]" type="text" value ="{{x.products}}"></td>
-	   <td class="sel-box-col"><select class="form-control component-modify-box" name="component[]" ng-init="selectRightcomponent(x.component, $index)"> 
-		<option>UI</option>
-		<option>EWS</option>
-		<option>Fax</option>
-		<option>Scan</option>
-		<option>Mech</option>
-		<option>ADF</option>
-		<option>Copy</option>
-		<option>IDS</option>
-		<option>Acumen</option>
-		<option>Ink Sub</option>
-		<option>Ink Security</option>
-		<option>Connectivity</option>
-		<option>SIPs</option>
-		<option>OXPD</option>
-		<option>Digital Send</option>
-		<option>LEDM</option>
-		<option>General Security</option>
-		<option>Mobility</option>
-		<option>Datapath</option>
-		<option>Board Config</option>
-		<option>ASIC</option>
-		<option>Power</option>
-		<option>Boot Loader</option>
-		<option>OS Related</option>
-		<option>Others</option>
-         </select></td>
-      </tr>
-      </table>
-</div>
-
-<br><br>
-<input class="admin btn btn-primary" type="submit" value="Submit" >
-</form>
-</div>
-</div>
-</div>
-</div>
-<div class="modal-footer"> 
-</div>
-</div>
-</div>
+<!-- Modify item modal starts -->
+<div comp-edit-item-modal></div>
 <!-- Modify item modal ends -->
+
+
 
 <!-- Delete item modal is defined -->
 <div class="modal fade" id="remove-item-modal">
-
-<div class="modal-dialog">
+  <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header bg-success">
           <button type="button" class="close" data-dismiss="modal"><small>Cancel</small>&times;</button>
           <h4 class="modal-title">Select Items To Delete</h4>
         </div>
-<div class="modal-body">
-<div class="panel">
-<div class="panel-body">
-<form action="php/completed_cpe_item_delete.php" method="post"> 
-<div class="active-project-table-delete">  
-      <table class="table table-bordered table-condensed table-striped table-hover">
-      <tr><td></td><td>Item</td><td>CRID</td><td>Summary</td></tr>
-      <tr style="font-size:12px" ng-repeat="x in projectdata.itemlist">
-	  <!-- Bind the checkbox value to scope variable as an input of the function to display the DELETE button-->
-	  <td><input align="center" type="checkbox"  name="{{$index}}" ng-model="checkboxValue[$index]"></td><td>{{$index+1}}</td><td>{{x.crid}}</td><td>{{x.summary}}</td>
-      </tr>
-      </table>
-</div>
-
-
-<br><br>
-<input type="hidden" class="form-control" name="category" value="{{selectedTab.label}}">
-<input type="hidden" class="form-control" name="projectname" value="{{projectname}}">
-<input type="hidden" class="form-control" name="productname" value="{{productname}}">
-<h5 ng-hide="checkboxChecked()" class="text-success"> Please select one or more items above </h5>
-<input class="admin btn btn-danger" type="submit" value="Delete" ng-show="checkboxChecked()">
-</form>
-</div>
-</div>
-</div>
-</div>
-<div class="modal-footer"> 
-</div>
-</div>
-
+        <div class="modal-body">
+            <form id="form-del-item" ng-submit="delItemObj.submit()"> 
+            <div class="active-project-table-delete">  
+                  <table class="table table-bordered table-condensed table-striped table-hover">
+                    <tr><td></td><td>Item</td><td>CRID</td><td>Summary</td></tr>
+                    <tr style="font-size:12px" ng-repeat="x in itemlist">
+                  <!-- Bind the checkbox value to scope variable as an input of the function to display the DELETE button-->
+                    <td><input align="center" type="checkbox"  name="{{x.id}}" ng-model="delItemObj.ckbox[$index]"></td><td>{{$index+1}}</td><td>{{x.crid}}</td><td>{{x.summary}}</td>
+                    </tr>
+                  </table>
+            </div>
+            <br>
+            <h5 ng-hide="delItemObj.ckboxCheck()" class="text-success"> Please select one or more items above </h5>
+            <input class="admin btn btn-danger" type="submit" value="Delete" ng-show="delItemObj.ckboxCheck()">
+            </form>
+            <div id="del-item-comp-status"></div>
+        </div>
+      </div>
+    <div class="modal-footer"> 
+    </div>
+  </div>
 </div>
 <!-- Delete item modal ends -->
 

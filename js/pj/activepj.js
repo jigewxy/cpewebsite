@@ -125,8 +125,13 @@ $scope.renderModal ={
         $timeout(function(){ $('div#div-tooltip').height($('div.table-summary').height());}, 200);
         var tooltip = $scope.projectdata.tooltip;
         //replace line break with seperate paragraph.
-        tooltip = tooltip.replace(/\r\n/g, '</p><p class="p-tooltip">');
-        $('div#div-tooltip').html('<p class="p-tooltip">'+ tooltip + '</p>');
+        if(tooltip!==null){
+            tooltip = tooltip.replace(/\r\n/g, '</p><p class="p-tooltip">');
+            $('div#div-tooltip').html('<p class="p-tooltip">'+ tooltip + '</p>');
+          }
+         else {
+             $('div#div-tooltip').html('');
+         }
     }
 
 };

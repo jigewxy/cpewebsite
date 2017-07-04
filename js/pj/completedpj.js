@@ -141,6 +141,7 @@ $scope.tabClass=function(tab){
 //set the database for different buttons
 $scope.setDatabase=function(id){
 
+    console.log(id);
 	var xhrobj = ajaxService.xhrConfig(id, 'POST',  'php/compj/getpjData.php?', null, 'singleValue');
 
 	ajaxService.xhrPromise(xhrobj).then(function(resp){
@@ -168,7 +169,11 @@ $scope.setDatabase=function(id){
 		cntObj['featurecount']= type_arr.length - cntObj['defectcount'];
 
 
-		_.extend($scope.projectdata, cntObj);}
+		_.extend($scope.projectdata, cntObj);
+	
+	//display release modal after database is set
+        $scope.renderModal.displayPj();
+   }
 
 
 		}, function(resp){
@@ -184,6 +189,29 @@ $scope.setDatabase=function(id){
 
 
 $scope.renderModal = {
+
+
+	displayPj: function(){
+		$('#release-modal').modal('show');
+		$timeout(function(){ 
+			//set tooltip height as the same as the table
+				$('div#div-tooltip').height($('div.table-summary').height());
+				$('td.rel-date').toArray().forEach(function(elems){
+						if ($(elems).text() ==="0000-00-00") 
+						$(elems).text('Not Applicable');
+				})	
+			}, 200);
+			var tooltip = $scope.projectdata.tooltip;
+			//replace line break with seperate paragraph.
+			if(tooltip!==null){
+				tooltip = tooltip.replace(/\r\n/g, '</p><p class="p-tooltip">');
+				$('div#div-tooltip').html('<p class="p-tooltip">'+ tooltip + '</p>');
+			}
+			else {
+				$('div#div-tooltip').html('');
+			}
+	
+	},
 
 	addPd: function(){
    		 $('#add-pd-modal').modal('show');
@@ -438,7 +466,6 @@ $scope.renderModal = {
 				    }); 
 					//clear input field after successful submission
 					$('#add-item-modal').find('input[type=text]').val('');
-
 				}
 				else 
 				{  
@@ -462,66 +489,111 @@ $scope.renderModal = {
 						return {'id':$scope.projectdata['id'], 'name':$scope.projectdata['project_name']};
 		}});
 
-	}
+	},
 
-}
+// edititem modal show and object setup
+    editItem: function(){
+  
+       $('#edit-item-modal').modal('show').find('input.date-picker').attr("pattern","20[0-2]\\d-(0[1-9]|1[0-2])-(0[1-9]|1\\d|2\\d|3[0-1])")
+	   .attr('placeholder',"Leave it empty if not applicable").end().find('div#edit-item-comp-status').html('');
+        //LEARNING - alternative of for loop. converting 0000-00-00 to empty.
+		[0,1,2].forEach(function(i){
+			if($('input.date-publish').eq(i).val() ==="0000-00-00") {
+             $('input.date-publish').val('');}
+		});
+
+               //construct addItemObj
+		$scope.editItemObj ={
+			alertElems: 'div#edit-item-comp-status', 
+			pj: {'id': $scope.projectdata['id'], 'name':$scope.projectdata['project_name']},
+			submit: function(){    
+				var data = $('#form-edit-item').serializeArray();
+				var that = this;
+				var xhrObj =  ajaxService.xhrConfig(data,'POST','php/compj/editItem.php?');
+				ajaxService.xhrPromise(xhrObj).then(function(resp){
+
+                console.log(resp);
+				if (resp.trim() =="success")
+				{
+					CpePjService.emitAlertMsg(1, that.alertElems, 'Successful!  ', 'Changes has been saved!');
+					refreshData(function(){	
+					//update data for current tab and project list in the modal;
+					$scope.setDatabase(that.pj.id);
+				    }); 
+				}
+				else 
+				{  
+					CpePjService.emitAlertMsg(4, that.alertElems, 'Failed!  ', ' Database connection error!');
+				} 
+				
+				
+				},  function(error){
+					CpePjService.emitAlertMsg(4, that.alertElems, 'Failed!  ', 'something is wrong with server! '+error);
+				});
 
 
+			},
+          };
 
-//below function determine the display of the DELETE button in delete-item-modal
-$scope.checkboxValue = [];
-$scope.checkboxChecked = function() {
+		},
 
-	var sum=0;
-	var arr_length = $scope.checkboxValue.length;
+    //deleteitem modal and object setup
+    deleteItem:function(){
 
-	for (var i=0; i<arr_length; i++)
-	{
-		if ($scope.checkboxValue[i]=== undefined)
-		{
-			$scope.checkboxValue[i]=0;
+		$('#remove-item-modal').modal('show');
+
+		$scope.delItemObj ={
+		alertElems: 'div#del-item-comp-status',
+		pjid: $scope.projectdata['id'],
+		ckbox:[],
+		ckboxCheck: function(){
+
+			if(_.indexOf(this.ckbox,true) === -1)
+			 return false;
+			 else
+			 return true;
+		},
+		submit: function(){
+			var data= $("form#form-del-item").serializeArray();
+			var that=this;
+			var xhrobj = ajaxService.xhrConfig(data, 'POST', 'php/compj/deleteitem.php?');
+			ajaxService.xhrPromise(xhrobj).then(
+				function(resp){
+
+					if (resp.trim() =="success")
+					{ 
+						CpePjService.emitAlertMsg(1, that.alertElems, 'Successful!', ' Items have been deleted.');
+
+						refreshData(function(){
+						//update project data
+						$scope.setDatabase(that.pjid);
+						//reset checkbox value
+						that.ckbox=[]; 
+						});
+					}
+					else { CpePjService.emitAlertMsg(4, that.alertElems, 'Failed!', ' Database connection error!');}
+					
+					}, 
+				function(status){
+					CpePjService.emitAlertMsg(4, that.alertElems, 'Error!', ' Web server connection error!'+status);
+				});
+
 		}
+		}
+	},
+	
+   selectRight: {
 
-		sum += $scope.checkboxValue[i];
+		type: CpePjService.currySelectRight(".type-modify-box"),
+		component: CpePjService.currySelectRight(".component-modify-box"),
 
+		category: function(arg)
+		{
+			$("select[name='pjcat']").val(arg);
+		}
 	}
 
-
-	if (sum >0)
-	return true;
-	else
-	return false;
-
 }
-
-//function to display the type for each item
-
-$scope.selectRightType =function(type, index)
-{
-
-//use .val() to assign the stored type to the select option, alternative is to add attribute 'selected' to the member option.
-$(".type-modify-box").eq(index).val(type);
-
-//add VALUE attribute in order to submit the table data through AJAX call, because innerHTML of select box return all options hence not useful.
-//$(".type-modify-box").eq(index).attr("value", type);
-}
-
-//function to display the right component for each item 
-
-$scope.selectRightcomponent =function(comp, index)
-{
-
-//use .val() to assign the stored status to the select option, alternative is to add attribute 'selected' to the member option.
-$(".component-modify-box").eq(index).val(comp);
-
-//add VALUE attribute in order to submit the table data through AJAX call, because innerHTML of select box return all options hence not useful.
-//$(".component-modify-box").eq(index).attr("value", comp);
-}
-
-/* no longer needed as a new route is used */
-/*$scope.genReport= function () {
-$window.open('cpe_projects.html#/cpereport', '_blank');
-} */
 
 });
 

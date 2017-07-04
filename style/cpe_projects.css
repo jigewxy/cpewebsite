@@ -9,12 +9,6 @@ button.release-btn {
 	
 }
 
-
-.btn-primary:focus{
-   background: #33a6cc; 
-    
-}
-    
     
 p.display-name{
 	font-family: Agency FB;
@@ -99,51 +93,11 @@ div.col-md-3{
 margin: 20pt;
 }
 
-
-div.project-panel-group
-{
- margin-left: 100pt;
-	
-}
-
-div.project-panel{
-
-
-	box-shadow: 5pt 5pt 5pt #777;
-}
-
-
 li.tab-list:hover{
 	
 	cursor:pointer;
 	margin-left: 5pt;
 	
-}
-
-div.panel-heading {
-	text-transform: uppercase;
-	font-family: "Book Antiqua";
-	
-}
-
-
-div.project-panel-body:hover {
-	  cursor:pointer;
-	  background-color: gainsboro;
-	
-}
-
-
-div.panel-body p {
-	font-family: "Tahoma";
-	font-size: 12px;
-	
-}
-
-div.project-panel{
-	margin:3pt;
-	animation-name: table-transition;
-    animation-duration: 3s;
 }
 
 @keyframes table-transition {
@@ -156,50 +110,6 @@ div.project-panel{
     width: 200px; 
 }
 
-p.active-milestone{
-	border-style:solid;
-	border-width: 2pt;
-	border-color: hotpink;
-}
-
-p.active-milestone::after{
-content: "Next Milestone";
-color: mediumslateblue;
-font-family: Lucida Sans Unicode;
-margin-left: 30pt;
-font-size: 10px;
-
-}
-
-p.project-not-started{
-	border-style:dashed;
-	border-width: 2pt;
-	border-color: silver;
-}
-
-p.project-not-started::after{
-content: "Upcoming";
-color: silver;
-font-family: Lucida Sans Unicode;
-margin-left: 30pt;
-font-size: 10px;
-
-}
-
-p.project-completed{
-	border-style:solid;
-	border-width: 2pt;
-	border-color: mediumseagreen;
-}
-
-p.project-completed::after{
-content: "Project Completed";
-color: mediumseagreen;
-font-family: Lucida Sans Unicode;
-margin-left: 30pt;
-font-size: 10px;
-
-}
 
 table.summary-table {
 	
@@ -312,7 +222,7 @@ input.input-expand:focus
 
 input.input-expand-more:focus
 {
-	width:350pt;
+	width:500pt;
 	
 }
 
@@ -646,7 +556,8 @@ div#import-item-status,
 div#add-pd-status,
 #add-pj-comp-status,
 #del-pj-comp-status,
-#add-item-comp-status{
+#add-item-comp-status,
+#del-item-comp-status{
 
 width: 90%;
 height: 60px;
@@ -654,7 +565,8 @@ height: 60px;
 }
 
 
-div#edit-item-status{
+div#edit-item-status,
+div#edit-item-comp-status{
 
 width: 50%;
 height: 60px;
@@ -668,12 +580,12 @@ color:red;
 	
 }
 
-table#summary-table tr td
+table.summary-table tr td
 {
-font-size: 12px;
+font-size: 14px;
 }
 
-table#summary-table tr td:first-child
+table.summary-table tr td:first-child
 {
 background-color: #d9edf7;
 }

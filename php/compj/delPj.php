@@ -7,15 +7,15 @@ $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 try{
 
-$stm = $conn->prepare("DELETE FROM project WHERE project_name = :pjname");
-$stm->bindParam(":pjname", $_POST['pjToDel'], PDO::PARAM_STR);
+    $stm = $conn->prepare("DELETE FROM project WHERE project_name = :pjname");
+    $stm->bindParam(":pjname", $_POST['pjToDel'], PDO::PARAM_STR);
 
-$stm->execute();
+    $stm->execute();
 
 } catch (Exception $e)
 {
 
- echo "Caught exception: ".$e->getMessage()."\n";
+    echo "Caught exception: ".$e->getMessage()."\n";
 }
 
 

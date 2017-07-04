@@ -1,0 +1,38 @@
+<div id="del-pd-modal" class="modal fade" role="dialog">
+ <div class="modal-dialog">
+
+<div class="modal-content">
+ <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title text-primary">Remove A Product</h4>
+      </div>
+<div class="modal-body">
+<form id="form-del-product" ng-submit="delPdObj.submit()"> 
+<div class="form-group">
+<label class="control-label"><small>Category</small></label>
+<select type="text" class="form-control input-sm" name="division" style="width:50%" ng-model="delPdObj.cat" ng-change="delPdObj.evalProductList(delPdObj.cat)">
+<option ng-repeat = "tab in tabs">{{tab.label}}</option>
+</select>
+<br>
+<label class="control-label"><small>Select A Product</small></label>
+<select class="form-control del-product-select" ng-model="delPdObj.pd" ng-change="delPdObj.trackDelBoxChange()" name="product">
+<option ng-repeat="product in delPdObj.pdList">{{product}}</option>
+</select>
+<p class="text-primary" ng-hide= "delPdObj.pd"> Choose a product from the list </p>
+<br>
+<br>
+<div class="form">
+<p class="text-success" ng-show="delPdObj.delPressed && delPdObj.pd"> Do you confirm to remove above product? All projects under it will also be deleted. </p>
+<input ng-show="delPdObj.delPressed && delPdObj.pd" type="submit" class="btn btn-primary" value="Confirm">
+<!--need to specify the type=button, or else it will submit the form unexpectedly -->
+<button class="btn btn-danger" type="button" ng-hide="delPdObj.delPressed || (!delPdObj.pd)" ng-click="delPdObj.deleteButtonPressed()"> Delete </button>
+</div>
+ </div>
+ </form>
+
+ <div id="del-pd-status"></div>
+
+</div>
+</div>
+</div>
+</div>

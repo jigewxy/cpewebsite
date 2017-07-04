@@ -91,7 +91,7 @@ alertType: {1:'success', 2:'info', 3:'warning', 4:'danger'},
 });
 
 
-app.service('CpePjService', function(CustomEnums){
+app.service('CpePjService', function($interval, CustomEnums){
 
   //constructor for Item Object
   function ItemProto (arg) {
@@ -194,9 +194,16 @@ app.service('CpePjService', function(CustomEnums){
   var emitAlertMsg = function (type, elems, msgHeader, msgBody) {
    
    var msgType = CustomEnums.alertType[type];
-
-   $(elems).html('<div class="alert alert-'+ msgType+'"><strong>'+msgHeader+'</strong>'+ msgBody +'<button class="close" data-dismiss="alert">&times;</button></div>');
-
+   var countdown= 8;
+   $interval(function(){
+    countdown--;
+    if(countdown!==0)
+    $(elems).html('<div class="alert alert-'+ msgType+'"><strong>'+msgHeader+'</strong>'+ msgBody+
+                  '<button class="close"><span>'+countdown+'</span></button></div>');
+    else
+    $(elems).html('');
+   }, 1000, 8);
+  
   }
 
   //check if the fields with enumeration type are correct:
@@ -376,7 +383,7 @@ app.directive('importItemModal', function(){
 });
 
 
-//display project list
+//display project list for completed project html
 app.directive('dispPjList', function(){
 
   return {
@@ -389,12 +396,36 @@ app.directive('dispPjList', function(){
 });
 
 
-//display project modal
+//display project modal for completed project html;
 app.directive('dispPjModal', function(){
 
   return {
   restrict: "EA",
   templateUrl: "cpeprojects/std-disp-pj-modal.html",
+  replace:false
+
+  };
+
+});
+
+//modify item modal directive for completedproject.html
+app.directive('compAddPdModal', function(){
+
+  return {
+  restrict: "EA",
+  templateUrl: "cpeprojects/std-comp-add-product.html",
+  replace:false
+
+  };
+
+});
+
+//modify item modal directive for completedproject.html
+app.directive('compDelPdModal', function(){
+
+  return {
+  restrict: "EA",
+  templateUrl: "cpeprojects/std-comp-del-product.html",
   replace:false
 
   };
@@ -426,12 +457,24 @@ app.directive('compDelPjModal', function(){
 
 });
 
-
+//add item modal directive for completedproject.html
 app.directive('compAddItemModal', function(){
 
   return {
   restrict: "EA",
   templateUrl: "cpeprojects/std-comp-add-item.html",
+  replace:false
+
+  };
+
+});
+
+//modify item modal directive for completedproject.html
+app.directive('compEditItemModal', function(){
+
+  return {
+  restrict: "EA",
+  templateUrl: "cpeprojects/std-comp-edit-item.html",
   replace:false
 
   };
