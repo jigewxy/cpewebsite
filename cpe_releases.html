@@ -20,11 +20,11 @@
 <nav class="navbar navbar-default">
 <div class="container-fluid">
   <ul class="nav navbar-nav" id="list-cat">
-  <li class="nav-menu ojpro-link"><a id="ojpro-link" onclick="loadCat(this)">Officejet Pro</a></li>
-  <li class="nav-menu oj-link"><a id="oj-link" onclick="loadCat(this)">Officejet</a></li>
-  <li class="nav-menu pws-link"><a id="pws-link" onclick="loadCat(this)">Pagewide</a></li>
-  <li class="nav-menu ics-link"><a id="ics-link" onclick="loadCat(this)">Consumer</a></li>
-  <li class="nav-menu mobile-link"><a id="mobile-link" onclick="loadCat(this)">Mobile</a></li>
+  <li class="nav-menu ojpro-link"><a id="ojpro-link" onclick="cpeRelModule.loadCat(this)">Officejet Pro</a></li>
+  <li class="nav-menu oj-link"><a id="oj-link" onclick="cpeRelModule.loadCat(this)">Officejet</a></li>
+  <li class="nav-menu pws-link"><a id="pws-link" onclick="cpeRelModule.loadCat(this)">Pagewide</a></li>
+  <li class="nav-menu ics-link"><a id="ics-link" onclick="cpeRelModule.loadCat(this)">Consumer</a></li>
+  <li class="nav-menu mobile-link"><a id="mobile-link" onclick="cpeRelModule.loadCat(this)">Mobile</a></li>
   </ul>
   <ul class="nav navbar-nav navbar-right">
         <li class="nav-menu dropdown">
@@ -55,7 +55,7 @@
 <div class="tool-menu">
   <ul class="list-group">
   <li class="list-group-item tool-box" data-toggle="modal" data-target="#add-product-modal"><center><img src="images/add_project.png"></center> <span class="overlay-add overlay"><div class="text">Add Product</div></span></li>
-      <li class="list-group-item tool-box" data-toggle="modal" data-target="#delete-product-modal" onclick="resetList()"><center><img src="images/project_delete.png"></center> <span class="overlay-del overlay"><div class="text">Delete Product</div></span></li>
+      <li class="list-group-item tool-box" data-toggle="modal" data-target="#delete-product-modal" onclick="cpeRelModule.resetList()"><center><img src="images/project_delete.png"></center> <span class="overlay-del overlay"><div class="text">Delete Product</div></span></li>
  </ul>
  </div>
 <div id="product-group" class="panel-group">
@@ -88,7 +88,7 @@
 <div class="modal-body">
 <form id="add-product-form">
 <label class="control-label"><small>Fiscal Year :</small><span id="show-year" class="text-primary">Use slider below</span></label>
-<input type="range" min="2000" max="2030" class="form-control input-sm" name="year" onchange="displayYear(this.value)">
+<input type="range" min="2000" max="2030" class="form-control input-sm" name="year" onchange="cpeRelModule.displayYear(this.value)">
 
 <label class="control-label"><small>Category</small></label>
 <select class="form-control cat-sel" name="cat">
@@ -108,7 +108,7 @@
  </div>
 
  <div class="modal-footer">
- <input type="button" class="btn btn-success" value="Add" onclick="addProductSubmit()">
+ <input type="button" class="btn btn-success" value="Add" onclick="cpeRelModule.addProductSubmit()">
  </div>
 </div>
 </div>
@@ -132,7 +132,7 @@
 
 <div class="form">
 <label class="control-label"><small>Select Category:</small></label>
-<select class="form-control cat-sel" name="cat" onchange="loadDynList(this.value)">
+<select class="form-control cat-sel" name="cat" onchange="cpeRelModule.loadDynList(this.value)">
 <option>--Please Select--</option>
 <option>Officejet Pro</option>
 <option>Officejet</option>
@@ -159,7 +159,7 @@
 </div>
 
  <div class="modal-footer">
- <input type="button" class="btn btn-danger" value="Delete" onclick="delProductSubmit()">
+ <input type="button" class="btn btn-danger" value="Delete" onclick="cpeRelModule.delProductSubmit()">
  </div>
 </div>
 </div>
@@ -228,7 +228,7 @@
  </div>
 
  <div class="modal-footer">
- <input type="button" class="btn btn-primary" value="Submit" onclick="submitNewEntry()">
+ <input type="button" class="btn btn-primary" value="Submit" onclick="cpeRelModule.submitNewEntry()">
  </div>
 </div>
 </div>
@@ -287,7 +287,7 @@
     </div>
     
  <div class="modal-footer">
-<input type="button" class="btn btn-danger" value="Delete" onclick="entryDeleteSubmit()">
+<input type="button" class="btn btn-danger" value="Delete" onclick="cpeRelModule.entryDeleteSubmit()">
  </div>
         
     

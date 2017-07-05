@@ -8,12 +8,12 @@
 <div class="modal-body">
 <div class="panel">
 <div class="panel-body">
-<form id="form-import-item" ng-submit="uploadItem()">
+<form id="form-import-item" ng-submit="importItemObj.uploadItem()">
 <label class="control-label"><small>Note: Please use <a href="http://localhost:8080/cpewebsite/downloads/template.csv" target ="_blank">standard template</a> </small></label>
 <hr>
-<input ng-click="resetValidator()" type="file" id="spreadsheet" name="spreadsheet" required>
+<input ng-click="importItemObj.resetValidator()" type="file" id="spreadsheet" name="spreadsheet" required>
 <hr>
-<input class="btn btn-primary admin" type="button" value="Validate" ng-click="validateFile()">
+<input class="btn btn-primary admin" type="button" value="Validate" ng-click="importItemObj.validateFile()">
 <input class="btn btn-success admin" type="submit" value="Upload">
 </form>
 <br>

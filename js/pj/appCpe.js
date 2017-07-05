@@ -191,18 +191,29 @@ app.service('CpePjService', function($interval, CustomEnums){
   //2. info->  neutral response, light blue
   //3. warning -> non-critical error, yellow
   //4 .danger -> critical error, red
-  var emitAlertMsg = function (type, elems, msgHeader, msgBody) {
+  /*var emitAlertMsg = function (type, elems, msgHeader, msgBody, count) {
    
    var msgType = CustomEnums.alertType[type];
-   var countdown= 8;
-   $interval(function(){
+   var countdown= count || 10;
+   var stop = $interval(function(){
     countdown--;
     if(countdown!==0)
     $(elems).html('<div class="alert alert-'+ msgType+'"><strong>'+msgHeader+'</strong>'+ msgBody+
                   '<button class="close"><span>'+countdown+'</span></button></div>');
     else
     $(elems).html('');
-   }, 1000, 8);
+   }, 1000, countdown);
+   
+   $interval.cancel(stop);
+  
+  }*/
+
+  var emitAlertMsg = function (type, elems, msgHeader, msgBody) {
+   
+   var msgType = CustomEnums.alertType[type];
+
+    $(elems).html('<div class="alert alert-'+ msgType+'"><strong>'+msgHeader+'</strong>'+ msgBody+
+                  '<button class="close" data-dismiss="alert">&times;</button></div>');
   
   }
 
@@ -229,98 +240,300 @@ return {ItemObj: ItemObj,
 })
 
 //ajax service
-app.factory('ajaxService', function($q, $http){
+app.factory('AjaxPrvService', function($q, $http){
 
 //LEARNING - defer object must be created inside the returning function, can't be created directly in the factory.
 //as factory live in the $rootScope, and defer object will always be there once created.
 //this will cause the promose been resolved by previous resolver. 
 
-var xhrPromise = function(obj){
-  var deferred = $q.defer();
-  var promise = deferred.promise;
-  
-  var defaultHeaders = {'Content-Type': 'application/x-www-form-urlencoded'}; //or multipart/form-data
-  //var defaultHeaders = {'Content-Type': 'multipart/form-data; boundary=gc0p4Jq0M2Yt08jU534c0p'}; //or application/x-www-form-urlencoded
+    var xhrPromise = function(obj){
+      var deferred = $q.defer();
+      var promise = deferred.promise;
+      
+      var defaultHeaders = {'Content-Type': 'application/x-www-form-urlencoded'}; //or multipart/form-data
+      //var defaultHeaders = {'Content-Type': 'multipart/form-data; boundary=gc0p4Jq0M2Yt08jU534c0p'}; //or application/x-www-form-urlencoded
 
-  var transformReq = {
-   //$httpTransformRequest for form data 
-  formdata: function (data){
+      var transformReq = {
+      //$httpTransformRequest for form data 
+      formdata: function (data){
 
-  if (data ===undefined){
+      if (data ===undefined){
 
-     return data;
-  }
- 
-     else 
-     return $.param(data);
+        return data;
+      }
+    
+        else 
+        return $.param(data);
 
-  },
+      },
 
-  //$httpTransformRequest for json object -- used in file uploading
-  json: function (data){
-   console.log('json object');
+      //$httpTransformRequest for json object -- used in file uploading
+      json: function (data){
+      console.log('json object');
 
 
-//LEARNING - to strip any properties used by Angular (start with $$, for example: $$hashKey)
-//use Angular.toJson instead of JSON.stringify
+    //LEARNING - to strip any properties used by Angular (start with $$, for example: $$hashKey)
+    //use Angular.toJson instead of JSON.stringify
 
-    return angular.toJson(data);
-   
-  },
+        return angular.toJson(data);
+      
+      },
 
-// for single value  -- used in getPjdata.php
- singleValue: function(data){
+    // for single value  -- used in getPjdata.php
+    singleValue: function(data){
 
- return $.param({'value':data});
+    return $.param({'value':data});
 
- }
+    }
 
-}
+    }
 
-  
-  $http({
-  url: obj.url+new Date().getTime(),
-  method:obj.method,
-  data: obj.data,
-  headers: obj.headers || defaultHeaders,
-  transformRequest : transformReq[obj.trans] || transformReq.formdata
-  }).then(function(resp){
+      
+      $http({
+      url: obj.url+new Date().getTime(),
+      method:obj.method,
+      data: obj.data,
+      headers: obj.headers || defaultHeaders,
+      transformRequest : transformReq[obj.trans] || transformReq.formdata
+      }).then(function(resp){
 
-   //resove promise
-    deferred.resolve(resp.data);
+      //resove promise
+        deferred.resolve(resp.data);
 
-    }, function(error){
+        }, function(error){
 
-   //reject promise
-    deferred.reject(error);
+      //reject promise
+        deferred.reject(error);
 
-  });
+      });
 
-  return promise;
+      return promise;
+      };
+
+
+    //5 parameters - data, url, method, headers, transformRequest;
+    //headers and transformRequest are optional, if not set, will use default config.
+    var xhrConfig = function (data, method, url, headers, trans){
+
+    var xhrobj = {};
+    xhrobj.data = data;
+    xhrobj.method = method;
+    xhrobj.url = url;
+    xhrobj.headers = headers;
+    xhrobj.trans = trans;
+
+    return xhrobj;
+
+    };
+
+      return {xhrPromise: xhrPromise,
+              xhrConfig: xhrConfig
+              };
+
+
+    });
+
+//ImportService defined here
+app.service('ImportService', function(CpePjService,AjaxPrvService, CustomEnums){
+
+//validate function: use FileReader object
+//    var alertElems = '#import-item-status';
+//    InputId="spreadsheet"
+  var validateFile = function(scope, alertElems, inputId){
+
+    var file = document.getElementById(inputId).files[0];
+    var itemlist = [];
+    var reader = new FileReader();
+    var fieldChk = true;
+//LEARNING : Note that for IE, if the file is not selected, it will return NULL,
+//on all other browsers, it will return UNDEFINED, use  console.log(file); 
+//IE: Object.prototype.toString(file) == [object Null];
+//Other browsers: Object.prototype.toString(file) == [object Undefined];
+   var regFileName = new RegExp(/(.txt)$/);
+
+    if (!file)
+        {
+         CpePjService.emitAlertMsg(4, alertElems, 'Error!',' No file detected');
+         return;
+        }
+    else if(!regFileName.test(file.name))
+        {
+        CpePjService.emitAlertMsg(4, alertElems, 'Error!',' File is not of .txt format');
+        return;
+        }
+    else {
+        reader.readAsText(file);
+
+        reader.onload = function(e){
+        var result = e.target.result;
+        var rows = result.split('\n');
+        //remove the last empty row which is redundant;
+        rows.length--;
+
+        try {
+
+           //start the  check on the first row which are column names
+           var firstrow = rows[0].split(/\s*\t\s*/);  //ignore the spaces between TAB
+           var diff = CpePjService.checkFirstRow(firstrow);
+
+           if (diff.length)
+                {
+                    throw "Wrong Column name detected, please check column number ="+ (diff[0]+1);
+                }
+            else {
+                //remove the first row which is the column name;
+                rows.splice(0, 1);
+                rows.forEach(function(value, index){
+
+                var tabs = value.match(/\t/g);
+
+                //code to detect line breaks in item details, line breaks are not allowed 
+                //because it will affect row calculation
+                if(tabs ===null || tabs.length<10)
+                    {
+
+                    throw "Illegal Line Break detected in row"+(index+1);
+                    }
+                    //code to detect tab, tabs are not allowed as we are using tab-deliminated csv file.
+                else if (tabs.length>10){
+
+                    throw "Illegal Tabs detected in row"+(index+1);
+                    }
+
+                else {
+
+                    var row = value.split('\t');
+                    fieldChk &= CpePjService.checkEnumFields(row);
+                    itemlist.push(CpePjService.ItemObj(row));
+
+                     }
+
+                });
+
+                if (fieldChk){
+
+                    CpePjService.emitAlertMsg(1, alertElems, 'Validation Successful!', ' ');
+                    scope.uploadvalid = 1;
+                  }
+                else 
+                 {
+
+                    CpePjService.emitAlertMsg(4, alertElems, 'Validation Failed!', ' Wrong values detected in Enumerable fields');
+                    scope.uploadvalid = 0;
+                 }
+            
+                scope.previewlist = itemlist;
+                //LEARNING -- use $digest instead of $apply here, as we only need to update the child scope not the $rootscope.
+                scope.$digest($('div#preview-modal').modal('show'));
+
+                }
+            }
+            catch (err){
+                scope.uploadvalid = 0;
+                CpePjService.emitAlertMsg(4, alertElems, 'Validation Failed!', err);
+            }
+
+           };
+         return;
+
+        } 
+    };
+
+
+//reset validate status
+var resetValidator = function(scope, alertElems){
+
+      console.log('validatator reset');
+      scope.previewlist = null;
+      scope.uploadvalid = 0;
+      $(alertElems).html('');
+
+      };
+
+      //import item start
+var uploadItem = function(scope, alertElems, inputId_jq){
+
+          if(scope.uploadvalid ===0){
+          //warning(3) message
+              CpePjService.emitAlertMsg(3, alertElems, 'Warning!', '  Please Select and Validate input file first');
+              return;
+          }
+          else
+          {
+
+          var data = scope.previewlist;
+          data.push(scope.projectid);
+          console.log(data);
+
+          var xhrobj = AjaxPrvService.xhrConfig(data, 'POST', '  php/cpepj/ImportItem.php?', {"Content-Type": "application/json"}, 'json');
+
+          AjaxPrvService.xhrPromise(xhrobj).then(function(resp){
+      
+          console.log(resp);
+
+          if(resp.trim()==="success")
+          {
+                  //success(1) message
+                CpePjService.emitAlertMsg(1, alertElems, 'Successful!', '  Files uploaded successfully');
+                //refresh data and update $scope.
+                scope.refreshData(scope.importCallback);
+
+            }
+            else
+            {
+                CpePjService.emitAlertMsg(4, alertElems, 'Failed!', '  Database connection error!');
+            }
+
+          }, function(status){
+        console.log(status);
+        CpePjService.emitAlertMsg(4, alertElems, 'Failed!', '  Website connection error!');
+
+        }).finally(function(){
+
+      //reset some parameters regardless of promise status
+            scope.previewlist = null;
+            scope.uploadvalid = 0;
+            $(inputId_jq).val('');
+
+            //alternative -> clone an input box first (without data)
+            //$('#spreadsheet').replaceWith($('#spreadsheet').clone(false));
+            //$('#spreadsheet').replaceWith($('#spreadsheet').clone(true));
+        })
+
+        return;
+        }
+
+        };
+
+
+
+//function to check if component, type and status are valid values.
+//LEARNING : use Curry function to simplify
+var preValidate = {
+
+  comp: CpePjService.curryPreValidate(CustomEnums.itemComp),
+  type: CpePjService.curryPreValidate(CustomEnums.itemType),
+  status: CpePjService.curryPreValidate(CustomEnums.itemStatus),
+
+  empty: function(arg){
+      if (arg===undefined) {return "";}
+      else if (arg=='' || arg.trim() == '') {return "cell-warning";}
+      else {return ""};
+      }
   };
 
 
-//5 parameters - data, url, method, headers, transformRequest;
-//headers and transformRequest are optional, if not set, will use default config.
-var xhrConfig = function (data, method, url, headers, trans){
-
- var xhrobj = {};
- xhrobj.data = data;
- xhrobj.method = method;
- xhrobj.url = url;
- xhrobj.headers = headers;
- xhrobj.trans = trans;
-
- return xhrobj;
-
-};
-
-  return {xhrPromise: xhrPromise,
-          xhrConfig: xhrConfig
-          };
+  return {preValidate:preValidate,
+          uploadItem:uploadItem,
+          validateFile:validateFile,
+          resetValidator:resetValidator
+         };
+})
 
 
-});
+/* Ajax request service */
+/* xhrPromise : return a deferred promise to the requestor */
+/* xhrConfig: return object with xhrrequest config (data, method, url) */
 
 
 /*directive definition for add-new-product */
@@ -337,13 +550,6 @@ app.directive("stdAddNewProject", function(){
 	};
 	
 });
-
-
-/* Ajax request service */
-/* xhrPromise : return a deferred promise to the requestor */
-/* xhrConfig: return object with xhrrequest config (data, method, url) */
-
-
 
 //add-item-modal directive
 app.directive('addItemModal', function(){

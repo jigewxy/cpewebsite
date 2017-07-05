@@ -1,7 +1,7 @@
 /*****************************************************************/
 /* CompProCtrl - controller for completedproject.html */
 /*****************************************************************/
-app.controller('CompProCtrl', function ($scope, $http, $window, $timeout, CpePjService, CustomEnums, ajaxService) {
+app.controller('CompProCtrl', function($scope, $http, $window, $timeout, CpePjService, CustomEnums, AjaxPrvService, ImportService) {
 
  var pool = {
      'Officejet Pro': {},
@@ -22,23 +22,7 @@ $scope.tabs = [
 
  ];
 
-init();
-
-function init() {
-
-
-	$("#search-box").hide();
-	$scope.$parent.currentTab = 'projCompleted';
-
-	refreshData();
-
-	setTimeout(function(){$('.tab-list').eq(0).find('a').click();}, 100);
-
-
-	};
-
-//Function to refresh data, with optional callback function (multiple) as arguments
-function refreshData(){
+ $scope.refreshData = function(){
 
 //clear the datapool object while refreshing the data everytime
 	pool = {
@@ -54,9 +38,9 @@ function refreshData(){
 
 	// Ajax service, dummy data
 
-	var xhrobj = ajaxService.xhrConfig('', 'GET', 'php/compj/getpjlist.php?');
+	var xhrobj = AjaxPrvService.xhrConfig('', 'GET', 'php/compj/getpjlist.php?');
 
-		ajaxService.xhrPromise(xhrobj).then(function(resp){
+		AjaxPrvService.xhrPromise(xhrobj).then(function(resp){
 
 			$scope.pjlist= resp.pjlist;
 			$scope.pjlistArray = _.pluck($scope.pjlist, 'project_name');
@@ -89,6 +73,24 @@ function refreshData(){
 
 }
 
+init();
+
+
+function init() {
+
+
+	$("#search-box").hide();
+	$scope.$parent.currentTab = 'projCompleted';
+
+	$scope.refreshData();
+
+	setTimeout(function(){$('.tab-list').eq(0).find('a').click();}, 100);
+
+
+	};
+
+//Function to refresh data, with optional callback function (multiple) as arguments
+ 
 
 // function to process response data from ajax service and save it in datapool 
 function processResp(pj, datapool) {
@@ -141,10 +143,9 @@ $scope.tabClass=function(tab){
 //set the database for different buttons
 $scope.setDatabase=function(id){
 
-    console.log(id);
-	var xhrobj = ajaxService.xhrConfig(id, 'POST',  'php/compj/getpjData.php?', null, 'singleValue');
+	var xhrobj = AjaxPrvService.xhrConfig(id, 'POST',  'php/compj/getpjData.php?', null, 'singleValue');
 
-	ajaxService.xhrPromise(xhrobj).then(function(resp){
+	AjaxPrvService.xhrPromise(xhrobj).then(function(resp){
 			$scope.projectdata= resp.pjdata;
 			$scope.itemlist = resp.itemlist;
 		//LEARNING --pick the 'type' as a individual array
@@ -247,15 +248,15 @@ $scope.renderModal = {
 				{
 				console.log('okay, will add');
 
-					var xhrobj = ajaxService.xhrConfig(data,'POST','php/compj/addpd.php?');
+					var xhrobj = AjaxPrvService.xhrConfig(data,'POST','php/compj/addpd.php?');
 
-					ajaxService.xhrPromise(xhrobj).then(function(resp){
+					AjaxPrvService.xhrPromise(xhrobj).then(function(resp){
 
 				//if successful, add new product to datapool and update the scope.
 				if (resp.trim() =="success")
 					{
 						CpePjService.emitAlertMsg(1, that.alertElems, 'Successful!', name+' has been successfully added!');
-						refreshData(function(){	$scope.productdata = $scope.datapool[$scope.selectedTab.label];}) 
+						$scope.refreshData(function(){	$scope.productdata = $scope.datapool[$scope.selectedTab.label];}) 
 					}
 					else 
 					{  
@@ -287,13 +288,13 @@ $scope.renderModal = {
 				var that = this;
 				var currentDiv = data[0].value;
 				var pdname = data[1].value;
-				var xhrObj =  ajaxService.xhrConfig(data,'POST','php/compj/delpd.php?');
-					ajaxService.xhrPromise(xhrObj).then(function(resp){
+				var xhrObj =  AjaxPrvService.xhrConfig(data,'POST','php/compj/delpd.php?');
+					AjaxPrvService.xhrPromise(xhrObj).then(function(resp){
 
 						if (resp.trim() =="success")
 							{
 								CpePjService.emitAlertMsg(1, that.alertElems, 'Successful!', pdname+' has been removed!');
-								refreshData(function(){	
+								$scope.refreshData(function(){	
 								$scope.productdata = $scope.datapool[$scope.selectedTab.label];
 								that.evalProductList(currentDiv); //update productlist in delete modal
 							}); 
@@ -354,13 +355,13 @@ $scope.renderModal = {
 				}
 				else 
 				{
-						var xhrObj =  ajaxService.xhrConfig(data,'POST','php/compj/addPj.php?');
-						ajaxService.xhrPromise(xhrObj).then(function(resp){
+						var xhrObj =  AjaxPrvService.xhrConfig(data,'POST','php/compj/addPj.php?');
+						AjaxPrvService.xhrPromise(xhrObj).then(function(resp){
 
 						if (resp.trim() =="success")
 						{
 							CpePjService.emitAlertMsg(1, that.alertElems, 'Successful!  ', pjname+' has been added');
-							refreshData(function(){	
+							$scope.refreshData(function(){	
 							$scope.productdata = $scope.datapool[$scope.selectedTab.label];
 						}); 
 						}
@@ -417,13 +418,13 @@ $scope.renderModal = {
 				var pdname = data[1].value;
 				var pjname = data[2].value;
 
-				var xhrObj =  ajaxService.xhrConfig(data,'POST','php/compj/delPj.php?');
-				ajaxService.xhrPromise(xhrObj).then(function(resp){
+				var xhrObj =  AjaxPrvService.xhrConfig(data,'POST','php/compj/delPj.php?');
+				AjaxPrvService.xhrPromise(xhrObj).then(function(resp){
 
 				if (resp.trim() =="success")
 				{
 					CpePjService.emitAlertMsg(1, that.alertElems, 'Successful!  ', pjname+' has been deleted');
-					refreshData(function(){	
+					$scope.refreshData(function(){	
 					//update data for current tab and project list in the modal;
 					$scope.productdata = $scope.datapool[$scope.selectedTab.label];
 					that.evalPjList(pdname); 
@@ -454,13 +455,13 @@ $scope.renderModal = {
 				var data = $('#form-add-item').serializeArray();
 				var pjid = data[1].value;
 				var that = this;
-				var xhrObj =  ajaxService.xhrConfig(data,'POST','php/compj/addItem.php?');
-				ajaxService.xhrPromise(xhrObj).then(function(resp){
+				var xhrObj =  AjaxPrvService.xhrConfig(data,'POST','php/compj/addItem.php?');
+				AjaxPrvService.xhrPromise(xhrObj).then(function(resp){
 
 				if (resp.trim() =="success")
 				{
 					CpePjService.emitAlertMsg(1, that.alertElems, 'Successful!  ','Item has been added!');
-					refreshData(function(){	
+					$scope.refreshData(function(){	
 					//update data for current tab and project list in the modal;
 					$scope.setDatabase(pjid);
 				    }); 
@@ -509,14 +510,13 @@ $scope.renderModal = {
 			submit: function(){    
 				var data = $('#form-edit-item').serializeArray();
 				var that = this;
-				var xhrObj =  ajaxService.xhrConfig(data,'POST','php/compj/editItem.php?');
-				ajaxService.xhrPromise(xhrObj).then(function(resp){
+				var xhrObj =  AjaxPrvService.xhrConfig(data,'POST','php/compj/editItem.php?');
+				AjaxPrvService.xhrPromise(xhrObj).then(function(resp){
 
-                console.log(resp);
 				if (resp.trim() =="success")
 				{
 					CpePjService.emitAlertMsg(1, that.alertElems, 'Successful!  ', 'Changes has been saved!');
-					refreshData(function(){	
+					$scope.refreshData(function(){	
 					//update data for current tab and project list in the modal;
 					$scope.setDatabase(that.pj.id);
 				    }); 
@@ -556,15 +556,15 @@ $scope.renderModal = {
 		submit: function(){
 			var data= $("form#form-del-item").serializeArray();
 			var that=this;
-			var xhrobj = ajaxService.xhrConfig(data, 'POST', 'php/compj/deleteitem.php?');
-			ajaxService.xhrPromise(xhrobj).then(
+			var xhrobj = AjaxPrvService.xhrConfig(data, 'POST', 'php/compj/deleteitem.php?');
+			AjaxPrvService.xhrPromise(xhrobj).then(
 				function(resp){
 
 					if (resp.trim() =="success")
 					{ 
 						CpePjService.emitAlertMsg(1, that.alertElems, 'Successful!', ' Items have been deleted.');
 
-						refreshData(function(){
+						$scope.refreshData(function(){
 						//update project data
 						$scope.setDatabase(that.pjid);
 						//reset checkbox value
@@ -580,6 +580,27 @@ $scope.renderModal = {
 
 		}
 		}
+	},
+
+	importItem: function(){
+
+	$("#import-item-modal").modal("show");
+
+	 $scope.projectid = $scope.projectdata['id'];
+     $scope.importCallback = function(){
+
+         $scope.setDatabase($scope.projectid);
+
+	 };
+	$scope.importItemObj = {
+
+		validateFile: ImportService.validateFile.bind(this, $scope, '#import-item-status', 'spreadsheet'),
+		uploadItem: ImportService.uploadItem.bind(this,$scope,'#import-item-status', '#spreadsheet'), //note that the last argument is Jquery selector
+		resetValidator: ImportService.resetValidator.bind(this,$scope,'#import-item-status'),
+		preValidate:ImportService.preValidate
+
+	};
+
 	},
 	
    selectRight: {
@@ -768,8 +789,6 @@ for(var y in objx)
 
 var objy = objx[y];
 
-  console.log('objy is');
-    console.log(objy);
 var vrdate = new Date(objy.datevr);
 
 	if((vrdate > $scope.startdate) && (vrdate < $scope.enddate))

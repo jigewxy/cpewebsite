@@ -337,9 +337,10 @@
       <div class="modal-body">
       	<table id="preview-table" class="table table-bordered table-condensed">
 			<tr><th>#</th><th>CRID</th><th>Type</th><th class="cell-summary">Summary</th><th>Requestor</th><th>Fix Provider</th><th>Test Partner</th><th>Affected SKUs</th><th>SHA</th><th>component</th><th>Status</th></tr>
-			<tr ng-repeat="x in previewlist"><td> {{$index+1}} </td><td ng-class="preValidate.empty(x.crid)">{{x.crid}}</td><td ng-class="preValidate.type(x.type)">{{x.type}}</td><td ng-class="preValidate.empty(x.summary)">{{x.summary}}</td>
-			<td ng-class="preValidate.empty(x.requestor)">{{x.requestor}}</td><td ng-class="preValidate.empty(x.fixer)">{{x.fixer}}</td><td ng-class="preValidate.empty(x.testteam)">{{x.testteam}}</td>
-			<td ng-class="preValidate.empty(x.products)">{{x.products}}</td><td ng-class="preValidate.empty(x.sha)">{{x.sha}}</td><td ng-class="preValidate.comp(x.component)">{{x.component}}</td><td ng-class="preValidate.status(x.status)">{{x.status}}</td></tr>
+			<tr ng-repeat="x in previewlist"><td> {{$index+1}} </td><td ng-class="importItemObj.preValidate.empty(x.crid)">{{x.crid}}</td><td ng-class="importItemObj.preValidate.type(x.type)">{{x.type}}</td>
+			<td ng-class="importItemObj.preValidate.empty(x.summary)">{{x.summary}}</td><td ng-class="importItemObj.preValidate.empty(x.requestor)">{{x.requestor}}</td><td ng-class="importItemObj.preValidate.empty(x.fixer)">{{x.fixer}}</td>
+			<td ng-class="importItemObj.preValidate.empty(x.testteam)">{{x.testteam}}</td><td ng-class="importItemObj.preValidate.empty(x.products)">{{x.products}}</td><td ng-class="importItemObj.preValidate.empty(x.sha)">{{x.sha}}</td>
+			<td ng-class="importItemObj.preValidate.comp(x.component)">{{x.component}}</td><td ng-class="importItemObj.preValidate.status(x.status)">{{x.status}}</td></tr>
       	</table>
 		<center><h4>Note: Fields in YELLOW are not compulsory to be corrected, but highly recommended to to so. </h4></center>
       </div>

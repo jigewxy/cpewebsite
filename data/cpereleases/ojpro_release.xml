@@ -47,7 +47,19 @@
       <owner>NPI</owner>
     </release>
   </weberpdlroot>
-  <teslapdlroot/>
+  <teslapdlroot>
+    <release>
+      <version>1.1</version>
+      <fwversion>001.1636A</fwversion>
+      <date>2017-07-06</date>
+      <arel>\\x\y\z</arel>
+      <sarel>\\x\y\z</sarel>
+      <narel>\\x\y\z</narel>
+      <branch>frz_2016_tesla_weberpdl_vr1_3</branch>
+      <type>MFG;Cloud;FDU</type>
+      <owner>NPI</owner>
+    </release>
+  </teslapdlroot>
   <webermidroot/>
   <weberbaseroot/>
   <faradmidroot/>

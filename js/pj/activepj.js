@@ -2,7 +2,7 @@
 /*****************************************************************/
 /*activeProCtrl - controller for activeproject.html and dashboard.html
 /*****************************************************************/
-app.controller('activeProCtrl', function($scope, $http, $window, $timeout, CpePjService, CustomEnums, ajaxService) {
+app.controller('activeProCtrl', function($scope, $http, $window, $timeout, CpePjService, CustomEnums, AjaxPrvService, ImportService) {
 
 
 //some initialization required
@@ -24,14 +24,14 @@ function dummycallback(){
 //LEARNING: in order to sychronise the data, instead of using nested deferred promise in the response function,
 //a callback function is cleaner solution here, we can use a dummy callback when the callback is not needed.
 
-function refreshData(callback){
+ $scope.refreshData= function (callback){
 
 //need a dummy data for GET service
 var dummy= '';
 
-var xhrobj = ajaxService.xhrConfig(dummy, 'GET','php/cpepj/getdata.php?');
+var xhrobj = AjaxPrvService.xhrConfig(dummy, 'GET','php/cpepj/getdata.php?');
 
-ajaxService.xhrPromise(xhrobj).then(function(resp){ 
+AjaxPrvService.xhrPromise(xhrobj).then(function(resp){ 
     //note that .then() create another promise, to avoid confusion, we use callback() here to deal with this aychronization
     $scope.projectobjs =[]; //Need to reinitialize the array when data is refreshed.
     $scope.projectinfo = resp.pj;
@@ -59,7 +59,7 @@ ajaxService.xhrPromise(xhrobj).then(function(resp){
 
   
 init();
-refreshData(dummycallback);
+$scope.refreshData(dummycallback);
 
 //set database when entry is selected, including projectinfo, projectname, projectitems, projectid..etc
 $scope.selDatabase = function(pname) {
@@ -438,9 +438,9 @@ $scope.addPjSubmit =  function(){
     //$.serialize() will conflict with the $.param() in $httpProvider, hence use $serializeArray();
     var formdata = $('form#add-project-form').serializeArray(); 
 
-    var xhrobj = ajaxService.xhrConfig(formdata,'POST','php/cpepj/addpj.php?');
+    var xhrobj = AjaxPrvService.xhrConfig(formdata,'POST','php/cpepj/addpj.php?');
 
-    ajaxService.xhrPromise(xhrobj).then(function(resp){
+    AjaxPrvService.xhrPromise(xhrobj).then(function(resp){
 
     if (resp.state =="success")
     {
@@ -459,7 +459,7 @@ $scope.addPjSubmit =  function(){
     });
 
 
-    refreshData(dummycallback);
+    $scope.refreshData(dummycallback);
 }
 
 
@@ -471,9 +471,9 @@ $scope.delPjSubmit = function (arg){
     var tempobj ={};
     tempobj['pj'] = arg;
 
-    var xhrobj = ajaxService.xhrConfig(tempobj, 'POST','php/cpepj/deletepj.php?');
+    var xhrobj = AjaxPrvService.xhrConfig(tempobj, 'POST','php/cpepj/deletepj.php?');
 
-    ajaxService.xhrPromise(xhrobj).then(
+    AjaxPrvService.xhrPromise(xhrobj).then(
         function(resp){
             var pjname = resp;
             CpePjService.emitAlertMsg(1, alertElems, 'Successful!', pjname+' has been deleted!');
@@ -484,7 +484,7 @@ $scope.delPjSubmit = function (arg){
             $scope.projectlist.splice(i,1);
             $scope.deletedProj = $scope.projectlist[0];
             $scope.deletePressed = false;
-            refreshData(dummycallback);}, 
+            $scope.refreshData(dummycallback);}, 
         function(status){
             console.log('delete failed');
             CpePjService.emitAlertMsg(4, alertElems, 'Failed!', ' Web server connection error! '+status);
@@ -502,14 +502,14 @@ $scope.addItemSubmit = function () {
     var formdata = $("form#form-add-item").serializeArray();
     formdata.push({'name':'project_name', 'value':$scope.projectname});
 
-    var xhrobj = ajaxService.xhrConfig(formdata, 'POST', 'php/cpepj/additem.php?');
+    var xhrobj = AjaxPrvService.xhrConfig(formdata, 'POST', 'php/cpepj/additem.php?');
 
-    ajaxService.xhrPromise(xhrobj).then(
+    AjaxPrvService.xhrPromise(xhrobj).then(
         function(resp){
             if (resp.trim() =="success")
             { 
                 CpePjService.emitAlertMsg(1, alertElems, 'Successful!', ' New item has been added successfully');
-                refreshData(function(){console.log("call back go");$scope.projectitems=$scope.projectinfo[$scope.projectname].itemlist;});
+                $scope.refreshData(function(){console.log("call back go");$scope.projectitems=$scope.projectinfo[$scope.projectname].itemlist;});
                 //refresh projectitems data
                 //$scope.$evalAsync($scope.projectitems=$scope.projectinfo[$scope.projectname].itemlist);
             }
@@ -530,15 +530,15 @@ $scope.editItemSubmit = function(){
 var alertElems = '#edit-item-status';
 var formdata= $("form#form-edit-item").serializeArray();
 var result = $.param(formdata);
-var xhrobj = ajaxService.xhrConfig(formdata, 'POST', 'php/cpepj/editpj.php?');
-ajaxService.xhrPromise(xhrobj).then(
+var xhrobj = AjaxPrvService.xhrConfig(formdata, 'POST', 'php/cpepj/editpj.php?');
+AjaxPrvService.xhrPromise(xhrobj).then(
     function(resp)
        {
 
         if (resp.trim() =="success")
             {   
                 CpePjService.emitAlertMsg(1, alertElems, 'Successful!', ' Project data has been updated.');
-                refreshData(function(){
+                $scope.refreshData(function(){
                     //update project data
                     $scope.projectitems=$scope.projectinfo[$scope.projectname].itemlist;
                     $scope.projectdata=$scope.projectinfo[$scope.projectname];
@@ -561,14 +561,14 @@ $scope.deleteItemSubmit = function(){
 
 var alertElems = '#del-item-status';
 var formdata= $("form#form-del-item").serializeArray();
-var xhrobj = ajaxService.xhrConfig(formdata, 'POST', 'php/cpepj/deleteitem.php?');
-ajaxService.xhrPromise(xhrobj).then(
+var xhrobj = AjaxPrvService.xhrConfig(formdata, 'POST', 'php/cpepj/deleteitem.php?');
+AjaxPrvService.xhrPromise(xhrobj).then(
     function(resp){
             if (resp.trim() =="success")
             { 
                 CpePjService.emitAlertMsg(1, alertElems, 'Successful!', ' Items have been deleted.');
 
-                refreshData(function(){
+                $scope.refreshData(function(){
                 console.log("call back go");
                 //update project data
                 $scope.projectitems=$scope.projectinfo[$scope.projectname].itemlist;
@@ -583,212 +583,24 @@ ajaxService.xhrPromise(xhrobj).then(
 
 }
 
-//validate function: use FileReader object
-$scope.validateFile = function(){
 
-    var alertElems = '#import-item-status';
-    var file = document.getElementById('spreadsheet').files[0];
-    var itemlist = [];
-    var reader = new FileReader();
-    var fieldChk = true;
-//LEARNING : Note that for IE, if the file is not selected, it will return NULL,
-//on all other browsers, it will return UNDEFINED, use  console.log(file); 
-//IE: Object.prototype.toString(file) == [object Null];
-//Other browsers: Object.prototype.toString(file) == [object Undefined];
-   var regFileName = new RegExp(/(.txt)$/);
+$scope.importCallback = function(){
 
-    if (!file)
-        {
-         CpePjService.emitAlertMsg(4, alertElems, 'Error!',' No file detected');
-         return;
-        }
-    else if(!regFileName.test(file.name))
-        {
-        CpePjService.emitAlertMsg(4, alertElems, 'Error!',' File is not of .txt format');
-        return;
-        }
-    else {
-        console.log(file);
-        reader.readAsText(file);
+          $scope.projectdata=$scope.projectinfo[$scope.projectname];
+        $scope.projectitems=$scope.projectdata.itemlist;
+                             }
 
-        reader.onload = function(e){
-        var result = e.target.result;
-        var rows = result.split('\n');
-        //remove the last empty row which is redundant;
-        rows.length--;
+//importitem Object -- everything about import items modal are inside.
+$scope.importItemObj = {
 
-        try {
+validateFile: ImportService.validateFile.bind(this, $scope, '#import-item-status', 'spreadsheet'),
+uploadItem: ImportService.uploadItem.bind(this, $scope,'#import-item-status', '#spreadsheet'), //note that the last argument is Jquery selector
+resetValidator: ImportService.resetValidator.bind(this,$scope,'#import-item-status'),
+preValidate:ImportService.preValidate
 
-           //start the  check on the first row which are column names
-           var firstrow = rows[0].split(/\s*\t\s*/);  //ignore the spaces between TAB
-           var diff = CpePjService.checkFirstRow(firstrow);
-
-           if (diff.length)
-                {
-                    throw "Wrong Column name detected, please check column number ="+ (diff[0]+1);
-                }
-            else {
-                //remove the first row which is the column name;
-                rows.splice(0, 1);
-                rows.forEach(function(value, index){
-
-                var tabs = value.match(/\t/g);
-
-                //code to detect line breaks in item details, line breaks are not allowed 
-                //because it will affect row calculation
-                if(tabs ===null || tabs.length<10)
-                    {
-
-                    throw "Illegal Line Break detected in row"+(index+1);
-                    }
-                    //code to detect tab, tabs are not allowed as we are using tab-deliminated csv file.
-                else if (tabs.length>10){
-
-                    throw "Illegal Tabs detected in row"+(index+1);
-                    }
-
-                else {
-
-                    var row = value.split('\t');
-                    fieldChk &= CpePjService.checkEnumFields(row);
-                    console.log(fieldChk);
-                    itemlist.push(CpePjService.ItemObj(row));
-
-                     }
-
-                });
-
-                if (fieldChk){
-
-                    CpePjService.emitAlertMsg(1, alertElems, 'Validation Successful!', ' ');
-                    $scope.uploadvalid = 1;
-                  }
-                else 
-                 {
-
-                    CpePjService.emitAlertMsg(4, alertElems, 'Validation Failed!', ' Wrong values detected in Enumerable fields');
-                    $scope.uploadvalid = 0;
-                 }
-            
-                $scope.previewlist = itemlist;
-                //LEARNING -- use $digest instead of $apply here, as we only need to update the child scope not the $rootscope.
-                $scope.$digest($('div#preview-modal').modal('show'));
-
-                }
-            }
-            catch (err){
-                $scope.uploadvalid = 0;
-                CpePjService.emitAlertMsg(4, alertElems, 'Validation Failed!', err);
-            }
-
-        };
-        return;
-
-    } 
-
-}
+};
 
 
-//reset validate status
-$scope.resetValidator = function(){
-
-console.log('validatator reset');
-$scope.previewlist = null;
-$scope.uploadvalid = 0;
-$("div#import-item-status").html('');
-
-console.log(document.getElementById('spreadsheet').files);
-
-}
-
-//import item start
-$scope.uploadItem = function(){
-
-    var alertElems = "#import-item-status";
-
-    if($scope.uploadvalid ===0){
-    //warning(3) message
-        CpePjService.emitAlertMsg(3, alertElems, 'Warning!', '  Please Select and Validate input file first');
-        return;
-    }
-    else
-    {
-
-    var data = $scope.previewlist;
-    data.push($scope.projectid);
-
-    var xhrobj = ajaxService.xhrConfig(data, 'POST', '  php/cpepj/ImportItem.php?', {"Content-Type": "application/json"}, 'json');
-
-    ajaxService.xhrPromise(xhrobj).then(function(resp){
- 
-    console.log(resp);
-
-    if(resp.trim()==="success")
-    {
-            //success(1) message
-        CpePjService.emitAlertMsg(1, alertElems, 'Successful!', '  Files uploaded successfully');
-         //refresh data and update $scope.
-        refreshData(function(){
-                    //update project data
-                
-                    $scope.projectdata=$scope.projectinfo[$scope.projectname];
-                    $scope.projectitems=$scope.projectdata.itemlist;
-     });
-
-    }
-    else
-    {
-        CpePjService.emitAlertMsg(4, alertElems, 'Failed!', '  Database connection error!');
-    }
-
-/*if (resp.trim() =="success")
-{ $('#del-item-status').html('<div class="alert alert-success"><strong>Successful! </strong> Items have been deleted<button class="close" data-dismiss="alert">&times;</button> </div>');
-
-refreshData(function(){
-    console.log("call back go");
-    //update project data
-    $scope.projectitems=$scope.projectinfo[$scope.projectname].itemlist;
-    });
-}
-else  $('#del-item-status').html('<div class="alert alert-danger"><strong>Failed! </strong>database connection error! <button class="close" data-dismiss="alert">&times;</button></div>');
-*/}, function(status){
-console.log(status);
-CpePjService.emitAlertMsg(4, alertElems, 'Failed!', '  Database connection error!');
-
-}).finally(function(){
-
-//reset some parameters regardless of promise status
-    console.log('finally() called');
-    $scope.previewlist = null;
-    $scope.uploadvalid = 0;
-    $('#spreadsheet').val('');
-
-    //alternative -> clone an input box first (without data)
-    //$('#spreadsheet').replaceWith($('#spreadsheet').clone(false));
-    //$('#spreadsheet').replaceWith($('#spreadsheet').clone(true));
-})
-
-return;
-}
-
-}
-
-
-
-//function to check if component, type and status are valid values.
-//LEARNING : use Curry function to simplify
-$scope.preValidate = {
-
-comp: CpePjService.curryPreValidate(CustomEnums.itemComp),
-type: CpePjService.curryPreValidate(CustomEnums.itemType),
-status: CpePjService.curryPreValidate(CustomEnums.itemStatus),
-
-empty: function(arg){
-    if (arg===undefined) {return "";}
-    else if (arg=='' || arg.trim() == '') {return "cell-warning";}
-    else {return ""};
-    }
-}
 
 });
 
