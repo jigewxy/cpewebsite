@@ -8,33 +8,37 @@
 <body>
 
 <div class="col-md-2">
-<div id="data-filter" class="form">
+<form id="form-filter-date">
 <label class="control-label"><span class="bg-success"> Start Date : </span></label>
-<input  class="date-picker form-control" type="date" ng-model="startdate"/>
+<input  class="date-picker form-control" name="datestart" type="date" ng-model="startdate"/>
 <br>
 <label class="control-label"><span class="bg-success">End Date : </span></label>
-<input  class="date-picker form-control" type="date" ng-model="enddate"/>
-</div>
+<input  class="date-picker form-control" name="dateend" type="date" ng-model="enddate"/>
+</form>
+<br>
+<button class="btn btn-primary"  ng-click="filterObj.reset()">Reset </button>
+<button class="btn btn-success btn-rightalign"  ng-click="filterObj.submit()">Load </button>
+
 </div>
 
 <!--use ng-cloak to prevent unexpected content shown up -->
 <div class="col-md-9" ng-cloak>
 
 <table id="filter-summary" class="table table-hover table-bordered">
-<tr><th width="20%"> Number of Project </th><td>{{numOfProj}}</td></tr>
-<tr><th> Total Unique Firmware </th><td>{{uniquefw}}</td></tr>
-<!--tr><th> Total ROI </th><td>${{roi}}</td></tr-->
-<tr><th> Total Defect Count </th><td>{{defectcount}}</td></tr>
-<tr><th> Total Feature Count </th><td>{{featurecount}}</td></tr>
-<tr><th> Major Roll </th><td>{{majorcount}}</td></tr>
-<tr><th> Minor Roll </th><td>{{minorcount}}</td></tr>
+    <tr><th width="20%"> Number of Project </th><td>{{filterObj.pjsummary.num}}</td></tr>
+    <tr><th> Total Unique Firmware </th><td>{{filterObj.pjsummary.uniquefw}}</td></tr>
+    <!--tr><th> Total ROI </th><td>${{roi}}</td></tr-->
+    <tr><th> Total Defect Count </th><td>{{filterObj.pjsummary.defect}}</td></tr>
+    <tr><th> Total Feature Count </th><td>{{filterObj.pjsummary.feature}}</td></tr>
+    <tr><th> Major Roll </th><td>{{filterObj.pjsummary.major}}</td></tr>
+    <tr><th> Minor Roll </th><td>{{filterObj.pjsummary.minor}}</td></tr>
 </table>
 
 <hr>
 
 <table id="filter-proj" class="table table-hover table-bordered">
-<tr><th>Project Name </th><th>Category</th><th>Rev.</th><th>Unique FW</th><th>Defects</th><th>Features</th><th>VR Date</th><th>Cloud Publish Date</th><th>FDU Publish Date</th><th>MFG Roll-in Date</th></tr>
-<tr ng-repeat="(project,db) in filteredProj"><td>{{project}}</td><td>{{db.cat}}</td><td>{{db.revision}}</td><td>{{db.uniquefw}}</td><td>{{db.defectcount}}</td><td>{{db.featurecount}}</td><td>{{db.datevr}}</td><td>{{db.livedate}}</td><td>{{db.fdudate}}</td><td>{{db.mfgdate}}</td></tr>
+<tr><th>Project Name </th><th>Category</th><th>Rev.</th><th>Unique FW</th><th>VR Date</th><th>Cloud Publish Date</th><th>FDU Publish Date</th><th>MFG Roll-in Date</th></tr>
+<tr ng-repeat=" x in filterObj.pjdata"><td>{{x.project_name}}</td><td>{{x.cat}}</td><td>{{x.revision}}</td><td>{{x.uniquefw}}</td><td>{{x.datevr}}</td><td>{{x.datelive}}</td><td>{{db.datefdu}}</td><td>{{db.mfgdate}}</td></tr>
 
 </table>
 
@@ -42,11 +46,13 @@
 
 <table id="break-down-table" class="table table-hover table-bordered">
 <tr><th>Component </th><th>Item Count</th>
-<tr ng-repeat= "(comp,count) in itemType" ng-hide="hideZeroItem(count)"><td width="50%"> {{comp}}</td><td>{{count}}</td></tr>
+<tr ng-repeat= "x in filterObj.itemcount"><td width="50%"> {{x.component}}</td><td>{{x.total}}</td></tr>
 
 </table>
 
 </div>
+
+<div alert-modal></div>
 
 
 

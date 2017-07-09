@@ -96,6 +96,28 @@ $scope.renderModal ={
 
     $("#import-item-modal").modal("show");
 
+
+  //LEARNING: it is not a good practice to pass $scope as a parameter to service/factory, hence rewrite this portion of code.
+        $scope.importItemObj = {
+                
+                previewlist:[],
+                uploadCallback: function(){ 
+                    return $scope.refreshData(function(){
+                            $scope.projectdata=$scope.projectinfo[$scope.projectname];
+                            $scope.projectitems=$scope.projectdata.itemlist;
+                                }); }, 
+                previewModalShow: function(list){
+                $scope.importItemObj.previewlist = list;
+                    $scope.$digest($('div#preview-modal').modal('show'));
+                },
+                preValidate:ImportService.preValidate,
+                validateFile: function(){ImportService.validateFile('#import-item-status', 'spreadsheet', $scope.importItemObj.previewModalShow);},
+                uploadItem: function(){ImportService.uploadItem ('#import-item-status', '#spreadsheet', $scope.projectid, $scope.importItemObj.uploadCallback);}, //note that the last argument is Jquery selector
+                resetValidator: function(){ImportService.resetValidator('#import-item-status');},
+    
+            };
+
+
     },
 
     editItem: function(arg){
@@ -132,7 +154,44 @@ $scope.renderModal ={
          else {
              $('div#div-tooltip').html('');
          }
-    }
+    },
+
+    movePj: function(){
+
+        $('#move-project-modal').modal('show').find('input.date-picker').attr("pattern","20[0-2]\\d-(0[1-9]|1[0-2])-(0[1-9]|1\\d|2\\d|3[0-1])").css("width","50%");
+        
+      $scope.movePjObj = {
+        alertElems: 'div#move-pj-status',
+		pjid: $scope.projectdata['id'],
+		submit: function(){
+			var data= $("form#form-move-pj").serializeArray();
+			var that=this;
+			var xhrobj = AjaxPrvService.xhrConfig(data, 'POST', 'php/cpepj/movepj.php?');
+			AjaxPrvService.xhrPromise(xhrobj).then(
+				function(resp){
+
+                    console.log(resp);
+
+					if (resp.trim() =="success")
+					{ 
+						CpePjService.emitAlertMsg(1, that.alertElems, 'Successful!', ' Project has been moved to COMPLETED state.');
+                         $('#move-project-modal').find('input[type=submit]').hide();
+                        $scope.refreshData(function(){
+                            $('#active-project-modal').modal('hide');
+                        }); 
+
+
+					}
+					else { CpePjService.emitAlertMsg(4, that.alertElems, 'Failed!', ' Database connection error!');}
+					
+					}, 
+				function(status){
+					CpePjService.emitAlertMsg(4, that.alertElems, 'Error!', ' Web server connection error!'+status);
+				});
+
+            }
+            }
+        },
 
 };
 
@@ -375,26 +434,6 @@ $scope.setFilterFn = function(e){
 
 
 
-$scope.defectCounter = function(){
-
-var defectNum = 0;
-var featureNum = 0;
-var itemData = $scope.projectitems;
-
-/*LEARNING - see the problem below? it's dangerous to use the reference type directly, anything wrong it will corrupt the data */ 
-//$scope.projectitems.forEach(function(val){
-  //   if (val.type ="Defect Fix")
-  itemData.forEach(function(val){
-   if (val.type =="Defect Fix")
-    defectNum++;
-    else
-    featureNum++;
-  });
-$scope.pjDefectCount = defectNum;
-$scope.pjFeatureCount = featureNum;
-
-}
-
 
 
 // get product list when the category changes
@@ -582,23 +621,6 @@ AjaxPrvService.xhrPromise(xhrobj).then(
 
 
 }
-
-
-$scope.importCallback = function(){
-
-          $scope.projectdata=$scope.projectinfo[$scope.projectname];
-        $scope.projectitems=$scope.projectdata.itemlist;
-                             }
-
-//importitem Object -- everything about import items modal are inside.
-$scope.importItemObj = {
-
-validateFile: ImportService.validateFile.bind(this, $scope, '#import-item-status', 'spreadsheet'),
-uploadItem: ImportService.uploadItem.bind(this, $scope,'#import-item-status', '#spreadsheet'), //note that the last argument is Jquery selector
-resetValidator: ImportService.resetValidator.bind(this,$scope,'#import-item-status'),
-preValidate:ImportService.preValidate
-
-};
 
 
 

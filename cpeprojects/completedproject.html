@@ -12,11 +12,12 @@
 <!-- use NG-repeat instead, and note that the ng-class need to set in different tabs-->
 <li class="tab-list" ng-repeat="tab in tabs"> <a data-toggle="pill" data-target="{{tab.link}}" ng-click="setSelectedTab(tab)"><i class="glyphicon glyphicon-star-empty"></i>{{tab.label}} </a></li>
 </ul>
+<br>
 <ul class="list-group">
-<li class="list-group-item" ng-click="renderModal.addPd()"><center><img class="nav-menu-image" src="images/project_create.png"></center></li>
-<li class="list-group-item" ng-click="renderModal.delPd()"><center><img class="nav-menu-image" src="images/project_delete.png"></center></li>
-<li class="list-group-item" ng-click="renderModal.addPj()"><center><img class="nav-menu-image" src="images/add_project.png"></li>
-<li class="list-group-item" ng-click="renderModal.delPj()"><center><img class="nav-menu-image" src="images/remove_project.png"></center></li>
+<li class="list-group-item tool-box" ng-click="renderModal.addPd()"><center><img class="nav-menu-image" src="images/project_create.png"></center><span class="overlay-add overlay"><div class="overlay-text">Add Product</div></span></li>
+<li class="list-group-item tool-box" ng-click="renderModal.delPd()"><center><img class="nav-menu-image" src="images/project_delete.png"></center><span class="overlay-del overlay"><div class="overlay-text">Delete Product</div></span></li>
+<li class="list-group-item tool-box" ng-click="renderModal.addPj()"><center><img class="nav-menu-image" src="images/add_project.png"></center><span class="overlay-add overlay"><div class="overlay-text">Add Project</div></span></li>
+<li class="list-group-item tool-box" ng-click="renderModal.delPj()"><center><img class="nav-menu-image" src="images/remove_project.png"></center><span class="overlay-del overlay"><div class="overlay-text">Delete Product</div></span></li>
 </ul>
 </div>
 
@@ -123,7 +124,7 @@
       <div class="modal-body">
       	<table id="preview-table" class="table table-bordered table-condensed">
 			<tr><th>#</th><th>CRID</th><th>Type</th><th class="cell-summary">Summary</th><th>Requestor</th><th>Fix Provider</th><th>Test Partner</th><th>Affected SKUs</th><th>SHA</th><th>component</th><th>Status</th></tr>
-			<tr ng-repeat="x in previewlist"><td> {{$index+1}} </td><td ng-class="importItemObj.preValidate.empty(x.crid)">{{x.crid}}</td><td ng-class="importItemObj.preValidate.type(x.type)">{{x.type}}</td>
+			<tr ng-repeat="x in importItemObj.previewlist"><td> {{$index+1}} </td><td ng-class="importItemObj.preValidate.empty(x.crid)">{{x.crid}}</td><td ng-class="importItemObj.preValidate.type(x.type)">{{x.type}}</td>
 			<td ng-class="importItemObj.preValidate.empty(x.summary)">{{x.summary}}</td><td ng-class="importItemObj.preValidate.empty(x.requestor)">{{x.requestor}}</td><td ng-class="importItemObj.preValidate.empty(x.fixer)">{{x.fixer}}</td>
 			<td ng-class="importItemObj.preValidate.empty(x.testteam)">{{x.testteam}}</td><td ng-class="importItemObj.preValidate.empty(x.products)">{{x.products}}</td><td ng-class="importItemObj.preValidate.empty(x.sha)">{{x.sha}}</td>
 			<td ng-class="importItemObj.preValidate.comp(x.component)">{{x.component}}</td><td ng-class="importItemObj.preValidate.status(x.status)">{{x.status}}</td></tr>

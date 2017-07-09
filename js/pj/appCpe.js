@@ -210,11 +210,11 @@ app.service('CpePjService', function($interval, CustomEnums){
 
   var emitAlertMsg = function (type, elems, msgHeader, msgBody) {
    
-   var msgType = CustomEnums.alertType[type];
-
-    $(elems).html('<div class="alert alert-'+ msgType+'"><strong>'+msgHeader+'</strong>'+ msgBody+
-                  '<button class="close" data-dismiss="alert">&times;</button></div>');
-  
+    var msgType = CustomEnums.alertType[type];
+    
+      $(elems).hide().show('slow').html('<div class="alert alert-'+ msgType+'"><strong>'+msgHeader+'</strong>'+ msgBody+
+                    '<button class="close" data-dismiss="alert">&times;</button></div>');
+                  
   }
 
   //check if the fields with enumeration type are correct:
@@ -339,7 +339,10 @@ app.service('ImportService', function(CpePjService,AjaxPrvService, CustomEnums){
 //validate function: use FileReader object
 //    var alertElems = '#import-item-status';
 //    InputId="spreadsheet"
-  var validateFile = function(scope, alertElems, inputId){
+  var uploadValid =0;
+  var previewlist = [];
+
+  var validateFile = function(alertElems, inputId, validateCallback){
 
     var file = document.getElementById(inputId).files[0];
     var itemlist = [];
@@ -350,7 +353,7 @@ app.service('ImportService', function(CpePjService,AjaxPrvService, CustomEnums){
 //IE: Object.prototype.toString(file) == [object Null];
 //Other browsers: Object.prototype.toString(file) == [object Undefined];
    var regFileName = new RegExp(/(.txt)$/);
-
+   console.log(this);
     if (!file)
         {
          CpePjService.emitAlertMsg(4, alertElems, 'Error!',' No file detected');
@@ -413,23 +416,23 @@ app.service('ImportService', function(CpePjService,AjaxPrvService, CustomEnums){
                 if (fieldChk){
 
                     CpePjService.emitAlertMsg(1, alertElems, 'Validation Successful!', ' ');
-                    scope.uploadvalid = 1;
+                    uploadvalid = 1;
                   }
                 else 
                  {
 
                     CpePjService.emitAlertMsg(4, alertElems, 'Validation Failed!', ' Wrong values detected in Enumerable fields');
-                    scope.uploadvalid = 0;
+                    uploadvalid = 0;
                  }
             
-                scope.previewlist = itemlist;
+                previewlist = itemlist;
                 //LEARNING -- use $digest instead of $apply here, as we only need to update the child scope not the $rootscope.
-                scope.$digest($('div#preview-modal').modal('show'));
+                validateCallback(previewlist);
 
                 }
             }
             catch (err){
-                scope.uploadvalid = 0;
+                 uploadvalid = 0;
                 CpePjService.emitAlertMsg(4, alertElems, 'Validation Failed!', err);
             }
 
@@ -441,19 +444,19 @@ app.service('ImportService', function(CpePjService,AjaxPrvService, CustomEnums){
 
 
 //reset validate status
-var resetValidator = function(scope, alertElems){
+var resetValidator = function(alertElems){
 
       console.log('validatator reset');
-      scope.previewlist = null;
-      scope.uploadvalid = 0;
+      previewlist = null;
+      uploadvalid = 0;
       $(alertElems).html('');
 
       };
 
       //import item start
-var uploadItem = function(scope, alertElems, inputId_jq){
+var uploadItem = function(alertElems, inputId_jq, pjid, uploadCallback){
 
-          if(scope.uploadvalid ===0){
+          if(uploadvalid ===0){
           //warning(3) message
               CpePjService.emitAlertMsg(3, alertElems, 'Warning!', '  Please Select and Validate input file first');
               return;
@@ -461,8 +464,8 @@ var uploadItem = function(scope, alertElems, inputId_jq){
           else
           {
 
-          var data = scope.previewlist;
-          data.push(scope.projectid);
+          var data = previewlist;
+          data.push(pjid);
           console.log(data);
 
           var xhrobj = AjaxPrvService.xhrConfig(data, 'POST', '  php/cpepj/ImportItem.php?', {"Content-Type": "application/json"}, 'json');
@@ -476,7 +479,7 @@ var uploadItem = function(scope, alertElems, inputId_jq){
                   //success(1) message
                 CpePjService.emitAlertMsg(1, alertElems, 'Successful!', '  Files uploaded successfully');
                 //refresh data and update $scope.
-                scope.refreshData(scope.importCallback);
+                uploadCallback(); 
 
             }
             else
@@ -491,8 +494,8 @@ var uploadItem = function(scope, alertElems, inputId_jq){
         }).finally(function(){
 
       //reset some parameters regardless of promise status
-            scope.previewlist = null;
-            scope.uploadvalid = 0;
+            previewlist = null;
+            uploadvalid = 0;
             $(inputId_jq).val('');
 
             //alternative -> clone an input box first (without data)
@@ -526,7 +529,8 @@ var preValidate = {
   return {preValidate:preValidate,
           uploadItem:uploadItem,
           validateFile:validateFile,
-          resetValidator:resetValidator
+          resetValidator:resetValidator,
+          previewlist: previewlist
          };
 })
 
@@ -681,6 +685,19 @@ app.directive('compEditItemModal', function(){
   return {
   restrict: "EA",
   templateUrl: "cpeprojects/std-comp-edit-item.html",
+  replace:false
+
+  };
+
+});
+
+
+//modify item modal directive for completedproject.html
+app.directive('alertModal', function(){
+
+  return {
+  restrict: "EA",
+  templateUrl: "cpeprojects/std-alert-modal.html",
   replace:false
 
   };

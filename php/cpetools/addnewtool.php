@@ -1,23 +1,15 @@
-
-
 <?php header("content-type:text/html; charset:utf-8");
 
-if($_SERVER['HTTP_HOST']=='cpse.ijp.sgp.rd.hpicorp.net')
-  {
-$servername = "localhost";
-$username = "cpeuser"; 
-$password = "Changepwd@12";
-$conn = new PDO("mysql:host=localhost; dbname=CPETOOLS", $username, $password);
-  }
-else
-{
+require_once '../util/ServerConfig.class.php'; //CLASS ServerConfig
+require_once '../util/UtilityFunc.class.php'; //class UtilityFunc
+//PJDB = 'CPEPROJECTS'
 
-$servername = "localhost";
-$username = "root";
-$conn = new PDO("mysql:host=$servername; dbname=CPETOOLS", $username);
-}
+$conn = ServerConfig::setPdo(TOOLS);
+$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 
+//authentication check
+UtilityFunc::authCheck();
 
 try{
 
@@ -33,7 +25,7 @@ $stm->bindValue(':description', $_POST['description']);
 $stm->execute();
 
 
-echo $_POST['title'];
+echo 'SUCCESS';
 } catch(Exception $e){
 
     echo 'something is wrong'.$e->getMessage();

@@ -13,7 +13,7 @@ li.nav-menu{
     width: 120pt;
 }
 
-li.nav-menu :hover{
+li.nav-menu:hover{
 
   background-color: #337ab7 !important;
   cursor: pointer;
@@ -64,4 +64,11 @@ div#delete-status-update,
 {
 
     height: 50pt;
+}
+
+div#login-status{
+
+width: 90%;
+height: 60px;
+
 }

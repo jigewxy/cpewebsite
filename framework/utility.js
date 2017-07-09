@@ -1,4 +1,7 @@
 //Jquery extend function to test if 1). input has number 2). input as date
+
+(function (window, document, $){
+
 $.fn.extend({
  inputHasNumber : function(){
   return  /\d/.test(this.val());
@@ -13,9 +16,11 @@ inputAsDate: function(){
       
 })
 
-
 //global Utility Object
 var Utility = Utility || {};
+
+Utility.authChk = false;
+Utility.ssid = '';
 
 //Utility function to prevent number input
 //input : CSS selector of the input
@@ -158,25 +163,25 @@ Utility.datesCons=function(requestdate, fcdate, rcdate, vrdate, index){
 
 //validate the input field with datepicker, need to disable the input if dates is not applicable. 
 
-function inputBoxValidate(event){
+Utility.datePickerValidate =function(event){
 
- var id = event.target.id;
+    var id = event.target.id;
 
- /* begin and end position can be both negative and positive, position mattters here */
-var temp = '#'+ id.slice(0,-6)+ '-input';
+    /* begin and end position can be both negative and positive, position mattters here */
+    var temp = '#'+ id.slice(0,-6)+ '-input';
 
-if ($("#"+id).prop("checked")==true) {
+    if ($("#"+id).prop("checked")==true) {
 
-// LEARNING - set to readonly will not work for datepicker - need to turn off the eventlistener and add it back.
-$(temp).prop("value", "N/A");
-$(temp).prop("disabled", true);
-//$(temp).off("focus");
-}
+    // LEARNING - set to readonly will not work for datepicker - need to turn off the eventlistener and add it back.
+    $(temp).prop("value", "N/A");
+    $(temp).prop("disabled", true);
+    //$(temp).off("focus");
+    }
 
-else 
-{
-$(temp).prop("value", null);
-$(temp).prop("disabled", false);
+    else 
+    {
+    $(temp).prop("value", null);
+    $(temp).prop("disabled", false);
 //$(temp).on("focus",datepicker());
 
 }
@@ -187,5 +192,71 @@ if ($(temp).prop("value") == "N/A")
 	$("#"+id).prop("checked", true);
 }
 	
+};
+
+
+//manages the admin-only features
+Utility.renderAdminFields = function(){
+
+$('.admin-fail').css('opacity', '0.5').off().on('click', function(){
+    console.log('click happen');
+  $('#alert-modal').modal('show');
+});  
+
+$('.admin-pass').show();
+
 }
 
+//emit alert message
+Utility.emitAlertMsg = function(type, elems, msgHeader, msgBody, count, callback){
+
+      var alertType = {1:'success', 2:'info', 3:'warning', 4:'danger'};
+      var msgType = alertType[type];  
+      
+      if (count===undefined)
+       {
+       $(elems).hide().show('slow').html('<div class="alert alert-'+ msgType+'"><strong>'+msgHeader+'</strong>'+ msgBody+
+                    '<button class="close" data-dismiss="alert">&times;</button></div>');
+       }
+
+       else 
+      { 
+       $(elems).hide().show('slow').html('<div class="alert alert-'+ msgType+'"><strong>'+msgHeader+'</strong>'+ msgBody+
+                    '<button class="close" data-dismiss="alert">&times;</button></div>');
+
+      var timer = setInterval(function(){ 
+                    if(count>0)
+                   { count--;
+                    $(elems).html('<div class="alert alert-'+ msgType+'"><strong>'+msgHeader+'</strong>'+ msgBody+ 
+                    '<button class="close" data-dismiss="alert">'+count+'&times;</button></div>');
+                   }
+                   else 
+                  { clearInterval(timer);
+                    if(callback !==undefined)
+                      callback();
+                  }
+            
+                 }, 1000);
+
+            }
+          };
+
+Utility.redirectHttps = function(){
+
+             var referer = document.referrer;
+               if (referer.search(/^https/)!==-1)
+                   location.replace(referer);
+                else 
+                 { referrer = document.referrer.replace(':8080','').replace('http', 'https');
+                   location.replace(referrer);}
+                };
+
+
+
+
+window.Utility = Utility;
+window.jQuery = $;
+
+
+
+})(window, document, jQuery);

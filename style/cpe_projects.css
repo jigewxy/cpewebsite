@@ -361,7 +361,7 @@ float:right;
 
 /**LEARNING : how to add overlay effect  */
 
-div.overlay-text {
+/*div.overlay-text {
   color: white;
   font-size: 20px;
   position: absolute;
@@ -411,7 +411,7 @@ width:100%;
 right:0;
 opacity:1;
 
-}
+}*/
 
 input[type="checkbox"]
 {
@@ -557,7 +557,8 @@ div#add-pd-status,
 #add-pj-comp-status,
 #del-pj-comp-status,
 #add-item-comp-status,
-#del-item-comp-status{
+#del-item-comp-status,
+#mov-pj-status{
 
 width: 90%;
 height: 60px;
@@ -637,4 +638,58 @@ p.p-tooltip{
 
 color: #808080;
 font-family: Verdana;
+}
+
+div.alert{
+
+  transition: .3s ease;
+
+}
+
+/**LEARNING : how to add overlay effect  */
+.overlay-add {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  right: 0;
+  height: 100%;
+  width: 30%;
+  transition: .5s ease;
+  opacity: 0;
+  background-color: #449d44;
+}
+
+.overlay-del {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  right: 0;
+  height: 100%;
+  width: 30%;
+  transition: .5s ease;
+  opacity: 0;
+  background-color:#DC143C;
+}
+
+
+li.tool-box:hover .overlay{
+
+width:100%;
+left:0;
+opacity:1;
+cursor: pointer;
+
+}
+
+div.overlay-text {
+  color: white;
+  font-family:  Agency FB;
+  font-size: 15px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
 }

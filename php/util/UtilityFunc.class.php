@@ -50,6 +50,35 @@ class UtilityFunc {
 
     }
 
+    /*Function to process form data for SQL UPDATE statement */
+
+    public static function getSqlUpdateStmt($data)
+        {
+            $stm_str ='';
+            foreach($data as $key=>$value){
+            if($stm_str=='')
+            $stm_str.= $key."=\"".addslashes($value)."\"";
+            else
+            $stm_str.= ",".$key."=\"".addslashes($value)."\"";
+            }
+
+            return $stm_str;
+       }
+
+    //Function to do authentication check
+  public static function authCheck() {
+            
+            session_start();
+
+            if($_SESSION['auth'] == 'fail')
+            { 
+            echo 'AUTHERROR';
+            exit();
+            } 
+            else  return;
+
+       }
+
 
 
 }

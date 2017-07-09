@@ -134,7 +134,7 @@ opacity:1;
 
 }
 
-div.text {
+div.overlay-text {
   color: white;
   font-size: 13px;
   position: absolute;
@@ -200,5 +200,3 @@ input.modify-form[name*=branch]{
     
     width: 80%;
 }
-
-

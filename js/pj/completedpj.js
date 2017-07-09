@@ -587,19 +587,25 @@ $scope.renderModal = {
 	$("#import-item-modal").modal("show");
 
 	 $scope.projectid = $scope.projectdata['id'];
-     $scope.importCallback = function(){
 
-         $scope.setDatabase($scope.projectid);
+	  //LEARNING: it is not a good practice to pass $scope as a parameter to service/factory, hence rewrite this portion of code.
+    $scope.importItemObj = {
+            
+            previewlist:[],
+            uploadCallback: function(){ 
+                 return    $scope.setDatabase($scope.projectid); 
+				}, 
+            previewModalShow: function(list){
+              $scope.importItemObj.previewlist = list;
+                $scope.$digest($('div#preview-modal').modal('show'));
+            },
+            preValidate:ImportService.preValidate,
+            validateFile: function(){ImportService.validateFile('#import-item-status', 'spreadsheet', $scope.importItemObj.previewModalShow);},
+            uploadItem: function(){ImportService.uploadItem ('#import-item-status', '#spreadsheet', $scope.projectid, $scope.importItemObj.uploadCallback);}, //note that the last argument is Jquery selector
+            resetValidator: function(){ImportService.resetValidator('#import-item-status');},
+   
+         };
 
-	 };
-	$scope.importItemObj = {
-
-		validateFile: ImportService.validateFile.bind(this, $scope, '#import-item-status', 'spreadsheet'),
-		uploadItem: ImportService.uploadItem.bind(this,$scope,'#import-item-status', '#spreadsheet'), //note that the last argument is Jquery selector
-		resetValidator: ImportService.resetValidator.bind(this,$scope,'#import-item-status'),
-		preValidate:ImportService.preValidate
-
-	};
 
 	},
 	
@@ -615,256 +621,5 @@ $scope.renderModal = {
 	}
 
 }
-
-});
-
-
-/*****************************************************************/
-/*reportCtrl - controller for dashboard.html
-/*****************************************************************/
-app.controller('reportCtrl', function($scope, $http, $window, $timeout) {
-
-    
-$scope.$parent.currentTab = 'reportPage';
-	/* combine all db and save it in $scope.repo */
-var dbCombine= function(){
-	
-$scope.repo = {};
-
-var dblist = [
-'data/pjcompleted/ojpro_completed.json',
-'data/pjcompleted/oj_completed.json',
-'data/pjcompleted/pws_completed.json',
-'data/pjcompleted/ics_completed.json',
-'data/pjcompleted/mobile_completed.json',
-];
-
-angular.forEach(dblist, function(value) {
-
-$http.get(value, {headers:{"cache-control":"no-cache"}}).then(function(response){
-
-/**LEARNING** merge the individual databse into one */ 
-//$scope.repo= Object.assign($scope.repo, response.data);  doesn't work for IE
-    
-jQuery.extend($scope.repo, response.data);
-    
-}, function(response){
-
-$scope.content="something went wrong";
-})
-	
-});
-
-};
-
-var init = function (){
-
-$scope.enddate=	new Date();
-//$scope.startdate=moment().subtract(1, 'years')._d;
-
-$scope.listshow=false;
-
-
-dbCombine();
-//$scope.totalproduct= Object.keys($scope.repo);
-
-
-};
-
-init();
-
-
-$scope.reportShow = function () {
-	
-	$scope.listshow=true;
-	
-	//console.log($scope.filteredProj);
-}
-
-$scope.reportHide = function () {
-	
-	$scope.listshow=false;
-
-	
-}
-
-
-$scope.$watch('startdate', function(newValue, oldValue){
-	
- dateFilter();
-});
-
-$scope.$watch('enddate', function(newValue, oldValue){
-	
-
-	dateFilter();
-});
-
-/*constructor function for the filtered Project Data */
-function filterDbCons(datevr, livedate, fdudate, mfgdate, revision, defectcount,featurecount,cat,uniquefw){
-	
-	this.datevr =datevr;
-	this.livedate=livedate;
-	this.fdudate=fdudate;
-	this.mfgdate=mfgdate;
-	this.revision=revision;
-	this.defectcount=defectcount;
-	this.featurecount=featurecount;	
-	this.cat =cat;
-	this.uniquefw=uniquefw;
-}
-
-//place the items with higher number first
-function sortObject (objA){
-  
-var objB= {}, 
-    temp=[];
-//var temp= Object.values(objA); not supported in IE.
-
-for (var prop in objA)
-{
-     temp.push(objA[prop]);
-        
-}
-
-
-
-temp.sort(function(a,b){
-  
-  return b-a;
-  
-  
-});
-
-
-temp.forEach(function(value){
-  
-
- for (var prop in objA) {
-  if(!objB.hasOwnProperty(prop))
-   {
-   if (objA[prop]==value)
-      objB[prop]=value;
-   
-   }
-   
- }
-  
-  
-  
-});
-  
-  return objB;
-}
-
-    
-/* polyfil for Object.assign and object values */
-    
-    
-
-function dateFilter() {
-
-$scope.filteredProj={};
-$scope.numOfProj=0;
-$scope.roi=0;
-$scope.defectcount=0;
-$scope.featurecount=0;
-$scope.majorcount=0;
-$scope.minorcount=0;
-$scope.uniquefw=0;
-
-$scope.itemType ={'UI':0, 'EWS':0,'Fax':0,'Scan':0,'Mech':0,'ADF':0, 'Copy':0, 'IDS':0, 'Acumen':0,'Ink Sub':0, 'Ink Security':0, 'Connectivity':0, 'SIPs':0, 'OXPD':0,
-'Digital Send':0, 'LEDM':0, 'General Security':0, 'Mobility':0, 'Datapath':0, 'Board Config':0, 'ASIC':0, 'Power':0, 'Boot Loader':0, 'OS Related':0, 'Others':0};
-
-var i=0;
-
-for (var x in $scope.repo)
-{
-
-var objx = $scope.repo[x]['projectlist'];
-
-for(var y in objx)
- {
-
-
-var objy = objx[y];
-
-var vrdate = new Date(objy.datevr);
-
-	if((vrdate > $scope.startdate) && (vrdate < $scope.enddate))
-	{
-		roi_temp= objy.roi.replace(/\D/g, '');
-		$scope.numOfProj++;
-		$scope.filteredProj[y]= new filterDbCons( objy.datevr,  objy.livedate, objy.fdudate, 
-		 objy.mfgdate,objy.revision, objy.defectcount,  objy.featurecount, objy.cat,  objy.uniquefw);
-		$scope.roi+=parseInt(roi_temp);
-		$scope.defectcount+=parseInt( objy.defectcount);
-		$scope.featurecount+=parseInt( objy.featurecount);
-		$scope.uniquefw+=parseInt( objy.uniquefw);
-		if ( objy.cat =='Major roll')
-		$scope.majorcount++;
-	    else
-		$scope.minorcount++;
-    for (var z in  objy['itemlist']){
-
-     	    $scope.itemType[objy['itemlist'][z].component]++;
-
-    }
-
-   }
-
- }
-}
-$scope.itemType=sortObject($scope.itemType);
-
-
-
-
-/*angular.forEach($scope.repo, function(value,key){
-	console.log('1 Called');
-angular.forEach(value['projectlist'], function(value1,key1){
-		console.log('2 Called');
-	var temp= new Date(value1.datevr);
-  console.log(temp);
-  console.log($scope.filterMinDate);
-    console.log($scope.filterMaxDate);
-	if((temp > $scope.filterMinDate) && (temp < $scope.filterMaxDate))
-	{
-		roi_temp= value1.roi.replace(/\D/g, '');
-		$scope.numOfProj++;
-		$scope.filteredProj[key1]= new filterDbCons(value1.datevr, value1.livedate, value1.fdudate, 
-		value1.mfgdate,value1.revision, value1.defectcount, value1.featurecount,value1.cat, value1.uniquefw);
-		$scope.roi+=parseInt(roi_temp);
-		$scope.defectcount+=parseInt(value1.defectcount);
-		$scope.featurecount+=parseInt(value1.featurecount);
-		$scope.uniquefw+=parseInt(value1.uniquefw);
-		if (value1.cat =='Major roll')
-		$scope.majorcount++;
-	    else
-		$scope.minorcount++;
-	    angular.forEach(value1['itemlist'], function(value2){
-		    $scope.itemType[value2.component]++;
-			
-		});
-	
-	}
-	
-});
-	
-		
-}) */
-
-};
-
-
-
-$scope.hideZeroItem = function(count) {
-	
-if (count==0)
-return true;
-	
-	
-}
-
 
 });
