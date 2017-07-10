@@ -2,18 +2,21 @@
 header("Cache-Control:max-age=0, must-revalidate");
 header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); 
 
+require_once '../util/UtilityFunc.class.php'; //class UtilityFunc
+
+UtilityFunc::authCheck();
+
 if (isset($_POST)){
     
 
 /*include utility class for reusable functions*/
 include '../util/xmldomutil.php';
 
+
 $year = $_POST['year'];
 $cat = $_POST['cat'];
 $product= $_POST['product'];
 $product_trimed = str_replace(' ', '', $_POST['product']);
-
-
 
 try {
  /*get file name and category name in productlist */

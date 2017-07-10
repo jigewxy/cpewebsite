@@ -70,7 +70,7 @@ class UtilityFunc {
             
             session_start();
 
-            if($_SESSION['auth'] == 'fail')
+            if($_SESSION['auth'] != 'pass')
             { 
             echo 'AUTHERROR';
             exit();

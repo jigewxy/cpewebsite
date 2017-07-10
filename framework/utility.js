@@ -19,9 +19,6 @@ inputAsDate: function(){
 //global Utility Object
 var Utility = Utility || {};
 
-Utility.authChk = false;
-Utility.ssid = '';
-
 //Utility function to prevent number input
 //input : CSS selector of the input
 //Output: Remove any keyed-in numbers.
@@ -93,13 +90,12 @@ $(b).html(cnt-len);
 /*function to change the nav tab color when click */
 Utility.navTabColor =function(id){
 
-console.log('Utility.navTabColor called');
-$('li.nav-menu').css('background-color','#f8f8f8');
-$('li.nav-menu a').css('color','#777');
-$('li.'+id).css('background-color','#337ab7');
-$('a#'+id).css('color','white');
+    $('li.nav-menu').css('background-color','#f8f8f8');
+    $('li.nav-menu a').css('color','#777');
+    $('li.'+id).css('background-color','#337ab7');
+    $('a#'+id).css('color','white');
 
-$('li.'+id).off('mouseenter mouseleave');
+    $('li.'+id).off('mouseenter mouseleave');
 
 }
 
@@ -108,9 +104,9 @@ $('li.'+id).off('mouseenter mouseleave');
 
 Utility.topNavHover =function(){
 
-$("li.nav-menu").on({'mouseenter': function(){$(this).css({"background-color":"#337ab7","cursor":"pointer"}).children("a").css({"color":"white"});
+    $("li.nav-menu").on({'mouseenter': function(){$(this).css({"background-color":"#337ab7","cursor":"pointer"}).children("a").css({"color":"white"});
 
-}, 'mouseleave': function(){$(this).css({"background-color":"#f8f8f8"}).children("a").css({"color":"#777"}); }})
+    }, 'mouseleave': function(){$(this).css({"background-color":"#f8f8f8"}).children("a").css({"color":"#777"}); }})
 
 }
 
@@ -194,19 +190,6 @@ if ($(temp).prop("value") == "N/A")
 	
 };
 
-
-//manages the admin-only features
-Utility.renderAdminFields = function(){
-
-$('.admin-fail').css('opacity', '0.5').off().on('click', function(){
-    console.log('click happen');
-  $('#alert-modal').modal('show');
-});  
-
-$('.admin-pass').show();
-
-}
-
 //emit alert message
 Utility.emitAlertMsg = function(type, elems, msgHeader, msgBody, count, callback){
 
@@ -241,6 +224,39 @@ Utility.emitAlertMsg = function(type, elems, msgHeader, msgBody, count, callback
             }
           };
 
+
+
+//manages the admin-only features
+Utility.renderAdminFields = function(){
+
+$('.admin-fail').css('opacity', '0.5').off().on('click', function(){
+    console.log('click happen');
+  $('#alert-modal').modal('show');
+});  
+
+$('.admin-pass').show();
+
+}
+
+
+
+Utility.hookLoginAnchor = function(){
+
+    $('#anchor-login').attr('href', function(){
+    if(location.hostname ==="localhost")
+    return "https://localhost/cpewebsite/auth/auth.php"; 
+    else 
+    return "https://cpse.ijp.sgp.rd.hpicorp.net/auth/auth.php";
+    });
+
+    $('#anchor-logout').attr('href', function(){
+    if(location.hostname ==="localhost")
+    return "https://localhost/cpewebsite/auth/logout.php"; 
+    else 
+    return "https://cpse.ijp.sgp.rd.hpicorp.net/auth/logout.php";
+    });
+};
+
 Utility.redirectHttps = function(){
 
              var referer = document.referrer;
@@ -252,6 +268,61 @@ Utility.redirectHttps = function(){
                 };
 
 
+Utility.getCookie = function (name) {
+  
+    var reg = new RegExp(name+'=.*?;');
+    var result = document.cookie.match(reg);
+    
+    return result;
+  
+};
+
+
+Utility.setCookie = function (name, value, days) {
+
+if (days === undefined)
+{
+    document.cookie = name + "=" + value + ";path=/";
+
+}
+else {
+
+    var d = new Date();
+    d.setTime(d.getTime() + (days*24*60*60*1000));
+
+    var expires = "expires="+ d.toUTCString();
+    document.cookie = name + "=" + value + ";" + expires + ";path=/";
+   }
+
+};
+
+Utility.addAdminClass = function (elems){
+
+ var state = Utility.authState;
+ console.log(state);
+
+ _.each(elems, function(i){
+
+  $(i).addClass('admin-'+state);
+
+ });
+
+};
+
+
+Utility.checkAuth = function(arg){
+
+if (arg===null )
+   return 'fail';
+else if (arg[0].indexOf('pass') === -1 )
+   return 'fail';
+else 
+   return 'pass';
+
+};
+
+//initialize authState value;
+Utility.authState = Utility.checkAuth(Utility.getCookie('auth'));;
 
 
 window.Utility = Utility;

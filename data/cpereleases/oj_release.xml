@@ -12,6 +12,10 @@
     <product year="2017">Edwin</product>
     <product year="2016">Muscatel Lite</product>
     <product year="2016">Muscatel Lite XXL</product>
+    <product year="2015">Emerson</product>
+    <product year="2013">Engle</product>
+    <product year="2014">Ebadi</product>
+    <product year="2014">Engle Ext</product>
   </productlist>
   <muscatelroot>
     <release>
@@ -188,4 +192,8 @@
       <owner>CPE</owner>
     </release>
   </muscatellitexxlroot>
+  <emersonroot/>
+  <engleroot/>
+  <ebadiroot/>
+  <engleextroot/>
 </productroot>

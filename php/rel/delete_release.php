@@ -3,6 +3,9 @@ header("Cache-Control:max-age=0, must-revalidate");
 header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); 
 
 include '../util/xmldomutil.php';
+require_once '../util/UtilityFunc.class.php'; //class UtilityFunc
+
+UtilityFunc::authCheck();
 
 /*special note -- instead of modifying the corresponding Node directly, the old node was deleted first, and then insert the new node by comparing the node value of <date/>, this is to make sure release entry are re-arranged in chronological order */
 if(isset($_POST)){

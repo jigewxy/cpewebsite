@@ -9,20 +9,7 @@ $(document).ready(function(){
 
 loadContent();
 
-$('#anchor-login').attr('href', function(){
-if(location.hostname ==="localhost")
-   return "https://localhost/cpewebsite/login/auth.html"; 
-else 
-   return "https://cpse.ijp.sgp.rd.hpicorp.net/login/auth.html";
-});
-
-$('#anchor-logout').attr('href', function(){
-if(location.hostname ==="localhost")
-   return "https://localhost/cpewebsite/login/logout.php"; 
-else 
-   return "https://cpse.ijp.sgp.rd.hpicorp.net/login/logout.php";
-});
-
+Utility.hookLoginAnchor();
 
 //add event listener for add button
 $('#btn-add').on('click', function(){

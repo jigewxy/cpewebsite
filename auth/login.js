@@ -23,7 +23,7 @@ location.replace(document.referrer);
 
    else{
         $.ajax({
-            url: '../php/login/login.php',
+            url: 'login.php',
             method: 'POST',
             data: formdata
         }).done(function(resp){
@@ -34,27 +34,23 @@ location.replace(document.referrer);
                case 'success':
                var count=5;
                Utility.emitAlertMsg(1, 'div#login-status', 'Log in successful!', ' Redirecting...', count, Utility.redirectHttps);
-               Utility.authChk = true;
-               Utility.ssid = respObj.ssid;
+              // Utility.setCookie('auth', 'pass');
 
                break;
 
                case 'wrong username':
                Utility.emitAlertMsg(4, 'div#login-status', 'Log in failed!', ' Username does not exist!');
-               Utility.authChk = false;
-               Utility.ssid = respObj.ssid;
+             //  Utility.setCookie('auth', 'fail');
                break;
 
                case 'wrong password':
                Utility.emitAlertMsg(4, 'div#login-status', 'Log in failed!', ' Password is wrong!');
-               Utility.authChk = false;
-               Utility.ssid = respObj.ssid;
+              // Utility.setCookie('auth', 'fail');
                break;
               
                default:
                Utility.emitAlertMsg(4, 'div#login-status', 'Log in failed!', ' Database connection error, please contact Admin!');
-               Utility.authChk = false;
-               Utility.ssid = '';
+              // Utility.setCookie('auth', 'fail');
                break;
 
             }
@@ -65,8 +61,6 @@ location.replace(document.referrer);
 
         }).always(function(xhr, error, status){
 
-            console.log(Utility.authChk);
-            console.log(Utility.ssid);
             console.log('always....')});
       } 
   })

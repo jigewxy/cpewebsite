@@ -1,14 +1,5 @@
 <?php
-    session_start();
-
-    if (!isset($_SESSION['auth']))
-    {
-        $_SESSION['auth'] = 'fail';
-    }
-
-    echo $_SESSION['auth'].'/n';
-    echo session_id();
-
+include 'template/setcookie.php';
 ?>
 
 <html>
@@ -30,13 +21,7 @@
 <div id="nav-top">
     <nav class="navbar navbar-default container-fluid">
     <ul class="nav navbar-nav navbar-right">
-        <?php include 'template/navlist.php'; 
-              if($_SESSION['auth']=='pass') 
-               echo '<li class="nav-menu"><a id="anchor-logout"><span class="glyphicon glyphicon-log-in"></span> Log out</a></li>';
-               else 
-               echo '<li class="nav-menu"><a id="anchor-login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>';
-        ?>
-        <li class="nav-menu"><a href="index.html"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+        <?php include 'template/navlist.php'; ?>
     </ul>
     </nav>
  </div>

@@ -8,8 +8,6 @@
     <year>2014</year>
     <year>2012</year>
     <year>2011</year>
-    <product year="2016">Tesla PDL</product>
-    <product year="2016">Weber Mid</product>
     <product year="2016">Weber Base</product>
     <product year="2014">Farad Mid</product>
     <product year="2014">Farad Base</product>
@@ -22,6 +20,7 @@
     <product year="2011">Coulomb Kaiser</product>
     <product year="2011">Coulomb Base Kaiser</product>
     <product year="2011">Thomson Kaiser</product>
+    <year>2013</year>
   </productlist>
   <weberpdlroot>
     <release>
@@ -47,21 +46,19 @@
       <owner>NPI</owner>
     </release>
   </weberpdlroot>
-  <teslapdlroot>
+  <weberbaseroot>
     <release>
-      <version>1.1</version>
-      <fwversion>001.1636A</fwversion>
-      <date>2017-07-06</date>
-      <arel>\\x\y\z</arel>
-      <sarel>\\x\y\z</sarel>
-      <narel>\\x\y\z</narel>
-      <branch>frz_2016_tesla_weberpdl_vr1_3</branch>
-      <type>MFG;Cloud;FDU</type>
+      <version>Weber Base VR1</version>
+      <fwversion/>
+      <date/>
+      <arel/>
+      <sarel>NA</sarel>
+      <narel/>
+      <branch/>
+      <type/>
       <owner>NPI</owner>
     </release>
-  </teslapdlroot>
-  <webermidroot/>
-  <weberbaseroot/>
+  </weberbaseroot>
   <faradmidroot/>
   <faradbaseroot/>
   <lorentzroot/>

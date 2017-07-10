@@ -4,6 +4,9 @@ header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
 
 
 include '../util/xmldomutil.php';
+require_once '../util/UtilityFunc.class.php'; //class UtilityFunc
+
+UtilityFunc::authCheck();
 
 if (isset($_POST)){
 

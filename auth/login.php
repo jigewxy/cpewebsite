@@ -1,7 +1,7 @@
 <?php
 
-require_once '../util/ServerConfig.class.php'; //CLASS ServerConfig
-require_once '../util/UtilityFunc.class.php'; //class UtilityFunc
+require_once '../php/util/ServerConfig.class.php'; //CLASS ServerConfig
+require_once '../php/util/UtilityFunc.class.php'; //class UtilityFunc
 
 $username = $_POST['username'];
 $password = $_POST['password'];
@@ -47,12 +47,12 @@ else
 {
 
 $_SESSION['auth'] = "pass";
+setcookie('auth', 'pass');
 $returndata['state'] = "success";
 $returndata['auth'] = "pass";
 
 }
 
-$returndata['ssid'] = session_id();
 $_SESSION['ssid'] =session_id();
 
 echo json_encode($returndata, JSON_PRETTY_PRINT);

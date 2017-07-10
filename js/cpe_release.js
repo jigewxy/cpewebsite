@@ -1,4 +1,3 @@
-
 //use module reveal design pattern
 
 (function(window, document, $){
@@ -9,20 +8,23 @@
             g_productInScope='',
             g_scopeProductData={},
             g_currentCat={},
-            g_currentProductCtx={},/*current product context = li element*/    
-            g_alertMsg = '<div class="alert alert-warning"><strong> No entry is selected</strong></div>',
-            g_successMsg ='<div class="alert alert-success"><strong>Successful! </strong>',
-            g_errMsg = '<div class="alert alert-danger"><strong>Failed! </strong>';
+            g_catmap = {'Officejet Pro':'ojpro', 'Officejet':'oj', 'Pagewide':'pws', 'Consumer':'consumer', 'Mobile':'mobile'},
+            g_currentProductCtx={};/*current product context = li element*/    
+       
+    function getEntity(elems, tag){
 
-         function getEntity(elems, tag){
+            var targetNode =  elems.getElementsByTagName(tag)[0].childNodes[0];
             
-            return elems.getElementsByTagName(tag)[0].childNodes[0].nodeValue;
+            if (targetNode === undefined)
+               return '';
+            else 
+              return targetNode.nodeValue;
             
             }
 
 
         /*LEARNING -- define a $.ajax returning function to create a deferred object later */
-        function getPdListDefer(){
+    function getPdListDefer(){
             
             return $.ajax({
                 url: 'data/cpereleases/product_list.xml',
@@ -32,7 +34,7 @@
             
         }
 
-        function initDatePicker(){
+    function initDatePicker(){
             
             $( ".date-picker" ).datepicker(
             
@@ -44,7 +46,7 @@
             }
 
 
-        function updateProductList(){
+    function updateProductList(){
 
 
 
@@ -81,7 +83,7 @@
         }
 
         /*function to determine xml Database */
-        function xmlUrl (arg){
+    function xmlUrl (arg){
         switch (arg)
 
             {
@@ -118,7 +120,7 @@
 
 
         /* reset the list when press Delete Product Again*/
-        function resetList (){
+    function resetList (){
 
             $('.cat-sel').val('--Please Select--');
             document.getElementById('dyn-product-sel').innerHTML = '';
@@ -133,7 +135,7 @@
 
         /* load dynamic product list used in delete product modal */
 
-        function loadDynList (sel){
+    function loadDynList (sel){
 
 
             var list= [];
@@ -185,7 +187,7 @@
 
 
         /*load category */
-        function loadCat (arg){
+    function loadCat (arg){
             
             loadPartial(arg);
             //setTimeout(function(){$('div.panel-primary:first-child >div.panel-heading').click();}, 100); 
@@ -206,11 +208,11 @@
         /*render the left navigation panel when product category selected */
         function loadPartial(arg){
 
-        var cat = arg.innerHTML.trim();
-        var xhttp = new XMLHttpRequest();
-        var obj_list={};
-        var arr_years=[];
-        g_currentCat=arg;
+            var cat = arg.innerHTML.trim();
+            var xhttp = new XMLHttpRequest();
+            var obj_list={};
+            var arr_years=[];
+            g_currentCat=arg;
 
         Utility.navTabColor(arg.id);
         /*wipe out existing release table - but why? */
@@ -289,7 +291,7 @@
 
 
         /* load the release table for specific product */
-        function loadTable(arg){
+    function loadTable(arg){
 
 
             var name = arg.innerHTML;
@@ -311,7 +313,7 @@
         }
 
         /* function to form up the release table */
-        function renderTable (response, pname){
+    function renderTable (response, pname){
 
             /*parse the product name, example: ' Muscatel Lite ' become 'muscatelliteroot'*/
             /*LEARNING -- need to use regex to replace all occurence, or else it will just replace the first occurence. */
@@ -325,9 +327,9 @@
 
 
             var tbl_header = '<h3>'+pname+'</h3><hr>'+'<table class="table table-stripped table-hover table-bordered">'+'<tr><th>VR#</th><th>Version</th><th>VR Date</th><th>AREL</th><th class="cell-sarel">SAREL</th><th>NAREL</th><th>Branch</th><th>Update Type</th><th>Released By</th></tr>';
-            var tbl_footer ='</table><input class="btn btn-success" value="Add" onclick="cpeRelModule.addEntry()">'+
-                            ' <input class="btn btn-primary" value="Edit" onclick="cpeRelModule.editEntry()">'+
-                            '<input class="btn btn-danger" value="Delete" onclick="cpeRelModule.deleteEntry()">';
+            var tbl_footer ='</table><button id="btn-add-entry" class="btn btn-success">ADD</button>'+
+                            ' <button id ="btn-edit-entry" class="btn btn-primary">EDIT</button>'+
+                            '<button id="btn-del-entry" class="btn btn-danger">DELETE </button>';
 
             var tbl_body = '';
 
@@ -344,78 +346,26 @@
             };
 
             var table= tbl_header+ tbl_body+ tbl_footer;
-
-
+            
+            //fill in the content table
             document.getElementById('release-content').innerHTML = table;
 
             /* check if the first .cell-sarel element is 'NA', if yes, hide the sarel cell */
             if($('td.cell-sarel a').eq(0).attr('href') == 'NA')
                 $('.cell-sarel').hide();
+     
+        $('button#btn-add-entry').on('click', cpeRelModule.renderModal.addEntry);
+        $('button#btn-edit-entry').on('click',cpeRelModule.renderModal.editEntry);
+        $('button#btn-del-entry').on('click', cpeRelModule.renderModal.deleteEntry);
+
+        //add admin-pass or admin-fail based on the $_SESSION['auth']
+       Utility.addAdminClass(['button#btn-add-entry', 'button#btn-edit-entry', 'button#btn-del-entry']);
+       Utility.renderAdminFields();
 
         }
-
-
-        function addEntry(){
-            /*LEARNI=functionNG - $() and element itself has different properties */
-        /* $() is a Jquery object which has all Jquery properties */
-        //console.log($(g_currentCat).html());
-        //  console.log(g_currentCat.textContent);
-        $('#add-entry-modal').modal('show');
-        $('input[name=date]').on({'keypress': Utility.validateDateInput.bind(this, 'input[name=date]'), 
-                    'keyup': Utility.validateDateInput.bind(this, 'input[name=date]')});  
-            /*pass values to hidden input - product and category */
-
-        }
-
-        function editEntry() {
-            
-        var category = g_currentCat.textContent;
-        var sel_list ='';
-        var sel_header ='<label> Choose a release to modify: </label> <select class="form-control" name="index" onchange="cpeRelModule.loadModifyTable(value)">';
-        var sel_footer = '</select><hr>';
-        var sel_body ='<option value="unset"> -- Select An Entry -- </option>';
-                
-        var arr = g_scopeProductData.getElementsByTagName('release');
-
-            
-        /* get select list */
-            
-
-        var selectlist = [];
-            
-            /*clear the input form while entering */
-        $('#edit-form').html(''); 
-            
-        for(var i=0; i<arr.length; i++){
-
-        selectlist.push(getEntity(arr[i], 'version'));
-
-        sel_body +=  '<option value="'+i+'">'+ getEntity(arr[i], 'version') + '</option>';
-            
-        };
-            
-
-        sel_list = sel_header + sel_body + sel_footer;
-            
-        //var tbl_content =  tbl_body ;
-
-        $('#select-box').html(sel_list);
-            
-        $('#modify-entry-modal').modal('show');
-            
-        /*LEARNING - $() and element itself has different properties */
-        /* $() is a Jquery object which has all Jquery properties */
-        //console.log($(g_currentCat).html());
-        //  console.log(g_currentCat.textContent);
-        $('input[name=date]').on({'keypress': Utility.validateDateInput.bind(this, 'input[name=date]'), 
-                    'keyup': Utility.validateDateInput.bind(this, 'input[name=date]')});  
-            
-        }
-
-
         /*Render the modify box */
 
-        function loadModifyTable (index){
+   function loadModifyTable (index){
 
             if (index=='unset')
                 $('#edit-form').html(''); 
@@ -425,7 +375,7 @@
                 var data= g_scopeProductData.getElementsByTagName('release')[index];
                 var arr_label = ['VR#', 'Version', 'VR Date', 'AREL', 'SAREL','NAREL', 'Branch', 'Update Type', 'Released By'];
                 var form_header = '<div class="form-group">';
-                var form_footer= '<hr><input type="submit" class="btn btn-primary" value="Submit" onclick="cpeRelModule.entryChangeSubmit(event)"></div>';
+                var form_footer= '<hr><input type="submit" class="btn btn-primary" value="Submit" onclick="cpeRelModule.submittalObj.editEntry(event)"></div>';
                 var form_body='';
                 var i=0;
                     
@@ -454,55 +404,35 @@
                 })
                     
                 $('#edit-form').html(form_header+ form_body+form_footer);
+
+                //initialize the date picker for the dynamic content
                 initDatePicker();
                 }
 
         }
 
 
-        /* Delete release entry function */
+  var submittalObj = {
+     
+      addProduct: function(){
+             var form_data = $('#add-product-form').serialize();
+             var temp = $('#add-product-form').serializeArray();
 
-        function deleteEntry (){
-            
-            var ckbox ='';
-            var ckbox_header='<select class="form-control" id="select-del-entry" name="deletion">';
-            var options ='<option value="unset"> --Please select an entry --</option>';
-            var ckbox_footer= '</select><br>'
+             var category = g_catmap[temp[1].value];
+             var pdname = temp[2].value;
 
-        var data= g_scopeProductData.getElementsByTagName('release');
-        /*LEARNING --data will be a HTMLcollection in this case,
-        alternative is to use g_scopeProductData.childNodes, which will create a nodelist --- this is a better way 
+            //check if input is duplicate product name 
+            if (_.indexOf(g_productlist[category], pdname)!==-1)
+            {
+               Utility.emitAlertMsg(4, '#add-product-status', 'Failed! ', 'Duplicate product name!');
+               return;
+            }
 
-        [] is the syntax sugar for Array.prototype
-        [].forEach.call(data, function(child){  */
-            
-            [].forEach.call(data, function(child,index){ 
-                /* Childnode is [1,3] not [0,2], because XML file is formated with line-break */
-                var version = child.childNodes[1].innerHTML;
-                var fwversion = child.childNodes[3].innerHTML;
-                options += '<option value="'+index +'">'+version + ' -- [' + fwversion +']';
-                
-            })
-            
-            var ckbox = ckbox_header + options + ckbox_footer;
-            
-            $('#delete-modal-body').html(ckbox);
-            $('#delete-entry-modal').modal('show');
-            
-        }
-
-        function addProductSubmit (){
-            
-            var form_data = $('#add-product-form').serialize();;
-            var successMsg= g_successMsg;
-            var errMsg = g_errMsg;
-            
+           else {
             /*LEARNING -- be careful with dataType (expected response format) and contentType (data sending format)*/
             /*.success() and .error() are deprecated after Jquery 1.8, so use .fail() and .done() instead */
             /*clear the feedback message when add another product */
 
-            
-            
                 $.ajax({
                     url: 'php/rel/add_product.php',
                     data: form_data,
@@ -511,125 +441,106 @@
                     contentType: 'application/x-www-form-urlencoded'
                     
                 }).done(function(data){
-                
-                // loadPartial();
+                  
+                  if(data.trim()==='AUTHERROR'){
+                   
+                   Utility.emitAlertMsg(4, '#add-product-status', 'Failed! ', 'Authentication failure, please log in first');
+
+                  }
+
+                  else {
+
                     var fb = JSON.parse(data);
-                    successMsg += fb.product +' has been added to ['+fb.cat+'] successfully!</div>';
-                loadPartial(g_currentCat);
-                    $('#add-product-status').html(successMsg);
+                     Utility.emitAlertMsg(1, '#add-product-status', 'Success! ', fb.product +' has been added to ['+fb.cat+'] successfully!');
+                     loadPartial(g_currentCat);
                     /*don't forget to update product list */
-                updateProductList();
+                     updateProductList();
+                  }
                 
                     
                 }).fail(function(xhr,status, err){
 
-                    errMsg +='Status= '+status+ ' Error= '+ err + '</div>';
-                    
-                $('#add-product-status').html(errMsg);
+               Utility.emitAlertMsg(4, '#add-product-status', 'Failed! ', err);
                     
                 }).always(function(xhr,status,err){
                     
-                    
-                    document.addEventListener('click', function(){
-                        
-                        $('#add-product-status').html(''); 
-                        
-                    })
-                    
-                
-            });
-            
-            
-        }
+                    //add later
+              });
+           }
+      },
+      delProduct: function(){
 
 
-        /*submit delete product job */
-            
+                  var formdata = $('#del-product-form').serialize();
 
-        function delProductSubmit(){
-            
-            var formdata = $('#del-product-form').serialize();
-                
-                var successMsg= g_successMsg;
-                var errMsg = g_errMsg;
-            
+                    $.ajax({
 
-            $.ajax({
-
-                url: 'php/rel/delete_product.php',
-                method: 'POST',
-                data: formdata,
-                contentType: 'application/x-www-form-urlencoded'
-                })
-                .done(function(data){
-                
-                /*load updated product list */
-                loadPartial(g_currentCat);
-                
-                /*delete the current table if this product is deleted */
-                if(g_currentProductCtx.innerHTML == $('#dyn-product-sel').val() )
-                    document.getElementById('release-content').innerHTML = '';
-                    
-                
-                var fb= JSON.parse(data);
-                successMsg += fb.product +' has been removed from ['+fb.cat+'] successfully!</div>';
-                
-                $('#del-product-status').html(successMsg);
-                
-                /*don't forget to update product list */
-
-                /*LEARNING -- reload the product delete list after the list been updated,need to use deferred promise here, while $.when() create a Deferred object, and when it is resolved, then reload the product list */
-                
-                $.when(getPdListDefer()).then( function(resp){
-                        
-                /*before update, reset the product list */
-                        g_productlist={'ojpro':[], 'oj':[], 'pws':[], 'consumer':[], 'mobile':[] };
-                            
-                        for (var prop in g_productlist)
-                        {
-                        var list= resp.getElementsByTagName(prop)[0].getElementsByTagName('product');
-
-                        for (var i =0; i<list.length;i++)
-                        {
-                            g_productlist[prop].push(list[i].childNodes[0].nodeValue);
-
-                        }
-
-                        } 
-                    
-                            loadDynList(fb.cat);
-                        } );
-                        
-
-                    }).fail(function(xhr, status, err){
-                        
-                        errMsg +='Status= '+status+ ' Error= '+ err + '</div>';
-                            
-                        $('#del-product-status').html(errMsg);
-                        
-                        
-                    }).always(function(xhr, status,err){
-                        
-                        document.addEventListener('click', function(){
-                            
-                            $('#del-product-status').html('');   
-                            
+                        url: 'php/rel/delete_product.php',
+                        method: 'POST',
+                        data: formdata,
+                        contentType: 'application/x-www-form-urlencoded'
                         })
-                
-            
-        })
-            
-            
-            /*ajax call end */
+                        .done(function(data){
 
-        }
+                        if(data.trim()==='AUTHERROR'){
+                        
+                        Utility.emitAlertMsg(4, '#del-product-status', 'Failed! ', 'Authentication failure, please log in first');
 
-        function submitNewEntry (){
+                            }
+
+                        else {
+                                
+                        /*load updated product list */
+                        loadPartial(g_currentCat);
+                        
+                        /*delete the current table if this product is deleted */
+                         if(g_currentProductCtx.innerHTML == $('#dyn-product-sel').val() )
+                            document.getElementById('release-content').innerHTML = '';    
+                        
+                          var fb= JSON.parse(data);
+                         Utility.emitAlertMsg(1, '#del-product-status', 'Success! ', fb.product +'has been removed from ['+fb.cat+'] successfully!');
+                        
+                        /*don't forget to update product list */
+
+                        /*LEARNING -- reload the product delete list after the list been updated,need to use deferred promise here, while $.when() create a Deferred object, and when it is resolved, then reload the product list */
+                        
+                        $.when(getPdListDefer()).then( function(resp){
+                                
+                        /*before update, reset the product list */
+                                g_productlist={'ojpro':[], 'oj':[], 'pws':[], 'consumer':[], 'mobile':[] };
+                                    
+                                for (var prop in g_productlist)
+                                {
+                                var list= resp.getElementsByTagName(prop)[0].getElementsByTagName('product');
+
+                                for (var i =0; i<list.length;i++)
+                                {
+                                    g_productlist[prop].push(list[i].childNodes[0].nodeValue);
+
+                                }
+
+                                } 
+                            
+                                    loadDynList(fb.cat);
+                                } );
+                                
+
+                            }}).fail(function(xhr, status, err){
+                                                 
+                        Utility.emitAlertMsg(4, '#del-product-status', 'Failed! ', err);
+                                
+                                
+                            }).always(function(xhr, status,err){
+                                
+                                //to be added                    
+                })
+        
+      },
+
+    addEntry: function(){
+
             
             var formdata= $('#form-add-release').serialize()+'&product='+g_productInScope+'&cat='+g_currentCat.innerHTML;
-
-            var successMsg= g_successMsg;
-            var errMsg = g_errMsg;
                 
             $.ajax({
                 url: 'php/rel/add_release.php',
@@ -638,42 +549,29 @@
                 contentType: 'application/x-www-form-urlencoded'
                 
             }).done(function(resp){
+
+              if(resp.trim()==='AUTHERROR'){
+                   
+                   Utility.emitAlertMsg(4, '#add-release-status', 'Failed! ', 'Authentication failure, please log in first');
+
+                  }
+
+             else {
                 var fb= JSON.parse(resp);
-                successMsg += '['+fb.version+']'+fb.fwversion+' has been added! </div>';
-            loadTable(g_currentProductCtx);
-                $('#add-release-status').html(successMsg);
-                document.addEventListener('click', function(){
-                    
-                $('#add-release-status').html('');
-                    
-                });
+                Utility.emitAlertMsg(1, '#add-release-status', 'Success! ', '['+fb.version+']'+fb.fwversion+' has been added!');
+                loadTable(g_currentProductCtx);
                 
                 
-            }).fail(function(xhr,status, err){
+            }}).fail(function(xhr,status, err){
                 
-                errMsg +='Status= '+status+ ' Error= '+ err + '</div>';
+           Utility.emitAlertMsg(1, '#add-release-status', 'Failed! ', err);
+            
+          });
                 
-                $('#add-release-status').html(errMsg);
-                document.addEventListener('click', function(){
-                    
-                $('#add-release-status').html('');
-                    
-                });
-            
-        });
-            
-            
-            
-        }
-
-        function entryChangeSubmit (e){
-
-        /* prevent default action to close the modal */
+      }, 
+    editEntry: function(e){
+  /* prevent default action to close the modal */
             e.preventDefault();
-
-            var successMsg= g_successMsg;
-            var errMsg = g_errMsg;
-                
             
             /* LEARNING.serialize() only works on certain type of DOM, such as <form> */
             var formdata= $('#form-edit-entry').serialize() + '&product='+g_productInScope +'&cat='+g_currentCat.innerHTML;
@@ -684,42 +582,42 @@
                 data: formdata
             
             }).done(function(fb){
+            
+               if(fb.trim()==='AUTHERROR'){
+                   
+                Utility.emitAlertMsg(4, '#edit-release-status', 'Failed! ', 'Authentication failure, please log in first');
 
-            successMsg += fb+ ' has been modified! </div>';
+                  }
+
+             else {
+
             loadTable(g_currentProductCtx);
-            $('#edit-release-status').html(successMsg);
+
+            Utility.emitAlertMsg(1, '#edit-release-status', 'Success! ', fb+ ' has been modified!');
                     
-            }).fail(function(xhr,status, err){
+            }}).fail(function(xhr,status, err){
                 
-                errMsg +='Status= '+status+ ' Error= '+ err + '</div>';
-                
-                $('#edit-release-status').html(errMsg);
+            Utility.emitAlertMsg(1, '#edit-release-status', 'Failed! ', err);
 
                 
             }).always(function(xhr,status,err){
                     
                 $('#select-box select').val('unset');
                 $('#select-box select').trigger('onchange');
-                document.addEventListener('click', function(){
-                
-                $('#edit-release-status').html('');  
                     
-                    
-                })
-                    
-                
             });
             
-        }
+       },
 
-        function entryDeleteSubmit (){
-            
+
+    delEntry: function(){
+
                 var formdata= $('#select-del-entry').serialize() + '&product='+g_productInScope +'&cat='+g_currentCat.innerHTML;
-                var successMsg= g_successMsg;
-                var errMsg = g_errMsg;
+
                 if ($('#select-del-entry').val() =="unset")
                 {
-                    $('#del-release-alert').html(g_alertMsg);
+
+                   Utility.emitAlertMsg(3, '#del-release-alert', 'Warning! ', 'No entry is selected');
                     /*add Jquery event listener to clear the alert message once new input given in select box */
                     $('#select-del-entry').change(function(){
                         $('#del-release-alert').html('');    
@@ -738,66 +636,190 @@
                         method:'POST',
                         data:formdata   
                     }).done(function(resp){
+
+                          if(resp.trim()==='AUTHERROR'){
+                   
+                             Utility.emitAlertMsg(4, '#del-release-status', 'Failed! ', 'Authentication failure, please log in first');
+
+                                }
+
+                          else {
                         
-                        var fb = JSON.parse(resp);
-                        successMsg += fb.version+' has been removed!';
-                        loadTable(g_currentProductCtx);
-                        /*LEARNING - instead of AJAX call, can remove the option from the DOM in the modal, which is more efficient */
-                        $('#select-del-entry option').get(Number(fb.index)+1).remove();
-                        $('#del-release-status').html(successMsg);
+                            var fb = JSON.parse(resp);
+                            loadTable(g_currentProductCtx);
+                            /*LEARNING - instead of AJAX call, can remove the option from the DOM in the modal, which is more efficient */
+                            $('#select-del-entry option').get(Number(fb.index)+1).remove();
+                            Utility.emitAlertMsg(1, '#del-release-status', 'Success! ',  fb.version+' has been removed!');
+                            
+                    }}).fail(function(xhr, status, err){
                         
-                    }).fail(function(xhr, status, err){
-                        
-                        errMsg +='Status= '+status+ ' Error= '+ err + '</div>';
-                        
-                        $('#edit-release-status').html(errMsg);
+                      Utility.emitAlertMsg(1, '#del-release-status', 'Failed! ',  err);
                         
                     }).always(function(xhr,status,err){
                         
                             
                         $('#select-del-entry').val('unset');
                         $('#select-del-entry').trigger('onchange');
-                        document.addEventListener('click', function(){
-                        $('#del-release-status').html('');  
-                    
-                    
-                })   
-                    
-                    
-                });
-                    
-                }  
-            }
 
+                });
+            }  
+       }
+
+
+    };
+
+ var renderModal = {
+
+       addProduct: function(){ 
+                 
+                 $('#add-product-modal').modal('show');
+                 $('button#btn-add-product').on('click', cpeRelModule.submittalObj.addProduct);
+              },
+
+       delProduct: function(){
+
+                cpeRelModule.resetList();
+                $('#delete-product-modal').modal('show').find('#btn-del-product').on('click', cpeRelModule.submittalObj.delProduct);
+                
+              },
+
+       addEntry: function (){
+            /*LEARNI=functionNG - $() and element itself has different properties */
+        /* $() is a Jquery object which has all Jquery properties */
+        //console.log($(g_currentCat).html());
+        //  console.log(g_currentCat.textContent);
+               $('#add-entry-modal').modal('show');
+               $('#btn-add-entry').on('click', cpeRelModule.submittalObj.addEntry);
+               $('input[name=date]').on({'keypress': Utility.validateDateInput.bind(this, 'input[name=date]'), 
+                    'keyup': Utility.validateDateInput.bind(this, 'input[name=date]')});  
+            /*pass values to hidden input - product and category */
+
+              },
+
+      editEntry: function(){
+
+                var category = g_currentCat.textContent;
+                var sel_list ='';
+                var sel_header ='<label> Choose a release to modify: </label> <select class="form-control" name="index" onchange="cpeRelModule.loadModifyTable(value)">';
+                var sel_body ='<option value="unset"> -- Select An Entry -- </option>';
+                var sel_footer = '</select><hr>';
+     
+                        
+                var arr = g_scopeProductData.getElementsByTagName('release');
+
+                    
+                /* get select list */
+                    
+
+                var selectlist = [];
+                    
+                    /*clear the input form while entering */
+                $('#edit-form').html(''); 
+                    
+                for(var i=0; i<arr.length; i++){
+
+                selectlist.push(getEntity(arr[i], 'version'));
+
+                sel_body +=  '<option value="'+i+'">'+ getEntity(arr[i], 'version') + '</option>';
+                    
+                };
+                    
+
+                sel_list = sel_header + sel_body + sel_footer;
+                    
+                //var tbl_content =  tbl_body ;
+
+                $('#select-box').html(sel_list);
+                    
+                $('#modify-entry-modal').modal('show');
+
+                    
+                /*LEARNING - $() and element itself has different properties */
+                /* $() is a Jquery object which has all Jquery properties */
+                //console.log($(g_currentCat).html());
+                //  console.log(g_currentCat.textContent);
+                $('input[name=date]').on({'keypress': Utility.validateDateInput.bind(this, 'input[name=date]'), 
+                            'keyup': Utility.validateDateInput.bind(this, 'input[name=date]')});  
+            }, 
+
+        deleteEntry: function(){
+
+                            
+                var ckbox ='';
+                var ckbox_header='<select class="form-control" id="select-del-entry" name="deletion">';
+                var options ='<option value="unset"> --Please select an entry --</option>';
+                var ckbox_footer= '</select><br>'
+
+                var data= g_scopeProductData.getElementsByTagName('release');
+            /*LEARNING --data will be a HTMLcollection in this case,
+            alternative is to use g_scopeProductData.childNodes, which will create a nodelist --- this is a better way 
+
+            [] is the syntax sugar for Array.prototype
+            [].forEach.call(data, function(child){  */
+                
+                [].forEach.call(data, function(child,index){ 
+                    /* Childnode is [1,3] not [0,2], because XML file is formated with line-break */
+                    var version = child.childNodes[1].innerHTML;
+                    var fwversion = child.childNodes[3].innerHTML;
+                    options += '<option value="'+index +'">'+version + ' -- [' + fwversion +']';
+                    
+                })
+                
+                var ckbox = ckbox_header + options + ckbox_footer;
+                
+                $('#delete-modal-body').html(ckbox);
+                $('#delete-entry-modal').modal('show');
+                $('#btn-del-entry').on('click',cpeRelModule.submittalObj.delEntry);
+            }
+        
+
+
+        };
+        
             //return function that needed externally
             return {initDatePicker: initDatePicker,
                     updateProductList: updateProductList,
                     loadCat:loadCat,
                     loadTable:loadTable,
-                    addEntry:addEntry,
-                    editEntry:editEntry,
-                    deleteEntry:deleteEntry,
                     resetList:resetList,
                     loadModifyTable:loadModifyTable,
-                    entryDeleteSubmit:entryDeleteSubmit,
                     displayYear:displayYear,
-                    addProductSubmit:addProductSubmit,
-                    delProductSubmit:delProductSubmit,
                     loadDynList:loadDynList,
-                    submitNewEntry:submitNewEntry,
-                    entryChangeSubmit:entryChangeSubmit };
+                    submittalObj:submittalObj,
+                    renderModal: renderModal
+             };
         })();
 /*some initializations are required */
     $(document).ready(function(){
+       
+    Utility.authState = Utility.checkAuth(Utility.getCookie('auth'));
 
+    Utility.hookLoginAnchor();
 //set up hover behavior
 //Utility.topNavHover();
 /*trigger a click on first menu */
+       ['a#ojpro-link', 'a#oj-link', 'a#pws-link', 'a#ics-link', 'a#mobile-link'].forEach(function(val){
+
+         $(val).on('click', function(){
+    
+          cpeRelModule.loadCat(this);
+
+         });
+
+       });
         $('ul#list-cat li:first-child>a').click();
+        
+        $('li#li-add-product').on('click', cpeRelModule.renderModal.addProduct);
+        $('li#li-del-product').on('click', cpeRelModule.renderModal.delProduct);
+
+
+
+      Utility.addAdminClass(['li#li-add-product', 'li#li-del-product']);
+      Utility.renderAdminFields();
+    
 
         /*initialize date-picker */
         cpeRelModule.initDatePicker();
-
         /*preload product list for later use */
         cpeRelModule.updateProductList();
         //setTimeout(function(){$('div.panel-primary:first-child >div.panel-heading').click();}, 100); 

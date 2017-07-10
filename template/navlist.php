@@ -9,7 +9,12 @@
             <li><a href="cpe_tools.php">Tools</a></li>
             <li><a href="processes.html">CPE Process</a></li>
             <li class="divider"></li>
-            <li><a href="index.html"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-            </ul> 
-            
+            <li><a href="index.php"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+            </ul>   
         </li>
+         <?php if($_SESSION['auth']=='pass'): ?>
+              <li class="nav-menu"><a id="anchor-logout"><span class="glyphicon glyphicon-log-in"></span> Log out</a></li>
+               <?php else: ?>
+              <li class="nav-menu"><a id="anchor-login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+         <?php endif; ?>
+       <li class="nav-menu"><a href="index.php"><span class="glyphicon glyphicon-home"></span> Home</a></li>

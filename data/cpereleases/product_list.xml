@@ -2,8 +2,6 @@
 <productlist>
   <ojpro>
     <product year="2016">Weber PDL</product>
-    <product year="2016">Tesla PDL</product>
-    <product year="2016">Weber Mid</product>
     <product year="2016">Weber Base</product>
     <product year="2014">Farad Mid</product>
     <product year="2014">Farad Base</product>
@@ -22,6 +20,10 @@
     <product year="2017">Edwin</product>
     <product year="2016">Muscatel Lite</product>
     <product year="2016">Muscatel Lite XXL</product>
+    <product year="2015">Emerson</product>
+    <product year="2013">Engle</product>
+    <product year="2014">Ebadi</product>
+    <product year="2014">Engle Ext</product>
   </oj>
   <pws>
     <product year="2016">Maverick DW</product>
