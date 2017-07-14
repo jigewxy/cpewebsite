@@ -12,6 +12,7 @@ function preProcessor(){
 $temp = $_POST;
 $temp['product_id'] = substr($_POST['product'], 0, 1);
 $temp['project_name'] = $_POST['projectname'];
+$temp['currentstate'] = 'Active';
 unset($temp['product']);
 unset($temp['projectname']);
 unset($temp['division']);

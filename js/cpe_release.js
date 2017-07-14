@@ -498,7 +498,7 @@
                             document.getElementById('release-content').innerHTML = '';    
                         
                           var fb= JSON.parse(data);
-                         Utility.emitAlertMsg(1, '#del-product-status', 'Success! ', fb.product +'has been removed from ['+fb.cat+'] successfully!');
+                         Utility.emitAlertMsg(1, '#del-product-status', 'Success! ', fb.product +' has been removed from ['+fb.cat+'] successfully!');
                         
                         /*don't forget to update product list */
 

@@ -10,7 +10,7 @@ header('refresh:4; url= http://localhost:8080/cpewebsite/');
 
 else 
 {
-header('refresh:4; url= http://cpse.ijp.sgp.rd.hpicorp.net/cpewebsite/');
+header('refresh:4; url= http://cpse.ijp.sgp.rd.hpicorp.net/');
 }
 
 ?>

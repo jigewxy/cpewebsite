@@ -11,8 +11,20 @@ $pwd_arr = array();
 $conn = ServerConfig::setPdo(PJDB);
 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+session_start();
+
+try { 
 $stm = $conn->prepare("SELECT * FROM usertable");
 $stm->execute();
+}
+catch (Exeception $e)
+{
+ $_SESSION['auth'] = 'fail';
+ $returndata['state'] = $e->getMessage();
+ $returndata['auth'] = "fail";
+echo json_encode($returndata, JSON_PRETTY_PRINT);
+exit();
+}
 
 $returndata = array();
 $result = $stm->fetchAll(PDO::FETCH_ASSOC);
@@ -24,8 +36,6 @@ foreach($result as $key=>$value){
  array_push($pwd_arr, $value['password']);
 
 }
-
-session_start();
 
 if (in_array($username, $user_arr) == false) {
 

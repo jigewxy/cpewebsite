@@ -15,7 +15,7 @@ $conn = ServerConfig::setPdo(PJDB);
 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 $stm= $conn->prepare("SELECT pj.id, pj.project_name, pj.revision,pd.year, pd.product_name, pd.division FROM project AS pj INNER 
-                 JOIN PRODUCT AS pd ON pj.product_id=pd.id WHERE pj.currentstate='Completed'");
+                 JOIN product AS pd ON pj.product_id=pd.id WHERE pj.currentstate='Completed'");
 
 $stm->execute();            
 
@@ -29,7 +29,6 @@ $stm_pl->execute();
 $pdlist = $stm_pl->fetchAll(PDO::FETCH_ASSOC);
 
 $returndata['pdlist']= $pdlist;
-
 
 
 echo json_encode($returndata, JSON_PRETTY_PRINT);

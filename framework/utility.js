@@ -240,7 +240,7 @@ $('.admin-pass').show();
 
 
 
-Utility.hookLoginAnchor = function(){
+Utility.hookLoginAnchorHttps = function(){
 
     $('#anchor-login').attr('href', function(){
     if(location.hostname ==="localhost")
@@ -255,7 +255,25 @@ Utility.hookLoginAnchor = function(){
     else 
     return "https://cpse.ijp.sgp.rd.hpicorp.net/auth/logout.php";
     });
-};
+},
+
+
+Utility.hookLoginAnchor = function(){
+
+    $('#anchor-login').attr('href', function(){
+    if(location.hostname ==="localhost")
+    return "http://localhost:8080/cpewebsite/auth/auth.php"; 
+    else 
+    return "http://cpse.ijp.sgp.rd.hpicorp.net/auth/auth.php";
+    });
+
+    $('#anchor-logout').attr('href', function(){
+    if(location.hostname ==="localhost")
+    return "http://localhost:8080/cpewebsite/auth/logout.php"; 
+    else 
+    return "http://cpse.ijp.sgp.rd.hpicorp.net/auth/logout.php";
+    });
+},
 
 Utility.redirectHttps = function(){
 
@@ -265,12 +283,21 @@ Utility.redirectHttps = function(){
                 else 
                  { referrer = document.referrer.replace(':8080','').replace('http', 'https');
                    location.replace(referrer);}
-                };
+                },
+
+Utility.redirectHttp = function(){
+
+             var referer = document.referrer;
+                   location.replace(referer);
+},
+
 
 
 Utility.getCookie = function (name) {
   
-    var reg = new RegExp(name+'=.*?;');
+    var reg = new RegExp('('+name+'=.*?[;]) | (' + name+"=.*)");
+
+   //(auth=.*?[;])|(auth=.*)
     var result = document.cookie.match(reg);
     
     return result;
@@ -323,7 +350,6 @@ else
 
 //initialize authState value;
 Utility.authState = Utility.checkAuth(Utility.getCookie('auth'));;
-
 
 window.Utility = Utility;
 window.jQuery = $;

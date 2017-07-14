@@ -46,8 +46,8 @@ include 'template/setcookie.php';
 <div class="col-md-2">
 <div class="tool-menu">
   <ul class="list-group"> 
-  <li class="list-group-item tool-box" id="li-add-product"><center><img src="images/add_project.png"></center> <span class="overlay-add overlay"><div class="overlay-text">Add Product</div></span></li>
-  <li class="list-group-item tool-box" id="li-del-product"><center><img src="images/project_delete.png"></center> <span class="overlay-del overlay"><div class="overlay-text">Delete Product</div></span></li>
+  <li class="list-group-item tool-box admin-<?php echo $_SESSION['auth'] ?>" id="li-add-product"><center><img src="images/add_project.png"></center> <span class="overlay-add overlay"><div class="overlay-text">Add Product</div></span></li>
+  <li class="list-group-item tool-box admin-<?php echo $_SESSION['auth'] ?>" id="li-del-product"><center><img src="images/project_delete.png"></center> <span class="overlay-del overlay"><div class="overlay-text">Delete Product</div></span></li>
  </ul>
  </div>
 <div id="product-group" class="panel-group">

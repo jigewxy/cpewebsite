@@ -484,6 +484,7 @@ $scope.addPjSubmit =  function(){
     if (resp.state =="success")
     {
         CpePjService.emitAlertMsg(1, alertElems, 'Successful!', resp.pjname+' has been successfully added!');
+        $scope.refreshData(dummycallback);
     }
     //$('#add-pj-status').html('<div class="alert alert-success"><strong>Successful! </strong>'+resp.pjname+' has been successfully added! <button class="close" data-dismiss="alert">&times;</button></div>');
     else 
@@ -498,7 +499,6 @@ $scope.addPjSubmit =  function(){
     });
 
 
-    $scope.refreshData(dummycallback);
 }
 
 
@@ -914,7 +914,7 @@ url:'php/cpepj/getdata.php?'+new Date().getTime(),
 
     for (var prop in data){
     
-    temp=temp.concat($window.Utility.datesCons(data[prop].datestart, data[prop].datefc, data[prop].daterc, data[prop].datevr, i));
+    temp=temp.concat(Utility.datesCons(data[prop].datestart, data[prop].datefc, data[prop].daterc, data[prop].datevr, i));
     i++;
 
     }

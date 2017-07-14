@@ -33,7 +33,7 @@ location.replace(document.referrer);
             {
                case 'success':
                var count=5;
-               Utility.emitAlertMsg(1, 'div#login-status', 'Log in successful!', ' Redirecting...', count, Utility.redirectHttps);
+               Utility.emitAlertMsg(1, 'div#login-status', 'Log in successful!', ' Redirecting...', count, Utility.redirectHttp);
               // Utility.setCookie('auth', 'pass');
 
                break;

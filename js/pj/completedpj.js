@@ -128,7 +128,8 @@ $scope.setSelectedTab= function(tab){
 	$scope.selectedTab=tab;
 	/*reset delPressed variable in delete modal */
 	$scope.delPressed = false;
-	$scope.productdata = $scope.datapool[tab.label];
+	if($scope.datapool===undefined){ $scope.productdata = null;} 
+	else {$scope.productdata = $scope.datapool[tab.label];}
 
 }
 
