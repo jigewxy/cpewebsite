@@ -19,6 +19,9 @@ inputAsDate: function(){
 //global Utility Object
 var Utility = Utility || {};
 
+
+Utility.dateReg = new RegExp('20[0-2]\\d-(0[1-9]|1[0-2])-(0[1-9]|1\\d|2\\d|3[0-1])');
+
 //Utility function to prevent number input
 //input : CSS selector of the input
 //Output: Remove any keyed-in numbers.
@@ -255,7 +258,8 @@ Utility.hookLoginAnchorHttps = function(){
     else 
     return "https://cpse.ijp.sgp.rd.hpicorp.net/auth/logout.php";
     });
-},
+};
+
 
 
 Utility.hookLoginAnchor = function(){
@@ -273,31 +277,30 @@ Utility.hookLoginAnchor = function(){
     else 
     return "http://cpse.ijp.sgp.rd.hpicorp.net/auth/logout.php";
     });
-},
+};
+
 
 Utility.redirectHttps = function(){
 
              var referer = document.referrer;
+             //if the referer is https protocol, just use it
                if (referer.search(/^https/)!==-1)
                    location.replace(referer);
+            //if the referer is not https protocol, modify the URL to be secure connection
                 else 
                  { referrer = document.referrer.replace(':8080','').replace('http', 'https');
                    location.replace(referrer);}
-                },
+                };
 
 Utility.redirectHttp = function(){
 
              var referer = document.referrer;
-                   location.replace(referer);
-},
-
-
+             location.replace(referer);
+}
 
 Utility.getCookie = function (name) {
   
-    var reg = new RegExp('('+name+'=.*?[;]) | (' + name+"=.*)");
-
-   //(auth=.*?[;])|(auth=.*)
+    var reg = new RegExp(name+'=.*?;');
     var result = document.cookie.match(reg);
     
     return result;
@@ -350,6 +353,7 @@ else
 
 //initialize authState value;
 Utility.authState = Utility.checkAuth(Utility.getCookie('auth'));;
+
 
 window.Utility = Utility;
 window.jQuery = $;

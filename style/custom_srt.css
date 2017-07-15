@@ -51,12 +51,6 @@ span.srt-customer{
 	color: red;
 }
 
-img.img-on-panel {
-	
-	width: 40px;
-	height: 40px;
-	
-}
 
 div.srt-panel-footer p {
 	
@@ -83,8 +77,8 @@ div.left-nav-menu>ul>li
 img.nav-menu-image
 
 {
-	width: 60px;
-	height:60px;
+	width: 50px;
+	height:50px;
     position: relative;
     margin-top: -10px;
 	
@@ -335,8 +329,9 @@ span.overlay-add{
 
 position: absolute;
 top:0;
-bottom:100%;
-left:0;
+bottom:0;
+left:50%;
+height: 100%;
 right:0;
 opacity:0;
 background-color:#449d44;
@@ -348,20 +343,17 @@ transition: .3s ease;
 span.overlay-del{
 
 position: absolute;
-top:100%;
+top:0;
 bottom:0;
-left:100%;
+left:50%;
+height: 100%;
 right:0;
 opacity:0;
 background-color:#DC143C;
 width: 20%;
-transition: .5s ease;
+transition: .3s ease;
 
 }
-
-
-
-
 
 
 li.list-group-item:hover .overlay-del{
@@ -387,57 +379,60 @@ transition: all 0.5 ease;
 -webkit-transition: all 0.5 ease;   
 }
 
-#table-parking tr:first-child{
-    
-background-color:  #2a8a85;
-color: white;
-}
-h4.header-parking{
-    
-color: #2a8a85;
+
+h4.header-first{
+
+color: #016FB9;	
 }
 
-table.table-filtered tr:not(:first-child){
-    
-    font-size: 13px;
-    
+h4.header-second{
+
+color: #5299D3;
 }
 
-#table-longer-day tr:first-child{
-    
-  background-color:  #66717E;
-color: white;
-}
+h4.header-third{
 
-
-h4.header-longer-day{
-    
 color: #66717E;
 }
 
+h4.header-fourth{
 
-#table-fourteen-day tr:first-child{
+color: #2a8a85;
+}
+
+
+tr.table-first{
+
+background-color:  #016FB9;
+color: white;
+
+}
+
+tr.table-second
+{
     
 background-color:  #5299D3;
 color: white;
 }
-h4.header-ft-day{
-    
-color: #5299D3;
-}
 
 
-#table-seven-day tr:first-child{
+tr.table-third{
     
-background-color:  #016FB9;
+background-color:  #66717E;
 color: white;
 }
 
-h4.header-seven-day{
+tr.table-fourth{
     
-color: #016FB9;
+background-color:  #2a8a85;
+color: white;
 }
 
+table.table-filtered tr:not(:first-child){
+
+font-size: 15px;
+
+}
 table.table-filtered tr th:first-child{
     
 width: 2%;
@@ -529,4 +524,32 @@ height: 400pt;
 	cursor: pointer !important;
 
 }
+
+button#btn-staten :active,
+button#btn-region :active{
+
+background-color: green;
+
+}
+
+div#div-tooltip{
+
+overflow:auto;
+
+}
+p.p-tooltip{
+
+color: #808080;
+font-family: Verdana;
+}
+
+div#add-pj-status
+div#del-pj-status
+div#add-item-status{
+
+width: 90%;
+height: 60px;
+
+}
+
 

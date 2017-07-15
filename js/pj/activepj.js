@@ -484,7 +484,6 @@ $scope.addPjSubmit =  function(){
     if (resp.state =="success")
     {
         CpePjService.emitAlertMsg(1, alertElems, 'Successful!', resp.pjname+' has been successfully added!');
-        $scope.refreshData(dummycallback);
     }
     //$('#add-pj-status').html('<div class="alert alert-success"><strong>Successful! </strong>'+resp.pjname+' has been successfully added! <button class="close" data-dismiss="alert">&times;</button></div>');
     else 
@@ -499,6 +498,7 @@ $scope.addPjSubmit =  function(){
     });
 
 
+    $scope.refreshData(dummycallback);
 }
 
 
@@ -514,7 +514,13 @@ $scope.delPjSubmit = function (arg){
 
     AjaxPrvService.xhrPromise(xhrobj).then(
         function(resp){
-            var pjname = resp;
+            if(resp.state.trim()==="ERROR")
+            {
+            CpePjService.emitAlertMsg(4, alertElems, 'Failed!', 'Database connection Error');  
+            return;
+            }
+           else {
+            var pjname = resp.pj;
             CpePjService.emitAlertMsg(1, alertElems, 'Successful!', pjname+' has been deleted!');
             //$('#del-pj-status').html('<div class="alert alert-success"><strong>Successful! </strong>'+pjname+' has been deleted! <button class="close" data-dismiss="alert">&times;</button></div>');
             var i = $scope.projectlist.findIndex(function(val){ return val==pjname;});
@@ -523,7 +529,8 @@ $scope.delPjSubmit = function (arg){
             $scope.projectlist.splice(i,1);
             $scope.deletedProj = $scope.projectlist[0];
             $scope.deletePressed = false;
-            $scope.refreshData(dummycallback);}, 
+            $scope.refreshData(dummycallback);}
+            }, 
         function(status){
             console.log('delete failed');
             CpePjService.emitAlertMsg(4, alertElems, 'Failed!', ' Web server connection error! '+status);
@@ -914,7 +921,7 @@ url:'php/cpepj/getdata.php?'+new Date().getTime(),
 
     for (var prop in data){
     
-    temp=temp.concat(Utility.datesCons(data[prop].datestart, data[prop].datefc, data[prop].daterc, data[prop].datevr, i));
+    temp=temp.concat($window.Utility.datesCons(data[prop].datestart, data[prop].datefc, data[prop].daterc, data[prop].datevr, i));
     i++;
 
     }

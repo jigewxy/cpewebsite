@@ -34,18 +34,15 @@ location.replace(document.referrer);
                case 'success':
                var count=5;
                Utility.emitAlertMsg(1, 'div#login-status', 'Log in successful!', ' Redirecting...', count, Utility.redirectHttp);
-              // Utility.setCookie('auth', 'pass');
-
                break;
 
                case 'wrong username':
                Utility.emitAlertMsg(4, 'div#login-status', 'Log in failed!', ' Username does not exist!');
-             //  Utility.setCookie('auth', 'fail');
+
                break;
 
                case 'wrong password':
                Utility.emitAlertMsg(4, 'div#login-status', 'Log in failed!', ' Password is wrong!');
-              // Utility.setCookie('auth', 'fail');
                break;
               
                default:

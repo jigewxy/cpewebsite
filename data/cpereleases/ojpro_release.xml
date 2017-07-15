@@ -21,8 +21,6 @@
     <product year="2011">Coulomb Base Kaiser</product>
     <product year="2011">Thomson Kaiser</product>
     <year>2013</year>
-    <product year="2016">Tesla PDL</product>
-    <product year="2016">Weber Mid</product>
   </productlist>
   <weberpdlroot>
     <release>
@@ -72,6 +70,4 @@
   <coulombkaiserroot/>
   <coulombbasekaiserroot/>
   <thomsonkaiserroot/>
-  <teslapdlroot/>
-  <webermidroot/>
 </productroot>

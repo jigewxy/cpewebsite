@@ -11,7 +11,7 @@
             g_catmap = {'Officejet Pro':'ojpro', 'Officejet':'oj', 'Pagewide':'pws', 'Consumer':'consumer', 'Mobile':'mobile'},
             g_currentProductCtx={};/*current product context = li element*/    
        
-    function getEntity(elems, tag){
+    function _getEntity(elems, tag){
 
             var targetNode =  elems.getElementsByTagName(tag)[0].childNodes[0];
             
@@ -24,7 +24,7 @@
 
 
         /*LEARNING -- define a $.ajax returning function to create a deferred object later */
-    function getPdListDefer(){
+    function _getPdListDefer(){
             
             return $.ajax({
                 url: 'data/cpereleases/product_list.xml',
@@ -34,56 +34,8 @@
             
         }
 
-    function initDatePicker(){
-            
-            $( ".date-picker" ).datepicker(
-            
-            {
-            //here we can't use yyyy-mm-dd, instead it will show year number twice.
-            dateFormat:"yy-mm-dd",
-            maxDate:"+10y",
-            minDate:"-10y"});
-            }
-
-
-    function updateProductList(){
-
-
-
-            var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange= function(){
-
-                if (this.readyState==4 && this.status==200){
-
-                    var resp = this.responseXML;
-
-                /*before update, reset the product list */
-                    g_productlist={'ojpro':[], 'oj':[], 'pws':[], 'consumer':[], 'mobile':[] };
-
-                for (var prop in g_productlist)
-                {
-                    var list= resp.getElementsByTagName(prop)[0].getElementsByTagName('product');
-
-                for (var i =0; i<list.length;i++)
-                {
-                    g_productlist[prop].push(list[i].childNodes[0].nodeValue);
-
-                }
-
-                }
-                
-                }
-            }
-
-            xhttp.open("GET", "data/cpereleases/product_list.xml");
-            xhttp.setRequestHeader("cache-control", "no-cache");
-            xhttp.send();
-                
-            
-        }
-
-        /*function to determine xml Database */
-    function xmlUrl (arg){
+                /*function to determine xml Database */
+    function _xmlUrl (arg){
         switch (arg)
 
             {
@@ -120,93 +72,15 @@
 
 
         /* reset the list when press Delete Product Again*/
-    function resetList (){
+    function _resetList (){
 
             $('.cat-sel').val('--Please Select--');
             document.getElementById('dyn-product-sel').innerHTML = '';
         }
 
-        /* Display the fiscal year when slide bar moves */
-        function displayYear (value){
-            $('#add-product-status').html('');
-            document.getElementById('show-year').innerHTML = value;
 
-        }
-
-        /* load dynamic product list used in delete product modal */
-
-    function loadDynList (sel){
-
-
-            var list= [];
-            var selhtml='';
-            sel=sel.trim();
-                
-                
-            switch (sel)
-
-            {
-
-            case 'Officejet Pro':
-            list=g_productlist['ojpro'];
-            break;
-
-            case 'Officejet':
-            list=g_productlist['oj'];
-            break;
-
-            case 'Pagewide':
-            list=g_productlist['pws'];
-            break;
-
-            case 'Consumer':
-            list=g_productlist['consumer'];
-            break;
-
-            case 'Mobile':
-            list=g_productlist['mobile'];
-            break;
-
-            default:
-            list=[];
-            break;
-            }
-
-
-            list.forEach(function(elems){
-
-            selhtml+= '<option>' + elems +'</option>';
-
-
-            })
-
-            document.getElementById('dyn-product-sel').innerHTML = selhtml;
-
-
-        }
-
-
-        /*load category */
-    function loadCat (arg){
-            
-            loadPartial(arg);
-            //setTimeout(function(){$('div.panel-primary:first-child >div.panel-heading').click();}, 100); 
-            setTimeout(function(){$('div.panel-primary:first-child li:first-child').click();}, 200);    
-            
-        }
-
-        /*function to change the nav tab color */
-        /*currentRel.navTabColor = function(id){
-
-        $('li.nav-menu').css('background-color','#f8f8f8');
-        $('li.nav-menu a').css('color','#777');
-        $('li.'+id).css('background-color','#337ab7');
-        $('a#'+id).css('color','white');
-
-        }*/
-
-        /*render the left navigation panel when product category selected */
-        function loadPartial(arg){
+    
+    function _loadPartial(arg){
 
             var cat = arg.innerHTML.trim();
             var xhttp = new XMLHttpRequest();
@@ -284,36 +158,13 @@
         }
         }
 
-        xhttp.open("GET", xmlUrl(cat));
+        xhttp.open("GET", _xmlUrl(cat));
         xhttp.setRequestHeader("cache-control", "no-cache");
         xhttp.send();
-        }
-
-
-        /* load the release table for specific product */
-    function loadTable(arg){
-
-
-            var name = arg.innerHTML;
-            g_currentProductCtx = arg;
-                
-            var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange= function(){
-
-            if (this.readyState==4 && this.status==200){
-
-                renderTable(this.responseXML, name);
-            
-            }
-            }
-
-            xhttp.open("GET", g_xmlResource);
-            xhttp.setRequestHeader("cache-control", "no-cache");
-            xhttp.send();
-        }
-
+    }
+    
         /* function to form up the release table */
-    function renderTable (response, pname){
+    function _renderTable (response, pname){
 
             /*parse the product name, example: ' Muscatel Lite ' become 'muscatelliteroot'*/
             /*LEARNING -- need to use regex to replace all occurence, or else it will just replace the first occurence. */
@@ -338,11 +189,11 @@
 
 
             //x[i].getElementsByTagName("version")[0].childNodes[0].nodeValue
-            tbl_body+= '<tr><td>'+ getEntity(arr[i], 'version')+'</td><td>'+getEntity(arr[i], 'fwversion')+'</td><td>'+
-                        getEntity(arr[i], 'date')+'</td><td><a href='+getEntity(arr[i], 'arel')+' target="_blank">Link</a></td><td class="cell-sarel"><a href='+
-                        getEntity(arr[i], 'sarel')+' target="_blank">Link</a></td><td><a href='+
-                        getEntity(arr[i], 'narel')+' target="_blank">Link</a></td><td>'+getEntity(arr[i], 'branch')+'</td><td>'+
-                        getEntity(arr[i], 'type')+'</td><td>'+getEntity(arr[i], 'owner')+'</td><tr>';
+            tbl_body+= '<tr><td>'+ _getEntity(arr[i], 'version')+'</td><td>'+_getEntity(arr[i], 'fwversion')+'</td><td>'+
+                        _getEntity(arr[i], 'date')+'</td><td><a href='+_getEntity(arr[i], 'arel')+' target="_blank">Link</a></td><td class="cell-sarel"><a href='+
+                        _getEntity(arr[i], 'sarel')+' target="_blank">Link</a></td><td><a href='+
+                        _getEntity(arr[i], 'narel')+' target="_blank">Link</a></td><td>'+_getEntity(arr[i], 'branch')+'</td><td>'+
+                        _getEntity(arr[i], 'type')+'</td><td>'+_getEntity(arr[i], 'owner')+'</td><tr>';
             };
 
             var table= tbl_header+ tbl_body+ tbl_footer;
@@ -363,6 +214,162 @@
        Utility.renderAdminFields();
 
         }
+
+
+    function initDatePicker(){
+            
+            $( ".date-picker" ).datepicker(
+            
+            {
+            //here we can't use yyyy-mm-dd, instead it will show year number twice.
+            dateFormat:"yy-mm-dd",
+            maxDate:"+10y",
+            minDate:"-10y"});
+            }
+
+
+    function updateProductList(){
+
+
+
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange= function(){
+
+                if (this.readyState==4 && this.status==200){
+
+                    var resp = this.responseXML;
+
+                /*before update, reset the product list */
+                    g_productlist={'ojpro':[], 'oj':[], 'pws':[], 'consumer':[], 'mobile':[] };
+
+                for (var prop in g_productlist)
+                {
+                    var list= resp.getElementsByTagName(prop)[0].getElementsByTagName('product');
+
+                for (var i =0; i<list.length;i++)
+                {
+                    g_productlist[prop].push(list[i].childNodes[0].nodeValue);
+
+                }
+
+                }
+                
+                }
+            }
+
+            xhttp.open("GET", "data/cpereleases/product_list.xml");
+            xhttp.setRequestHeader("cache-control", "no-cache");
+            xhttp.send();       
+            
+        }
+
+
+
+        /* Display the fiscal year when slide bar moves */
+    function displayYear (value){
+            $('#add-product-status').html('');
+            document.getElementById('show-year').innerHTML = value;
+
+        }
+
+        /* load dynamic product list used in delete product modal */
+
+    function loadDynList (sel){
+
+
+            var list= [];
+            var selhtml='';
+            sel=sel.trim();
+                
+                
+            switch (sel)
+
+            {
+
+            case 'Officejet Pro':
+            list=g_productlist['ojpro'];
+            break;
+
+            case 'Officejet':
+            list=g_productlist['oj'];
+            break;
+
+            case 'Pagewide':
+            list=g_productlist['pws'];
+            break;
+
+            case 'Consumer':
+            list=g_productlist['consumer'];
+            break;
+
+            case 'Mobile':
+            list=g_productlist['mobile'];
+            break;
+
+            default:
+            list=[];
+            break;
+            }
+
+
+            list.forEach(function(elems){
+
+            selhtml+= '<option>' + elems +'</option>';
+
+
+            })
+
+            document.getElementById('dyn-product-sel').innerHTML = selhtml;
+
+
+        }
+
+
+        /*load category */
+    function loadCat (arg){
+            
+            _loadPartial(arg);
+            //setTimeout(function(){$('div.panel-primary:first-child >div.panel-heading').click();}, 100); 
+            setTimeout(function(){$('div.panel-primary:first-child li:first-child').click();}, 200);    
+            
+        }
+
+        /*function to change the nav tab color */
+        /*currentRel.navTabColor = function(id){
+
+        $('li.nav-menu').css('background-color','#f8f8f8');
+        $('li.nav-menu a').css('color','#777');
+        $('li.'+id).css('background-color','#337ab7');
+        $('a#'+id).css('color','white');
+
+        }*/
+
+        /*render the left navigation panel when product category selected */
+    
+
+        /* load the release table for specific product */
+    function loadTable(arg){
+
+
+            var name = arg.innerHTML;
+            g_currentProductCtx = arg;
+                
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange= function(){
+
+            if (this.readyState==4 && this.status==200){
+
+                _renderTable(this.responseXML, name);
+            
+            }
+            }
+
+            xhttp.open("GET", g_xmlResource);
+            xhttp.setRequestHeader("cache-control", "no-cache");
+            xhttp.send();
+        }
+
+    
         /*Render the modify box */
 
    function loadModifyTable (index){
@@ -452,7 +459,7 @@
 
                     var fb = JSON.parse(data);
                      Utility.emitAlertMsg(1, '#add-product-status', 'Success! ', fb.product +' has been added to ['+fb.cat+'] successfully!');
-                     loadPartial(g_currentCat);
+                     _loadPartial(g_currentCat);
                     /*don't forget to update product list */
                      updateProductList();
                   }
@@ -491,20 +498,20 @@
                         else {
                                 
                         /*load updated product list */
-                        loadPartial(g_currentCat);
+                        _loadPartial(g_currentCat);
                         
                         /*delete the current table if this product is deleted */
                          if(g_currentProductCtx.innerHTML == $('#dyn-product-sel').val() )
                             document.getElementById('release-content').innerHTML = '';    
                         
                           var fb= JSON.parse(data);
-                         Utility.emitAlertMsg(1, '#del-product-status', 'Success! ', fb.product +' has been removed from ['+fb.cat+'] successfully!');
+                         Utility.emitAlertMsg(1, '#del-product-status', 'Success! ', fb.product +'has been removed from ['+fb.cat+'] successfully!');
                         
                         /*don't forget to update product list */
 
                         /*LEARNING -- reload the product delete list after the list been updated,need to use deferred promise here, while $.when() create a Deferred object, and when it is resolved, then reload the product list */
                         
-                        $.when(getPdListDefer()).then( function(resp){
+                        $.when(_getPdListDefer()).then( function(resp){
                                 
                         /*before update, reset the product list */
                                 g_productlist={'ojpro':[], 'oj':[], 'pws':[], 'consumer':[], 'mobile':[] };
@@ -678,7 +685,7 @@
 
        delProduct: function(){
 
-                cpeRelModule.resetList();
+             _resetList();
                 $('#delete-product-modal').modal('show').find('#btn-del-product').on('click', cpeRelModule.submittalObj.delProduct);
                 
               },
@@ -718,9 +725,9 @@
                     
                 for(var i=0; i<arr.length; i++){
 
-                selectlist.push(getEntity(arr[i], 'version'));
+                selectlist.push(_getEntity(arr[i], 'version'));
 
-                sel_body +=  '<option value="'+i+'">'+ getEntity(arr[i], 'version') + '</option>';
+                sel_body +=  '<option value="'+i+'">'+ _getEntity(arr[i], 'version') + '</option>';
                     
                 };
                     
@@ -781,7 +788,6 @@
                     updateProductList: updateProductList,
                     loadCat:loadCat,
                     loadTable:loadTable,
-                    resetList:resetList,
                     loadModifyTable:loadModifyTable,
                     displayYear:displayYear,
                     loadDynList:loadDynList,

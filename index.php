@@ -33,66 +33,66 @@ include 'template/setcookie.php';
 <div class="container-fluid">
 
 <div class="col-md-1 col-sm-1 col-xs-1"> 
-<a href="cpe_releases.php">
-<center>
-<img src= "images/releases.png">
-<p> CPE Releases</p>
-</center>
-</a>
+    <a href="cpe_releases.php">
+    <center>
+    <img src= "images/releases.png">
+    <p> CPE Releases</p>
+    </center>
+    </a>
 </div>
 
 <div class="col-md-1 col-sm-1 col-xs-1"> 
-<a href="srt_releases.html">
-<center>
-<img src= "images/srt.png">
-<p> SRT Releases</p>
-</center>
-</a>
+    <a href="srt_releases.php">
+    <center>
+    <img src= "images/srt.png">
+    <p> SRT Releases</p>
+    </center>
+    </a>
 </div>
 
 <div class="col-md-1 col-sm-1 col-xs-1"> 
-<a href="cpe_projects.html">
-<center>
-<img src= "images/projects.png">
-<p> CPE Projects</p>
-</center>
-</a>
+    <a href="cpe_projects.html">
+    <center>
+    <img src= "images/projects.png">
+    <p> CPE Projects</p>
+    </center>
+    </a>
 </div>
 
 <div class="col-md-1 col-sm-1 col-xs-1"> 
-<a href="cpe_projects.html">
-<center>
-<img src= "images/knowledge.svg">
-<p>Learnings</p>
-</center>
-</a>
+    <a href="cpe_projects.html">
+    <center>
+    <img src= "images/knowledge.svg">
+    <p>Learnings</p>
+    </center>
+    </a>
 </div>
 
 <div class="col-md-1 col-sm-1 col-xs-1"> 
-<a href="cpe_tools.php">
-<center>
-<img src= "images/tools.png">
-<p> Tools</p>
-</center>
-</a>
+    <a href="cpe_tools.php">
+    <center>
+    <img src= "images/tools.png">
+    <p> Tools</p>
+    </center>
+    </a>
 </div>
 
 <div class="col-md-1 col-sm-1 col-xs-1"> 
-<a href="cpe_projects.html">
-<center>
-<img src= "images/orgchart.png">
-<p> Org Chart</p>
-</center>
-</a>
+    <a href="cpe_projects.html">
+    <center>
+    <img src= "images/orgchart.png">
+    <p> Org Chart</p>
+    </center>
+    </a>
 </div>
 
 <div class="col-md-1 col-sm-1 col-xs-1"> 
-<a href="cpe_projects.html">
-<center>
-<img src= "images/process.png">
-<p>CPE Process</p>
-</center>
-</a>
+    <a href="cpe_projects.html">
+    <center>
+    <img src= "images/process.png">
+    <p>CPE Process</p>
+    </center>
+    </a>
 </div>
 </div>
 </body>

@@ -1,0 +1,210 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+<div class="container-fluid">
+<div class="col-md-2 left-nav-menu">
+<ul class="list-group">
+<li class="list-group-item" data-toggle="modal" data-target="#add-project-modal"><center><img class="nav-menu-image" src="images/project_create.png"></img><center><span class="overlay overlay-add"><div class="overlay-text">Add Project </div><span></li>
+<li class="list-group-item" data-toggle="modal" data-target="#delete-project-modal" ng-click="resetDelClicked()"><center><img class="nav-menu-image" src="images/project_delete.png"></img></center><span class="overlay overlay-del"><div class="overlay-text">Delete Project </div><span> </li>
+</ul>
+
+<div id="data-filter" class="form">
+<label class="control-label"><span class="bg-success"> Start Date : </span></label>
+<input  class="date-picker form-control" type="date" ng-model="startdate"/>
+<br>
+<label class="control-label"><span class="bg-success">End Date : </span></label>
+<input  class="date-picker form-control" type="date" ng-model="enddate"/>
+</div>
+<br>
+<input class="btn btn-info" value="Reset Filter" ng-click="resetDateFilter()">
+</div>
+
+
+
+
+<div class="col-md-10">
+<table id="table-completed-proj" class="table table-condensed table-hover table-striped table-bordered">
+<tr><th>#</th><th>Customer</th><th>Product</th><th>Main Feature</th><th>Revenue</th><th>Request Date</th><th>VR Date</th><th>Region</th></tr>
+<tr ng-repeat= "x in entries | filter: keyword |filter: dateFilterFn" data-toggle="modal" data-target="#completed-srt-modal" ng-click="setDb(x.rootindex)"><td>{{$index+1}}</td><td>{{x.customer}}</td><td>{{x.product}}</td><td>{{x.feature}}</td><td>{{x.revenue}}</td><td>{{x.requestdate}}</td><td>{{x.vrdate}}</td><td>{{x.region}}</td></tr>
+</table>
+</div>
+</div>
+
+
+<!-- Show individual entry modal-->
+<div id="completed-srt-modal" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title text-primary"><center> {{selectedEntry.customer}} - {{selectedEntry.feature}}<center></h4>
+		<button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <div class="modal-body">
+	 <table id="table-full-detail" class= "table table-hover table-condensed">
+	 <tr><td>Customers </td><td>{{selectedEntry.customer}}</td></tr>
+	 <tr><td>Main Feature </td> <td> {{selectedEntry.feature}}</td></tr>
+	 <tr><td>SKUs </td> <td> {{selectedEntry.product}}</td></tr>
+	 <tr><td>Region</td> <td> {{selectedEntry.region}}</td></tr>
+	 <tr><td>Requestor</td> <td> {{selectedEntry.requestor}}</td></tr>
+	 <tr><td>Request Date </td><td> {{selectedEntry.requestdate}}</td></tr>
+	 <tr><td>FC Date </td> <td> {{selectedEntry.fcdate}}</td></tr>
+	 <tr><td>RC Date </td> <td> {{selectedEntry.rcdate}}</td></tr>
+	 <tr><td>VR Date </td><td> {{selectedEntry.vrdate}}</td></tr>
+	 <tr><td>Deal Size </td><td> {{selectedEntry.revenue}}</td></tr>
+	 <tr><td>Firmware Developer </td> <td> {{selectedEntry.developer}}</td></tr>
+	 <tr><td>Branch Info </td> <td> {{selectedEntry.branch}}</td></tr>
+	 <tr><td>Firmware Link </td> <td> {{selectedEntry.fwlink}}</td></tr>
+	 </table>
+	 </div>	  
+	  <hr> 
+      <table id="completed-pj-table" class="table table-hover table-bordered table-condensed">
+      <tr style="font-size:12px; font-type:bold"><th>Item</th><th>CRID <br><small> or RUID </small></th><th>Type</th><th class="summary">Summary</th><th>Developer</th><th>Test Partner</th><th>Affected SKUs</th><th>Component</th></tr>
+      <tr style="font-size:10px" ng-repeat="x in selectedEntry.itemlist"><td> {{$index+1}} </td><td>{{x.crid}}</td><td>{{x.type}}</td><td>{{x.summary}}</td><td>{{x.fixer}}</td><td>{{x.testteam}}</td><td>{{x.products}}</td><td>{{x.component}}</td></tr>
+      </table>
+	  <!-- below is a angular directive stdModalFooter which can be reused -->
+      <std-modal-footer></std-modal-footer>
+    </div>
+  </div>
+</div>
+
+
+<!--Add new project modal -->
+
+<div id="add-project-modal" class="modal fade">
+ <div class="modal-dialog">
+ 
+ <div class="modal-content">
+ <div class="modal-header">
+   <button type="button" class="close" data-dismiss="modal"><small>Cancel</small>&times;</button>
+ <h4 class="modal-title text-primary"><center>Add New Request </center></h4>
+ </div>
+ 
+<div class="modal-body">
+<form action="php/srt/completed_srt_proj_add.php" method="post"> 
+<std-add-entry active-or-comp="{{activeOrComp}}"></std-add-entry>
+</form>
+
+</div>
+</div>
+</div>
+</div>
+
+<!--delete project modal -->
+
+<div id="delete-project-modal" class="modal fade">
+ <div class="modal-dialog">
+ 
+ <div class="modal-content">
+ <div class="modal-header">
+   <button type="button" class="close" data-dismiss="modal"><small>Cancel</small>&times;</button>
+ <h4 class="modal-title text-primary"><center>Delete Project </center></h4>
+ </div>
+ 
+<div class="modal-body">
+<form action="php/srt/completed_srt_proj_del.php" method="post"> 
+<select class="form-control srt-del-select" name="project">
+<option ng-repeat="x in entries">{{x.rootindex}}.{{x.customer}} - {{x.feature}}</option>
+</select>
+<hr>
+<input class="btn btn-primary" value="Delete" ng-click="setDelClicked()" ng-hide="delClicked">
+<input type="submit" class="btn btn-danger" value ="Confirm" ng-show ="delClicked">
+<p class="text-success" ng-show="delClicked">Do you confirm to delete above project? </p>
+</form>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Add item modal is defined -->
+<div class="modal fade" id="add-item-modal">
+<div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-success">
+          <button type="button" class="close" data-dismiss="modal"><small>Cancel</small>&times;</button>
+          <h4 class="modal-title">Add New Item</h4>
+        </div>
+<div class="modal-body">
+<div class="panel">
+<div class="panel-body">
+<form action="php/srt/completed_srt_item_add.php" method="post">
+<!--newItemNum and rootIndex are defined in local scope of directive stdAddItemForm, see in ang-util.js -->
+<std-add-item-form new-item-num="{{numOfItems+1}}" root-index="{{selectedEntry.rootindex}}" active-or-comp="{{activeOrComp}}" ></std-add-item-form>
+</form>
+</div>
+</div>
+</div>
+</div>
+<div class="modal-footer"> 
+</div>
+</div>
+</div>
+
+<!-- Modify item modal is defined, can't use "draggable" here, it will break the cursor behavior in input field -->
+<div class="modal fade" id="modify-item-modal">
+
+<div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header bg-primary">
+          <button type="button" class="close" data-dismiss="modal"><small>Cancel</small>&times;</button>
+          <h4 class="modal-title">Modify Project Details</h4>
+        </div>
+<div class="modal-body">
+<div class="panel">
+<div class="panel-body">
+<form action="php/srt/completed_srt_item_edit.php" method="POST">
+
+<!-- reusable directive stdModifyItemForm. for object, no need to use expression {{}} -->
+<std-modify-item-form  selected-entry="selectedEntry" active-or-comp="{{activeOrComp}}"></std-modify-item-form>
+</form>
+</div>
+</div>
+</div>
+</div>
+<div class="modal-footer"> 
+</div>
+</div>
+</div>
+<!-- Modify item modal ends -->
+
+<!-- Delete item modal is defined -->
+<div class="modal fade" id="delete-item-modal">
+
+<div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-success">
+          <button type="button" class="close" data-dismiss="modal"><small>Cancel</small>&times;</button>
+          <h4 class="modal-title">Select Items To Delete</h4>
+        </div>
+<div class="modal-body">
+<div class="panel">
+<div class="panel-body">
+<form action="php/srt/completed_srt_item_del.php" method="post"> 
+<select class="form-control srt-item-select" name="item2del" ng-model="itemToDel" ng-change="resetItemDelClicked()">
+<option ng-repeat="x in selectedEntry.itemlist">item{{$index+1}}. {{x.crid}}[{{x.summary}}]</option>
+</select>
+
+<br><br>
+<input type="hidden" class="form-control" name="rootindex" value="{{selectedEntry.rootindex}}">
+<input ng-hide="itemDelClicked" class="admin btn btn-danger"  value="Delete" ng-click="setItemDelClicked()">
+<input ng-show="itemDelClicked" class="admin btn btn-primary" type="submit" value="Confirm">
+<h5 ng-show="itemDelClicked" class="text-success"> Please select one entry to continue. </h5>
+
+</form>
+</div>
+</div>
+</div>
+</div>
+<div class="modal-footer"> 
+</div>
+</div>
+
+</div>
+<!-- Delete item modal ends -->
+
+</body>
+</html>

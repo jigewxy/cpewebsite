@@ -1,0 +1,26 @@
+
+<div id="del-pj-modal" class="modal fade">
+  <div class="modal-dialog">
+  
+    <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal"><small>Cancel</small>&times;</button>
+      <h4 class="modal-title text-primary"><center>Delete Project </center></h4>
+    </div>
+    
+    <div class="modal-body">
+    <form id="form-del-pj" ng-submit="$ctrl.delPjObj.submit()"> 
+      <select class="form-control srt-del-select" name="pj" ng-model ="$ctrl.delPjObj.option" ng-change="$ctrl.delPjObj.reset()">
+        <option ng-repeat="x in $ctrl.entries" value="{{x.id}}">{{$index+1}}.{{x.customer}} - {{x.feature}}</option>
+      </select>
+      <hr>
+      <!--LEARNING: any button will be default to TYPE=SUBMIT if you didn't specify the type -->
+      <button  type="button" class="btn btn-danger" ng-click="$ctrl.delPjObj.click()" ng-hide="$ctrl.delPjObj.delClicked"> DELETE </button>
+      <input type="submit" class="btn btn-primary" value ="Confirm" ng-show ="$ctrl.delPjObj.delClicked">
+      <p class="text-primary" ng-show="$ctrl.delPjObj.delClicked">Do you confirm to delete above project? </p>
+    </form>
+    <div id="del-pj-status"></div>
+    </div>
+    </div>
+  </div>
+</div>
