@@ -19,7 +19,8 @@ include 'template/setcookie.php';
 <script src="framework/utility.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" >
-<link rel = "stylesheet" href = "style/cpe_release_style.css">
+<link rel="stylesheet" href="style/cpe_release_style.css">
+<link rel="stylesheet" href="style/unified.css">
 </head>
 <body>
 

@@ -1,20 +1,17 @@
-<?php
 
+<?php
 
 require_once '../util/ServerConfig.class.php'; //CLASS ServerConfig
 require_once '../util/UtilityFunc.class.php'; //class UtilityFunc
 
-try{
-//extract the items to be deleted
-$itemlist = array_keys($_POST);
+$itemid= intval($_POST['id']);
 
-$item_str = array_reduce($itemlist,'UtilityFunc::flatten');
-
-$conn = ServerConfig::setPdo(PJDB);
+try {
+$conn = ServerConfig::setPdo(SRTDB);
 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-$stm = $conn -> prepare("DELETE FROM itemlist WHERE id IN ({$item_str})");
-
+$stm = $conn->prepare("DELETE FROM itemlist WHERE id=:itemid");
+$stm->bindParam(':itemid', $itemid, PDO::PARAM_INT);
 $stm->execute();
 
 } catch (Exeception $e){
@@ -23,6 +20,7 @@ echo "Caught exception: ".$e->getMessage()."\n";
 
 }
 
-echo "success";
+echo "SUCCESS";
+
 
 ?>

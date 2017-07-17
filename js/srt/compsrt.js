@@ -1,95 +1,261 @@
 /*********************************************/
 /**controller for the completed project page**/
 /*********************************************/
-app.controller('srtCompletedCtrl', function($scope, $http, $location,reusableSrcs, presetChkBox){
-	
-	$scope.delClicked = false;
-/*regular expression for the date picker */
-$scope.itemDelClicked = false;
-$scope.$parent.currentRoute= $location.url();
-$scope.$parent.activeOrComp = false; 
-$scope.enddate= new Date();
-/* http request to get the data */
-$http({method: "GET", url: "data/srt/srt_release_completed.json", headers:{"cache-control":"no-cache"}}).then(function(response){
-$scope.statuscode=response.status;
-$scope.entries=response.data.releases;}, function(response){
+app.controller('srtCompletedCtrl', function($location, reusableSrcs, AjaxPrvService, SrtService){
 
-console.log($scope.statuscode);
-console.log("Something went wrong");
-})
+//controller name as compCtrl
 
+this.completed = true; //determine whether the firmware link field should be shown or not.
+var thisCtrl = this;
 
-/*set database for different table rows, as well as initialize various paras */
-$scope.setDb=function(rootindex) {
+this.startDate = null;
+this.endDate = new Date();
 
-$scope.selectedEntry= $scope.entries[rootindex-1];
-$scope.numOfItems=$scope.selectedEntry['itemlist'].length;
-/*initialization of various variables*/
-$scope.delClicked = false;	
-$scope.itemDelClicked = false;		
-/*display the EDIT and DELETE button only when there is at least one entry */
-if ($scope.selectedEntry['itemlist'][0] != undefined )
-{$scope.itemToDel= 'item1. '+$scope.selectedEntry['itemlist'][0]['crid']+'['+$scope.selectedEntry['itemlist'][0]['summary']+']';
-$('#item-del-button').show();
-$('#item-edit-button').show();
-}
-else
-{$('#item-del-button').hide();
- $('#item-edit-button').hide();
-}
-}
+$(document).ready(function(){
 
-$scope.dateFilterFn = function(arg)
-{
+    $('li.tab-menu').removeClass('selected-tab');
+    $('li#completed-tab').addClass('selected-tab');
+    SrtService.refreshData(thisCtrl, 'COMPLETED');
+    
+});
 
-  var pjdate= new Date(arg.vrdate);
+//note that in the ng-repeat= "x in Obj | filter: filterObj.func", it is executing in global context, thus 
+// "THIS" is the window Object when it is called. 
+this.filterObj = {
 
- if ((pjdate < $scope.startdate)|| (pjdate > $scope.enddate))
-  return false;
- else
-  return true;
+	reset: function(){
+	//	console.log(this);
+		thisCtrl.startDate = null;
+		thisCtrl.endDate = new Date();
+	},
+	func: function(arg){
+		var pjdate= new Date(arg.datevr);
+		if ((pjdate < thisCtrl.startDate)|| (pjdate > thisCtrl.endDate))
+		return false;
+		else
+		return true;
+	}
 
-}
-
-$scope.resetDateFilter = function(){
-
-$scope.enddate= new Date();
-$scope.startdate= new Date("October 10, 2007");
-
-}
+};
 
 
-$scope.setStatusColor = function(args) {
+this.renderModal ={
 
-return reusableSrcs.statusColor(args);
+    display: function(id){
+        SrtService.setPjData(thisCtrl, id);
+        $('#display-pj-modal').modal('show');
 
-}
+     },
+    
+    dispTooltip: function(){
+       SrtService.setPjData(thisCtrl, id);
+        $('#tooltip-modal').modal('show');
 
-$scope.resetDelClicked =function () {
-	
-	$scope.delClicked = false;	
-}
+    },
 
-
-$scope.setDelClicked =function () {
-	
-	$scope.delClicked = true;	
-}
-
-
-$scope.resetItemDelClicked =function () {
-	
-	$scope.itemDelClicked = false;	
-}
+    addPj: function(){
 
 
-$scope.setItemDelClicked =function () {
-	
-	$scope.itemDelClicked = true;	
-}
 
-$scope.evalCkBox = function(arg1, arg2) { 
-	presetChkBox.presetFunc(arg1,arg2);}
+        $('#add-pj-modal').modal('show').find('input').css('width', '60%').end()
+                                        .find('input.full-length').css('width', '100%').end()
+                                        .find('input.btn').css('width', '20%').end()
+                                        .find('input[type=date]').attr('pattern', Utility.dateReg).val('').end()
+                                        .find('input[type=text]').val('').end()
+                                        .find('textarea').val('').end()
+                                        .find('div#add-pj.status').html('');
+    
+           thisCtrl.addPjObj={
+
+                alertElems: 'div#add-pj-status',
+                submit: function(){
+
+                    var formdata = $('form#form-add-pj').serializeArray();    
+                    console.log(formdata);
+                    var that = this;
+                    var xhrobj = AjaxPrvService.xhrConfig(formdata, 'POST','php/srt/addpj.php?');
+                    AjaxPrvService.xhrPromise(xhrobj).then(function(resp){ 
+                        if (resp.trim()==='SUCCESS')
+                        {
+                        Utility.emitAlertMsg(1, that.alertElems, 'Success! ', 'Project has been added successfully');
+						
+         				 SrtService.refreshData(thisCtrl, 'COMPLETED');
+                        }
+
+                    else {
+                        Utility.emitAlertMsg(4, that.alertElems, 'Failed! ', 'Database connection error, please contact Admin');
+                        }
+
+                    }, function(resp){
+
+                    Utility.emitAlertMsg(4, that.alertElems, 'Failed! ', 'Web Server is down, please contact Admin');
+                });
+                }
+            }
+
+    },
+
+    delPj: function(){
+        $('#del-pj-modal').modal('show');
+        thisCtrl.delPjObj = {
+            alertElems: 'div#del-pj-status',
+            delClicked: false,
+            option: thisCtrl.entries[0].id, //always default to first project item for options
+            click: function(){
+                   this.delClicked = true;
+                    },
+            reset: function(){
+                  this.delClicked = false;
+                    },
+            submit: function(){
+
+                    thisCtrl.delClicked = false;
+                    var formdata = $('form#form-del-pj').serializeArray();
+                        var pjid = formdata[0].value;
+                        var that = this;
+                        var xhrobj = AjaxPrvService.xhrConfig(pjid, 'POST','php/srt/delpj.php?', null, 'singleValue');
+                        AjaxPrvService.xhrPromise(xhrobj).then(function(resp){ 
+
+                            if (resp.trim()==='SUCCESS')
+                            {
+                            Utility.emitAlertMsg(1, that.alertElems, 'Success! ', 'Project has been deleted');
+							SrtService.refreshData(thisCtrl, 'COMPLETED',function(){that.option = thisCtrl.entries[0].id;
+                                                   that.delClicked = false;} );
+                            }
+
+                        else {
+                            Utility.emitAlertMsg(4, that.alertElems, 'Failed! ', 'Database connection error, please contact Admin');
+                            }
+
+                        }, function(resp){
+
+                        Utility.emitAlertMsg(4, that.alertElems, 'Failed! ', 'Web Server is down, please contact Admin');
+                    });
+                }
+                }
+            },
+    addItem: function(){
+
+            $('#add-item-modal').modal('show').find('input[name=crid]').css('width', '50%').end()
+                                              .find('input[type=text]').val('').end()
+                                              .find('textarea').val('').end()
+                                              .find('div#add-item-status').html('');
+
+            var pjid = thisCtrl.pjid;
+            thisCtrl.addItemObj = {
+
+                alertElems: 'div#add-item-status',
+                submit: function(){
+                var formdata = $('form#form-add-item').serializeArray();
+                var that = this;
+                var xhrobj = AjaxPrvService.xhrConfig(formdata, 'POST','php/srt/additem.php?');
+                    AjaxPrvService.xhrPromise(xhrobj).then(function(resp){ 
+
+                  if (resp.trim()==='SUCCESS')
+                        {
+                        Utility.emitAlertMsg(1, that.alertElems, 'Success! ', 'Item has been added successfully');
+							SrtService.refreshData(thisCtrl, 'COMPLETED', function(){ SrtService.setPjData(thisCtrl, pjid);} );
+                        }
+
+                    else {
+                        Utility.emitAlertMsg(4, that.alertElems, 'Failed! ', 'Database connection error, please contact Admin');
+                        }
+
+                    }, function(resp){
+
+                    Utility.emitAlertMsg(4, that.alertElems, 'Failed! ', 'Web Server is down, please contact Admin');
+                });
+                }
+             };
+            },
+
+    editItem: function(){
+         $('#edit-item-modal').modal('show').find('table#table-summary-edit tr td:first-child').css('font-size', '15px').end()
+                                            .find('input[type=date]').attr('pattern', Utility.dateReg);
+         var pjid = thisCtrl.pjid;
+         thisCtrl.editItemObj = {
+
+                alertElems: 'div#edit-item-status',
+                submit: function(){
+                var formdata = $('form#form-edit-item').serializeArray();
+                var that = this;
+                var xhrobj = AjaxPrvService.xhrConfig(formdata, 'POST','php/srt/edititem.php?');
+                    AjaxPrvService.xhrPromise(xhrobj).then(function(resp){ 
+
+                  if (resp.trim()==='SUCCESS')
+                        {
+                        Utility.emitAlertMsg(1, that.alertElems, 'Success! ', 'You changes have been successfully saved.');
+						SrtService.refreshData(thisCtrl, 'COMPLETED', function(){SrtService.setPjData(thisCtrl, pjid);} );
+                        }
+
+                    else {
+                        Utility.emitAlertMsg(4, that.alertElems, 'Failed! ', 'Database connection error, please contact Admin');
+                        }
+
+                    }, function(resp){
+
+                    Utility.emitAlertMsg(4, that.alertElems, 'Failed! ', 'Web Server is down, please contact Admin');
+                });
+                }
+             };
+       
+            },
+    delItem: function(){
+
+        var pjid= thisCtrl.pjid;
+        thisCtrl.delItemObj = {
+            alertElems: 'div#del-item-status',
+            delClicked: false,
+            selected: "initial",//hardcode the initial state
+            click: function(){
+                 if (this.selected === 'initial')
+                 {
+                  return;
+                 }
+                 else 
+                 {this.delClicked = true;
+                 console.log(this.selected);
+                 }
+            },
+            reset: function(){
+                this.delClicked = false;
+                },
+            submit: function(){
+                var formdata = $('form#form-del-item').serializeArray();
+                var that = this;
+                var xhrobj = AjaxPrvService.xhrConfig(formdata, 'POST','php/srt/deleteitem.php?');
+                    AjaxPrvService.xhrPromise(xhrobj).then(function(resp){ 
+                        
+                  if (resp.trim()==='SUCCESS')
+                        {
+                        Utility.emitAlertMsg(1, that.alertElems, 'Success! ', 'Item has been deleted.');
+						SrtService.refreshData(thisCtrl, 'COMPLETED', function(){ SrtService.setPjData(thisCtrl, pjid);that.selected="initial";} );
+                        }
+
+                    else {
+                        Utility.emitAlertMsg(4, that.alertElems, 'Failed! ', 'Database connection error, please contact Admin');
+                        }
+
+                    }, function(resp){
+
+                    Utility.emitAlertMsg(4, that.alertElems, 'Failed! ', 'Web Server is down, please contact Admin');
+                });
+
+            }
+ 
+
+        };
+
+        $('#del-item-modal').modal('show');
+   
+
+    }
+            
+   };
+
+
+
+
 
 
 });

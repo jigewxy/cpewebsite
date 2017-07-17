@@ -98,7 +98,7 @@ app.factory('AjaxPrvService', function($q, $http){
     // for single value  -- used in getPjdata.php
     singleValue: function(data){
 
-    return $.param({'value':data});
+      return $.param({'value':data});
 
     }
 
@@ -106,100 +106,143 @@ app.factory('AjaxPrvService', function($q, $http){
 
       
       $http({
-        url: obj.url+new Date().getTime(),
-        method:obj.method,
-        data: obj.data,
-        headers: obj.headers || defaultHeaders,
-        transformRequest : transformReq[obj.trans] || transformReq.formdata
-      }).then(function(resp){
+          url: obj.url+new Date().getTime(),
+          method:obj.method,
+          data: obj.data,
+          headers: obj.headers || defaultHeaders,
+          transformRequest : transformReq[obj.trans] || transformReq.formdata
+        }).then(function(resp){
 
-      //resove promise
-        deferred.resolve(resp.data);
+        //resove promise
+          deferred.resolve(resp.data);
 
-        }, function(error){
+          }, function(error){
 
-      //reject promise
-        deferred.reject(error);
+        //reject promise
+          deferred.reject(error);
 
-      });
+        });
 
-      return promise;
-      };
-
+        return promise;
+        };
 
     //5 parameters - data, url, method, headers, transformRequest;
     //headers and transformRequest are optional, if not set, will use default config.
     var xhrConfig = function (data, method, url, headers, trans){
 
-    var xhrobj = {};
-    xhrobj.data = data;
-    xhrobj.method = method;
-    xhrobj.url = url;
-    xhrobj.headers = headers;
-    xhrobj.trans = trans;
+      var xhrobj = {};
+      xhrobj.data = data;
+      xhrobj.method = method;
+      xhrobj.url = url;
+      xhrobj.headers = headers;
+      xhrobj.trans = trans;
 
-    return xhrobj;
+      return xhrobj;
 
-    };
+      };
 
-      return {xhrPromise: xhrPromise,
-              xhrConfig: xhrConfig
-              };
+        return {xhrPromise: xhrPromise,
+                xhrConfig: xhrConfig
+                };
 
 
     });
 
 
+    app.service('SrtService', function(AjaxPrvService){
 
-/*below service is to ensure the right check box status shown up in modify modal */
-app.service('presetChkBox', function(){
+     //type= 'ACTIVE' or 'COMPLETED'
+     function refreshData (ctrller, type, callback) {
 
-    this.presetFunc=function(entry,cond){
+      var xhrobj = AjaxPrvService.xhrConfig(type, 'POST','php/srt/getpjlist.php?', null, 'singleValue');
 
-    if (cond==true)
+      AjaxPrvService.xhrPromise(xhrobj).then(function(resp){ 
+    //note that .then() create another promise, to avoid confusion, we use callback() here to deal with this aychronization
+
+    if(resp.state.trim() === 'ERROR')
     {
-    var arr_type =[];
-    var arr_comp=[];
-    var arr_status=[];
-
-    console.log(entry);
-    entry.itemlist.forEach(function(elems){
-
-    arr_type.push(elems['type']);
-    arr_comp.push(elems['component']);
-    arr_status.push(elems['status']);
-    });
-
-
-    arr_type.forEach(function(type, index){
-
-    $(".type-modify-box").eq(index).val(type);
-
-    });
-
-
-    arr_comp.forEach(function(comp, index){
-
-    $(".component-modify-box").eq(index).val(comp);
-
-    });
-
-    arr_status.forEach(function(status,index){
-
-    $(".status-modify-box").eq(index).val(status);
-
-    });
-
-    /* set region and state checkbox value */
-    $('.region-edit-sel').val(entry['region']);
-    $('.state-edit-sel').val(entry['state']);
+      alert('Database connection error');
+      return;
     }
 
-    else 
-    {$('.region-edit-sel').val(entry['region']);
-    console.log('nothing happens')};
+     else {
+     ctrller.entries = resp.entries;
+    
+     if(callback!==undefined)
+     callback();
+  
+     }}, function(resp){
+     console.log("something went wrong");
+     console.log(resp);
+     });
 
     }
+
+
+   function setPjData (ctrller, id){
+
+    var xhrobj = AjaxPrvService.xhrConfig(id, 'POST','php/srt/getpj.php?', null, 'singleValue');
+    AjaxPrvService.xhrPromise(xhrobj).then(function(resp){ 
+    //note that .then() create another promise, to avoid confusion, we use callback() here to deal with this aychronization
+    if (resp.state.trim()==='ERROR'){
+         alert('Database connection error');
+    }
+
+    else {
+    ctrller.pjdata = resp.pjdata[0];
+    ctrller.pjid = ctrller.pjdata.id;
+    ctrller.itemlist = resp.itemlist;
+    }
+
+    }, function(resp){
+    console.log("something went wrong");
+    console.log(resp);
+  });
+
+}
+
+    return {
+      refreshData: refreshData,
+      setPjData: setPjData
+    }
+
+    })
+
+    //import-item-modal directive
+/*
+ app.directive('contextMenu', function($timeout){
+
+  return {
+    restrict: 'A',
+    scope:{
+    contextMenu: '&'
+      },
+  pirority: 1000,
+
+ link: $timeout(function(scope, ele, attrs){
+     return { function(){
+
+        console.log('post-link');
+        var target = angular.element(iElement);
+        target.on('contextmenu', function(event){
+          event.preventDefault();
+          console.log(iAttr);
+       });
+       }
+
+     }
+
+
+  }, 0)
+}
+});
+*/
+app.component('dispPjModal',{
+      
+     templateUrl: "srt/std-disp-modal.html",
+     bindings: {pjdata:"<",
+                itemlist:"<",
+                renderModal: "<"} //one way binding
 
 });
 
@@ -231,6 +274,14 @@ app.component('addItemModal',  {
             itemlist: "<"} //one way binding
 
   });
+
+ app.component('deleteItemModal',  {
+        templateUrl: "srt/std-delete-item.html",
+          bindings: {delItemObj:"<",
+            itemlist: "<"} //one way binding
+
+  });
+
 
 
 app.component('componentOptions', {

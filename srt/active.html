@@ -21,7 +21,7 @@
   <h4 ng-class="section[2]">{{section[0]}}</h4>
   <table class="table table-filtered table-condensed">
   <tr ng-class="section[3]"><th>#</th><th>Customer</th><th>Product</th><th>Main Feature</th><th>VR Date</th><th>Revenue</th><th>Requestor</th><th>Status</th></tr>
-  <tr ng-repeat="x in activeCtrl.entries | filter:keyword | filter:section[1]" data-toggle="modal" data-target="#active-srt-modal" ng-click="activeCtrl.setPjData(x.id)">
+  <tr ng-repeat="x in activeCtrl.entries | filter:searchKeyword | filter:section[1]" ng-click="activeCtrl.renderModal.display(x.id)">
   <td>{{$index+1}}</td><td>{{x.customer}}</td><td>{{x.product}}</td><td class="td-feature">{{x.feature}}</td><td>{{x.datevr}}</td><td>{{x.revenue}}</td><td>{{x.requestor}}</td><td>{{x.state}}</td></tr>
   </table> 
   <hr>      
@@ -35,61 +35,8 @@
 
 
 <!-- Show individual entry modal-->
-<div id="active-srt-modal" class="modal fade" role="dialog">
-  <div class="modal-dialog modal-lg">
-
-    <div class="modal-content">
-      <div class="modal-header">
-          <h4 class="modal-title text-primary"><center> {{activeCtrl.pjdata.customer}} - {{activeCtrl.pjdata.feature}}</center></h4>
-		  <button type="button" class="close" data-dismiss="modal">&times;</button>
-		  <button class="btn btn-warning pull-left" data-hover="tooltip" ng-click="activeCtrl.renderModal.movePj()" data-placement="bottom" title="Copy project to &quot;Completed Project&quot; database."> Move Project 
-	  	<span class="glyphicon glyphicon-paste"> </span></button>
-      </div>
-
-    <div class="modal-body">
-        <div class="col-md-6">
-        <table id="table-full-detail" class= "table table-bordered table-hover table-condensed">
-          <tr><td>customer </td><td>{{activeCtrl.pjdata.customer}}</td></tr>
-          <tr><td>Main Feature </td> <td> {{activeCtrl.pjdata.feature}}</td></tr>
-          <tr><td>SKUs </td> <td> {{activeCtrl.pjdata.product}}</td></tr>
-          <tr><td>Region</td> <td> {{activeCtrl.pjdata.region}}</td></tr>
-          <tr><td>Requestor</td> <td> {{activeCtrl.pjdata.requestor}}</td></tr>
-          <tr><td>Request Date </td><td> {{activeCtrl.pjdata.datestart}}</td></tr>
-          <tr><td>FC Date </td> <td> {{activeCtrl.pjdata.datefc}}</td></tr>
-          <tr><td>RC Date </td> <td> {{activeCtrl.pjdata.daterc}}</td></tr>
-          <tr><td>VR Date </td><td> {{activeCtrl.pjdata.datevr}}</td></tr>
-          <tr><td>Revenue </td><td> {{activeCtrl.pjdata.revenue}}</td></tr>
-          <tr><td>Firmware Developer </td> <td> {{activeCtrl.pjdata.developer}}</td></tr>
-          <tr><td>Branch Info </td> <td> {{activeCtrl.pjdata.branch}}</td></tr>
-          <tr><td>Current State </td> <td> {{activeCtrl.pjdata.state}}</td></tr>
-      </table>
-      </div>
-        <div class="col-md-6">
-          <h5>Project Notes: </h5>
-          <div id="div-tooltip">
-              <p class="p-tooltip"> {{activeCtrl.pjdata.tooltip}} </p>
-            <!--placeholder for the tooltip -->
-          </div>
-        </div>
-	    <hr> 
-      <table id="active-pj-table" class="table table-hover table-bordered table-condensed">
-        <tr><th>Item</th><th>Request ID</th><th>Type</th><th class="summary">Summary</th><th>Developer</th><th>Affected SKUs</th><th>Component</th><th>Status</th></tr>
-        <tr ng-repeat="x in activeCtrl.itemlist"><td> {{$index+1}} </td><td>{{x.crid}}</td><td>{{x.type}}</td><td>{{x.summary}}</td><td>{{x.fixer}}</td><td>{{x.skus}}</td><td>{{x.component}}</td><td ng-class="setStatusColor(x.status)">{{x.status}}</td></tr>
-      </table>
-    </div>
-	  <!-- below is a angular directive stdModalFooter which can be reused -->
-    <div class="modal-footer">
-      <button id="btn-add-item" class="btn btn-success admin" ng-click="activeCtrl.renderModal.addItem()"> ADD </button>
-      <button id="btn-edit-item" class="btn btn-primary admin" ng-click="activeCtrl.renderModal.editItem()"> EDIT </button>
-      <button id="btn-del-item" class="btn btn-danger admin" ng-click="activeCtrl.renderModal.delItem()"> DELETE </button>
-      <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
-    </div>
-
-
-  </div>
-</div>
-</div>
-
+<disp-pj-modal pjdata ="activeCtrl.pjdata" itemlist = "activeCtrl.itemlist" render-modal = "activeCtrl.renderModal"> </disp-pj-modal>
+<!-- Ends -->
 
 <!--Add new project modal directive -->
 <add-pj-modal add-pj-obj="activeCtrl.addPjObj" completed="activeCtrl.completed"></add-pj-modal>
@@ -108,99 +55,38 @@
 <add-item-modal add-item-obj ="activeCtrl.addItemObj" pjid="activeCtrl.pjid"></add-item-modal>
 <!--Add item directive Ends -->
 
-<edit-item-modal edit-item-obj="activeCtrl.editItemObj" pjdata = "activeCtrl.pjdata" itemlist ="activeCtrl.itemlist" completed="activeCtrl.completed">
+<edit-item-modal edit-item-obj="activeCtrl.editItemObj" pjdata = "activeCtrl.pjdata" itemlist ="activeCtrl.itemlist" completed="activeCtrl.completed"> </edit-item-modal>
 
 <!-- Delete item modal is defined -->
-<div class="modal fade" id="delete-item-modal">
-
-<div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header bg-success">
-          <button type="button" class="close" data-dismiss="modal"><small>Cancel</small>&times;</button>
-          <h4 class="modal-title">Select Items To Delete</h4>
-        </div>
-<div class="modal-body">
-<div class="panel">
-<div class="panel-body">
-<form action="php/srt/active_srt_item_delete.php" method="post"> 
-<select class="form-control srt-item-select" name="item2del" ng-model="itemToDel" ng-change="resetItemDelClicked()">
-<option ng-repeat="x in pjdata.itemlist">item{{$index+1}}. {{x.crid}}[{{x.summary}}]</option>
-</select>
-
-<br><br>
-<input type="hidden" class="form-control" name="rootindex" value="{{pjdata.rootindex}}">
-<input ng-hide="itemDelClicked" class="admin btn btn-danger"  value="Delete" ng-click="setItemDelClicked()">
-<input ng-show="itemDelClicked" class="admin btn btn-primary" type="submit" value="Confirm">
-<h5 ng-show="itemDelClicked" class="text-success"> Please select one or more items above </h5>
-
-</form>
-</div>
-</div>
-</div>
-</div>
-<div class="modal-footer"> 
-</div>
-</div>
-
-</div>
+<delete-item-modal del-item-obj="activeCtrl.delItemObj" itemlist ="activeCtrl.itemlist"></delete-item-modal>
 <!-- Delete item modal ends -->
-
-<!-- Move Project modal begins -->
-<div class="modal fade" id="move-project-modal">
-
-<div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header bg-success">
-          <button type="button" class="close" data-dismiss="modal"><small>Cancel</small>&times;</button>
-          <h4 class="modal-title">Copy Project to &#12302Completed Project&#12303</h4>
-        </div>
-<div class="modal-body">
-<div class="panel">
-<div class="panel-body">
-<form action="php/srt/active_srt_pj_move.php" method="post"> 
-<input type="hidden" class="form-control" name="rootindex" value="{{pjdata.rootindex}}">
-<input ng-hide="moveClicked" class="admin btn btn-warning"  value="Move" ng-click="dblConfirm()">
-<input ng-show="moveClicked" class="admin btn btn-primary" type="submit" value="Confirm">
-<h5 ng-show="moveClicked" class="text-success"> Do you confirm to move this project? </h5>
-
-</form>
-</div>
-</div>
-</div>
-</div>
-<div class="modal-footer"> 
-</div>
-</div>
-
-</div>
-<!--Move Project modal ends -->
 
 <!--modify tooltip modal -->
 
 <div id="tooltip-modal" class="modal fade">
- <div class="modal-dialog">
- 
- <div class="modal-content">
- <div class="modal-header">
-   <button type="button" class="close" data-dismiss="modal"><small>Cancel</small>&times;</button>
- <h4 class="modal-title text-primary"><center>Modify Tooltip </center></h4>
- </div>
- 
-<div class="modal-body">
-<form id="tooltip-form">
-<button class="btn btn-info" ng-click="insertDate()">Insert Date </button>
-<br>
-<input type="hidden" name="rootindex" value="{{ttEntry.rootindex}}">
-<textarea name="tooltip">modify tooltip</textarea>
-</form>
-<div id="tooltip-edit-status"></div>
-</div>
+  <div class="modal-dialog">
+  
+  <div class="modal-content">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal"><small>Cancel</small>&times;</button>
+  <h4 class="modal-title text-primary"><center>Modify Tooltip </center></h4>
+  </div>
+  
+  <div class="modal-body">
+  <form id="form-edit-tooltip" ng-submit="editTipObj.submit()">
+  <button class="btn btn-info" ng-click="editTipObj.insertDate()">Insert Date </button>
+  <br>
+  <input type="hidden" name="project_id" value="{{activeCtrl.pjid}}">
+  <textarea name="tooltip">{{pjdata.tooltip}}</textarea>
+  </form>
+  <div id="edit-tooltip-status"></div>
+  </div>
 
-<div class ="modal-footer">
- <button class="btn btn-primary" ng-click= "submitTooltip()">Submit </button>
-</div>
-</div>
-</div>
+  <div class ="modal-footer">
+  <button class="btn btn-primary btn-in-modal">SAVE </button>
+  </div>
+  </div>
+  </div>
 </div>
 
 

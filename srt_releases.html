@@ -24,7 +24,7 @@
 
 </head>
 <body>
-<div class="container-fluid" ng-app="srtApp" ng-controller ="srtCtrl">
+<div class="container-fluid" ng-app="srtApp" ng-controller ="srtCtrl as mainCtrl">
 
 <div id="srt-release-container container-fluid">
 <nav class="navbar navbar-default">
@@ -37,7 +37,7 @@
 </ul>
  <form class="navbar-form navbar-left">
 	<div id="search-box" class="input-group">
-	<input  type="text" class="form-control" placeholder="Search" ng-model="keyword">
+	<input  type="text" class="form-control" placeholder="Search" ng-model="mainCtrl.keyword">
 	<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
 	</div>
  </form>

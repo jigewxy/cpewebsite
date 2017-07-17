@@ -14,29 +14,29 @@
 	 <tr><td width="30%">Customer</td> <td><input class="form-control"  name="customer" type="text" value ="{{$ctrl.pjdata.customer}}"></td></tr>
 	 <tr><td> Main Feature</td> <td><input class="form-control" name="feature" type="text" value ="{{$ctrl.pjdata.feature}}"></td></tr>
 	 <tr><td> SKUs</td><td><input class="form-control" name="product" type="text" value ="{{$ctrl.pjdata.product}}"></td></tr>
-	 <tr><td> Region</td><td><select class='srt-region-select region-edit-sel form-control' name='region' value ="{{$ctrl.pjdata.region}}">
+	 <tr><td> Region</td><td><select class='srt-region-select region-edit-sel form-control' name='region' ng-value ="$ctrl.pjdata.region">
                <option>North America</option>
                <option>EMEA</option>
                <option>Asia Pacific</option>
                <option>China</option>
                </select></td></tr>
 	 <tr><td> Requestor </td> <td><input class="form-control" name="requestor" type="text" value ="{{$ctrl.pjdata.requestor}}"></td></tr>
-	 <tr><td> Request Date </td> <td><input class="date-picker form-control" name="requestdate" type="date" value ="{{$ctrl.pjdata.datestart}}" pattern="[2][0][0-2][0-9][-]([0][1-9]|[1][0-2])[-]([0][1-9]|[1][0-9]|[2][0-9]|[3][0-1])"></td></tr>
-	 <tr><td> FC Date</td><td><input class="date-picker form-control" name="fcdate" type="date" value ="{{$ctrl.pjdata.datefc}}" pattern="[2][0][0-2][0-9][-]([0][1-9]|[1][0-2])[-]([0][1-9]|[1][0-9]|[2][0-9]|[3][0-1])"></td></tr>
-	 <tr><td> RC Date</td> <td><input class="date-picker form-control" name="rcdate" type="date"  value ="{{$ctrl.pjdata.daterc}}" pattern="[2][0][0-2][0-9][-]([0][1-9]|[1][0-2])[-]([0][1-9]|[1][0-9]|[2][0-9]|[3][0-1])"></td></tr>
-	 <tr><td> VR Date</td> <td><input class="date-picker form-control" name="vrdate" type="date"  value ="{{$ctrl.pjdata.datevr}}" pattern="[2][0][0-2][0-9][-]([0][1-9]|[1][0-2])[-]([0][1-9]|[1][0-9]|[2][0-9]|[3][0-1])"></td></tr>
+	 <tr><td> Request Date </td> <td><input class="date-picker form-control" name="datestart" type="date" ng-value ="$ctrl.pjdata.datestart"></td></tr>
+	 <tr><td> FC Date</td><td><input class="date-picker form-control" name="datefc" type="date" ng-value ="$ctrl.pjdata.datefc"></td></tr>
+	 <tr><td> RC Date</td> <td><input class="date-picker form-control" name="daterc" type="date"  ng-value ="$ctrl.pjdata.daterc"></td></tr>
+	 <tr><td> VR Date</td> <td><input class="date-picker form-control" name="datevr" type="date"  ng-value ="$ctrl.pjdata.datevr"></td></tr>
 	 <tr><td> Revenue</td> <td><input class="form-control" type="text" name="revenue" value ="{{$ctrl.pjdata.revenue}}"></td></tr>
 	 <tr><td> Developer</td> <td><input class="form-control" type="text" name="developer" value ="{{$ctrl.pjdata.developer}}"></td></tr>
    <tr><td> Test Lead</td> <td><input class="form-control" type="text" name="developer" value ="{{$ctrl.pjdata.sq}}"></td></tr>
 	 <tr><td> Branch Info</td> <td><input class="form-control" type="text" name="branch" value ="{{$ctrl.pjdata.branch}}"></td></tr>
 	 <tr ng-if="$ctrl.completed"><td> Firmware Link</td><td><input class="form-control" type="text" name="fwlink" value ="{{$ctrl.pjdata.fwlink}}"></td></tr>
-	 <tr class="item-status-sel"><td>Current State</td><td><select class='srt-state-select state-edit-sel form-control' name='state' value="{{$ctrl.pjdata.state}}"> 
+	 <tr class="item-status-sel"><td>Current State</td><td><select class='srt-state-select state-edit-sel form-control' name='state' ng-value ="$ctrl.pjdata.state"> 
                <option>Upcoming</option>
                <option>Ongoing</option>
                <option>Completed</option>
                <option>On Hold</option>
                </select></td></tr>
-	 <input type="hidden" class="form-control" name="pjid" value="{{$ctrl.pjdata.id}}">
+	 <input type="hidden" class="form-control" name="project_id" value="{{$ctrl.pjdata.id}}">
 	 </table>
 	 </div class="col-md-6">
    <div class="col-md-6">
@@ -47,16 +47,16 @@
     <table id="table-item-edit" class="table table-condensed">
       <tr><td>Item</td><td>CRID</td><td>Type</td><td>Summary</td><td>Fix Provider</td><td>Affected SKUs</td><td>component</td><td>Status</td></tr>
       <tr ng-repeat="x in $ctrl.itemlist">
-	   <td>{{$index+1}}<input type="hidden" name ="id" value="{{x.id}}"></td>
+	   <td>{{$index+1}}<input type="hidden" name ="id[]" value="{{x.id}}"></td>
 	   <td><input class="form-control input-sm" name="crid[]" type="text" value ="{{x.crid}}"></td>
-	   <td class="sel-box-col"><select class="form-control type-modify-box" name="type[]"> 
+	   <td class="sel-box-col"><select class="form-control type-modify-box" name="type[]" ng-value="x.type"> 
       <option>Defect Fix</option>
       <option>New Feature</option>
       </select></td>
 	  <td width="25%"><input class="form-control input-sm input-expand-more"  name="summary[]" type="text" value ="{{x.summary}}"></td>
 	  <td><input class="form-control input-sm" name="fixer[]" type="text" value ="{{x.fixer}}"></td>
-	  <td><input class="form-control input-sm" name="products[]" type="text" value ="{{x.skus}}"></td>
-      <td class="sel-box-col"><select class="form-control component-modify-box" name="component[]" value ="{{x.component}}"> 
+	  <td><input class="form-control input-sm" name="skus[]" type="text" value ="{{x.skus}}"></td>
+      <td class="sel-box-col"><select class="form-control component-modify-box" name="component[]" ng-value="x.component"> 
         <option>UI</option>
         <option>EWS</option>
         <option>Fax</option>
@@ -83,7 +83,7 @@
         <option>OS Related</option>
         <option>Others</option>
       </select></td>
-	   <td class="item-status-sel sel-box-col"><select class="form-control status-modify-box" name="status[]" value="{{x.status}}"> 
+	   <td class="item-status-sel sel-box-col"><select class="form-control status-modify-box" name="status[]" ng-value ="x.status"> 
         <option>In Progress</option>
         <option>Fixed</option>
         <option>Verified</option>
@@ -91,7 +91,7 @@
       </select></td></tr>
       </table>
 <br><br>
-<input class="admin btn btn-primary" type="submit" value="SAVE" >
+<input class="admin btn btn-primary btn-in-modal" type="submit" value="SAVE" >
 
 <!-- reusable directive stdModifyItemForm. for object, no need to use expression {{}} -->
 </form>

@@ -199,36 +199,36 @@ $scope.renderModal ={
 $scope.selectRight ={
 
 
-    status: CpePjService.currySelectRight(".status-modify-box"),
-    type: CpePjService.currySelectRight(".type-modify-box"),
-    component: CpePjService.currySelectRight(".component-modify-box"),
+        status: CpePjService.currySelectRight(".status-modify-box"),
+        type: CpePjService.currySelectRight(".type-modify-box"),
+        component: CpePjService.currySelectRight(".component-modify-box"),
 
-    category: function(arg)
-    {
-    $("select[name='pjcat']").val(arg);
-    },
-    statusColor: function(status){
+        category: function(arg)
+        {
+        $("select[name='pjcat']").val(arg);
+        },
+        statusColor: function(status){
 
-    // colors are defined in cpe_projects.css for different classes.
-    switch (status)
+        // colors are defined in cpe_projects.css for different classes.
+        switch (status)
 
-    {
-    case "In Progress":
-        return "iteminprogress";
+        {
+        case "In Progress":
+            return "iteminprogress";
+            
+        case "Fixed":
+            return "itemfixed";
+            
+        case "Verified":
+            return "itemverified";
         
-    case "Fixed":
-        return "itemfixed";
-        
-    case "Verified":
-        return "itemverified";
-    
-    case "Reopen":
-        return "itemreopen";
-        
-    default:
-         return "bg-default";
+        case "Reopen":
+            return "itemreopen";
+            
+        default:
+            return "bg-default";
 
-    }}
+        }}
 
 
 

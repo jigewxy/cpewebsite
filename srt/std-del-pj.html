@@ -15,8 +15,8 @@
       </select>
       <hr>
       <!--LEARNING: any button will be default to TYPE=SUBMIT if you didn't specify the type -->
-      <button  type="button" class="btn btn-danger" ng-click="$ctrl.delPjObj.click()" ng-hide="$ctrl.delPjObj.delClicked"> DELETE </button>
-      <input type="submit" class="btn btn-primary" value ="Confirm" ng-show ="$ctrl.delPjObj.delClicked">
+      <button type="button" class="btn btn-danger btn-in-modal" ng-click="$ctrl.delPjObj.click()" ng-hide="$ctrl.delPjObj.delClicked"> DELETE </button>
+      <input type="submit" class="btn btn-primary btn-in-modal" value ="Confirm" ng-show ="$ctrl.delPjObj.delClicked">
       <p class="text-primary" ng-show="$ctrl.delPjObj.delClicked">Do you confirm to delete above project? </p>
     </form>
     <div id="del-pj-status"></div>

@@ -53,3 +53,33 @@ margin: 10px;
 width: 30%;
 
 }
+
+.modal {
+    
+    overflow: scroll !important;
+}
+
+button.btn-in-modal,
+input.btn-in-modal{
+
+width: 80px;
+height: 33px;
+font-size: 12px;
+
+}
+
+li.nav-menu{
+
+    width: 10vw;
+}
+
+li.nav-menu:hover{
+
+  background-color: #337ab7 !important;
+  cursor: pointer;
+}
+
+li.nav-menu>a:hover{
+color: white !important;
+
+}

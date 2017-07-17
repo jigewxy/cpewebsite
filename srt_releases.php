@@ -26,6 +26,7 @@ include 'template/setcookie.php';
 <script src="js/srt/dashbd.js"></script>
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" >
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="style/unified.css">
 <link rel="stylesheet" href="style/custom_srt.css">
 
 </head>
@@ -38,12 +39,12 @@ include 'template/setcookie.php';
  <ul id="tab-list" class="nav navbar-nav">
     <!-- LEARNING:ng-class doesn't need expression {{}}-->
 <li id="dash-tab" class="nav-menu tab-menu"><a href="#dashboard">Dashboard</a></li>
-<li id="active-tab" class="nav-menu tab-menu"><a href="#active">Projects Active</a></li>
-<li id="completed-tab" class="nav-menu tab-menu"><a href="#completed">Project Completed</a></li>
+<li id="active-tab" class="nav-menu tab-menu"><a href="#active">Active</a></li>
+<li id="completed-tab" class="nav-menu tab-menu"><a href="#completed">Completed</a></li>
 </ul>
  <form class="navbar-form navbar-left">
 	<div id="search-box" class="input-group">
-	<input  type="text" class="form-control" placeholder="Search" ng-model="keyword">
+	<input  type="text" class="form-control" placeholder="Search" ng-model="searchKeyword">
 	<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
 	</div>
  </form>

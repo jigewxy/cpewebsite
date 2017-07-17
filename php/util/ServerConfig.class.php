@@ -25,7 +25,7 @@ return new PDO("mysql:host=localhost; dbname=".$db, self::LOCALUSER);
 
 define ('PJDB', "cpeproject");
 define ('TOOLS', "cpetools");
-
+define('SRTDB', 'srtproject');
 
 
 

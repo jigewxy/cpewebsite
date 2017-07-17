@@ -1,0 +1,53 @@
+<!-- Show individual entry modal-->
+<div id="display-pj-modal" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+
+    <div class="modal-content">
+      <div class="modal-header">
+          <h4 class="modal-title text-primary"><center> {{$ctrl.pjdata.customer}} - {{$ctrl.pjdata.feature}}</center></h4>
+		  <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+    <div class="modal-body">
+        <div class="col-md-6">
+        <table id="table-full-detail" class= "table table-bordered table-hover table-condensed">
+          <tr><td>customer </td><td>{{$ctrl.pjdata.customer}}</td></tr>
+          <tr><td>Main Feature </td> <td> {{$ctrl.pjdata.feature}}</td></tr>
+          <tr><td>SKUs </td> <td> {{$ctrl.pjdata.product}}</td></tr>
+          <tr><td>Region</td> <td> {{$ctrl.pjdata.region}}</td></tr>
+          <tr><td>Requestor</td> <td> {{$ctrl.pjdata.requestor}}</td></tr>
+          <tr><td>Request Date </td><td> {{$ctrl.pjdata.datestart}}</td></tr>
+          <tr><td>FC Date </td> <td> {{$ctrl.pjdata.datefc}}</td></tr>
+          <tr><td>RC Date </td> <td> {{$ctrl.pjdata.daterc}}</td></tr>
+          <tr><td>VR Date </td><td> {{$ctrl.pjdata.datevr}}</td></tr>
+          <tr><td>Revenue </td><td> {{$ctrl.pjdata.revenue}}</td></tr>
+          <tr><td>Firmware Developer </td> <td> {{$ctrl.pjdata.developer}}</td></tr>
+          <tr><td>Branch Info </td> <td> {{$ctrl.pjdata.branch}}</td></tr>
+          <tr><td>Current State </td> <td> {{$ctrl.pjdata.state}}</td></tr>
+      </table>
+      </div>
+        <div class="col-md-6">
+          <h5>Project Notes: </h5>
+          <div id="div-tooltip">
+              <p class="p-tooltip"> {{$ctrl.pjdata.tooltip}} </p>
+            <!--placeholder for the tooltip -->
+          </div>
+        </div>
+	    <hr> 
+      <table id="active-pj-table" class="table table-hover table-bordered table-condensed">
+        <tr><th>Item</th><th>Request ID</th><th>Type</th><th class="summary">Summary</th><th>Developer</th><th>Affected SKUs</th><th>Component</th><th>Status</th></tr>
+        <tr ng-repeat="x in $ctrl.itemlist"><td> {{$index+1}} </td><td>{{x.crid}}</td><td>{{x.type}}</td><td>{{x.summary}}</td><td>{{x.fixer}}</td><td>{{x.skus}}</td><td>{{x.component}}</td><td ng-class="$ctrl.setStatusColor(x.status)">{{x.status}}</td></tr>
+      </table>
+    </div>
+	  <!-- below is a angular directive stdModalFooter which can be reused -->
+    <div class="modal-footer">
+      <button id="btn-add-item" class="btn btn-success btn-in-modal admin" ng-click="$ctrl.renderModal.addItem()"> ADD </button>
+      <button id="btn-edit-item" class="btn btn-primary btn-in-modal admin" ng-click="$ctrl.renderModal.editItem()"> EDIT </button>
+      <button id="btn-del-item" class="btn btn-danger btn-in-modal admin" ng-click="$ctrl.renderModal.delItem()"> DELETE </button>
+      <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
+    </div>
+
+
+  </div>
+</div>
+</div>

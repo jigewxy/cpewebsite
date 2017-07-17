@@ -299,8 +299,8 @@ Utility.redirectHttp = function(){
 }
 
 Utility.getCookie = function (name) {
-  
-    var reg = new RegExp(name+'=.*?;');
+
+    var reg = new RegExp('('+name+'=.*?[;]) | (' + name+"=.*)");  //detect cookie in the mid or near the end.
     var result = document.cookie.match(reg);
     
     return result;

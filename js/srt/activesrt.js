@@ -1,8 +1,7 @@
 /*******************************************/
 /**controller for the active project page **/
 /*******************************************/
-app.controller('srtActiveCtrl', function($timeout, $rootScope, $location, AjaxPrvService, reusableSrcs, presetChkBox) {
-
+app.controller('srtActiveCtrl', function($timeout, $rootScope, $location, AjaxPrvService, reusableSrcs) {
 
 
 
@@ -51,6 +50,30 @@ AjaxPrvService.xhrPromise(xhrobj).then(function(resp){
 
 }
 
+this.setStatusColor = function(status){
+
+        // colors are defined in cpe_projects.css for different classes.
+        switch (status)
+
+        {
+        case "In Progress":
+            return "iteminprogress";
+            
+        case "Fixed":
+            return "itemfixed";
+            
+        case "Verified":
+            return "itemverified";
+        
+        case "Reopen":
+            return "itemreopen";
+            
+        default:
+            return "bg-default";
+
+        }
+
+};
 
 //set up filter object with headers and filter functions
 this.CustFilterObj = {
@@ -148,11 +171,18 @@ this.setPjData = function(id){
 
 this.renderModal ={
 
-    display: function(){
+    display: function(id){
 
-        $('#active-srt-modal').modal('show');
+        thisCtrl.setPjData(id);
+        $('#display-pj-modal').modal('show');
 
-        },
+     },
+    
+    dispTooltip: function(){
+        thisCtrl.setPjData(id);
+        $('#tooltip-modal').modal('show');
+
+    },
 
     addPj: function(){
 
@@ -270,7 +300,84 @@ this.renderModal ={
             },
 
     editItem: function(){
-         $('#edit-item-modal').modal('show').find('table#table-summary-edit tr td:first-child').css('font-size', '15px');
+         $('#edit-item-modal').modal('show').find('table#table-summary-edit tr td:first-child').css('font-size', '15px').end()
+                                            .find('input[type=date]').attr('pattern', Utility.dateReg);
+         var pjid = thisCtrl.pjid;
+         thisCtrl.editItemObj = {
+
+                alertElems: 'div#edit-item-status',
+                submit: function(){
+                var formdata = $('form#form-edit-item').serializeArray();
+                var that = this;
+                var xhrobj = AjaxPrvService.xhrConfig(formdata, 'POST','php/srt/edititem.php?');
+                    AjaxPrvService.xhrPromise(xhrobj).then(function(resp){ 
+
+                  if (resp.trim()==='SUCCESS')
+                        {
+                        Utility.emitAlertMsg(1, that.alertElems, 'Success! ', 'You changes have been successfully saved.');
+                        refreshData(function(){thisCtrl.setPjData(pjid);});
+                        }
+
+                    else {
+                        Utility.emitAlertMsg(4, that.alertElems, 'Failed! ', 'Database connection error, please contact Admin');
+                        }
+
+                    }, function(resp){
+
+                    Utility.emitAlertMsg(4, that.alertElems, 'Failed! ', 'Web Server is down, please contact Admin');
+                });
+                }
+             };
+       
+            },
+    delItem: function(){
+
+        var pjid= thisCtrl.pjid;
+        thisCtrl.delItemObj = {
+            alertElems: 'div#del-item-status',
+            delClicked: false,
+            selected: "initial",//hardcode the initial state
+            click: function(){
+                 if (this.selected === 'initial')
+                 {
+                  return;
+                 }
+                 else 
+                 {this.delClicked = true;
+                 console.log(this.selected);
+                 }
+            },
+            reset: function(){
+                this.delClicked = false;
+                },
+            submit: function(){
+                var formdata = $('form#form-del-item').serializeArray();
+                var that = this;
+                var xhrobj = AjaxPrvService.xhrConfig(formdata, 'POST','php/srt/deleteitem.php?');
+                    AjaxPrvService.xhrPromise(xhrobj).then(function(resp){ 
+                        
+                  if (resp.trim()==='SUCCESS')
+                        {
+                        Utility.emitAlertMsg(1, that.alertElems, 'Success! ', 'Item has been deleted.');
+                        refreshData(function(){ thisCtrl.setPjData(pjid);that.selected="initial";});
+                        }
+
+                    else {
+                        Utility.emitAlertMsg(4, that.alertElems, 'Failed! ', 'Database connection error, please contact Admin');
+                        }
+
+                    }, function(resp){
+
+                    Utility.emitAlertMsg(4, that.alertElems, 'Failed! ', 'Web Server is down, please contact Admin');
+                });
+
+            }
+ 
+
+        };
+
+        $('#del-item-modal').modal('show');
+   
 
     }
             
