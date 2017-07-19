@@ -8,6 +8,7 @@
 require_once '../util/ServerConfig.class.php'; //CLASS ServerConfig
 require_once '../util/UtilityFunc.class.php'; //class UtilityFunc
 
+try {
 $pjid = $_POST['value'];
 $returndata = array();
 
@@ -31,9 +32,19 @@ $stm_item->execute();
 
 $itemlist = $stm_item->fetchAll(PDO::FETCH_ASSOC);
 
+$returndata['state'] ="SUCCESS";
 $returndata['itemlist'] = $itemlist;
 
 
 echo json_encode($returndata, JSON_PRETTY_PRINT);
+} catch (Exception $e){
+    
+    $returndata['state'] ="FAIL";
+    $returndata['msg'] = $e->getMessage();
+
+echo json_encode($returndata, JSON_PRETTY_PRINT);
+
+
+}
 
 ?>

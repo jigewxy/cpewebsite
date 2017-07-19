@@ -51,7 +51,7 @@ include 'template/setcookie.php';
 </div>
 
 <div class="col-md-1 col-sm-1 col-xs-1"> 
-    <a href="cpe_projects.html">
+    <a href="cpe_projects.php">
     <center>
     <img src= "images/projects.png">
     <p> CPE Projects</p>
@@ -60,7 +60,7 @@ include 'template/setcookie.php';
 </div>
 
 <div class="col-md-1 col-sm-1 col-xs-1"> 
-    <a href="cpe_projects.html">
+    <a href="cpe_projects.php">
     <center>
     <img src= "images/knowledge.svg">
     <p>Learnings</p>
@@ -78,7 +78,7 @@ include 'template/setcookie.php';
 </div>
 
 <div class="col-md-1 col-sm-1 col-xs-1"> 
-    <a href="cpe_projects.html">
+    <a href="cpe_projects.php">
     <center>
     <img src= "images/orgchart.png">
     <p> Org Chart</p>
@@ -87,7 +87,7 @@ include 'template/setcookie.php';
 </div>
 
 <div class="col-md-1 col-sm-1 col-xs-1"> 
-    <a href="cpe_projects.html">
+    <a href="cpe_projects.php">
     <center>
     <img src= "images/process.png">
     <p>CPE Process</p>

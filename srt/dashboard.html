@@ -6,7 +6,23 @@
 <!--div id="container2" style="min-width: 310px; height: 400px; margin: 0 auto"></div-->
 <div id="containerone" style="min-width: 310px; height: 600px; margin: 0 auto"></div>
 
-<std-show-entry selected-entry="selectedEntry"></std-show-entry>
+
+<!-- Show individual entry modal-->
+<disp-pj-modal pjdata ="dbCtrl.pjdata" itemlist = "dbCtrl.itemlist" render-modal = "dbCtrl.renderModal"> </disp-pj-modal>
+<!-- Ends -->
+<!-- Add item modal directive -->
+<add-item-modal add-item-obj ="dbCtrl.addItemObj" pjid="dbCtrl.pjid"></add-item-modal>
+<!--Add item directive Ends -->
+
+<edit-item-modal edit-item-obj="dbCtrl.editItemObj" pjdata = "dbCtrl.pjdata" itemlist ="dbCtrl.itemlist" completed="dbCtrl.completed"> </edit-item-modal>
+
+<!-- Delete item modal is defined -->
+<delete-item-modal del-item-obj="dbCtrl.delItemObj" itemlist ="dbCtrl.itemlist"></delete-item-modal>
+<!-- Delete item modal ends -->
+<!--std-show-entry selected-entry="selectedEntry"></std-show-entry-->
+
+<alert-modal></alert-modal>
+
 </body>
 
 </html>

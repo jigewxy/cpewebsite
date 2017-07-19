@@ -11,8 +11,8 @@
 <div class="container-fluid">
 	<div class="left-nav-menu col-md-2">
 		<ul class="list-group">
-			<li class="list-group-item tool-box" data-toggle="modal" data-target="#add-new-project-modal"><center><img class="nav-menu-image" src="images/project_create.png"></center><span class="overlay-add overlay"><div class="overlay-text">Add Project</div></span></li>
-			<li class="list-group-item tool-box" ng-click="renderModal.delPj()"><center><img class="nav-menu-image" src="images/project_delete.png"></center><span class="overlay-del overlay"><div class="overlay-text">Delete Project</div></span></li>
+			<li id="li-add-pj" class="list-group-item tool-box" ng-click ="renderModal.addPj()"><center><img class="nav-menu-image" src="images/project_create.png"></center><span class="overlay-add overlay"><div class="overlay-text">Add Project</div></span></li>
+			<li id="li-del-pj" class="list-group-item tool-box" ng-click="renderModal.delPj()"><center><img class="nav-menu-image" src="images/project_delete.png"></center><span class="overlay-del overlay"><div class="overlay-text">Delete Project</div></span></li>
 			<li class="list-group-item list-btn"><button id="show-all-btn" class="btn" ng-click="setFilterFn($event)">Show All</button></li> 
 			<li class="list-group-item list-btn"><button id="state-filter-btn" class="btn" ng-click="setFilterFn($event)">By Schedule</button></li> 
 			<li class="list-group-item list-btn"><button id="tag-filter-btn" class="btn" ng-click="setFilterFn($event)">By Tagname</button></li>
@@ -80,11 +80,11 @@
       	</table>
       </div>
       <div class="modal-footer">
-		    <button class="btn btn-warning admin" ng-click="renderModal.importItem()"> Import </button>
-			<button class="btn btn-success admin" ng-click="renderModal.addItem()"> Add </button>
-			<button class="btn btn-primary admin" ng-click="renderModal.editItem(projectdata.cat)"> Edit </button>
-			<button type="button" class="btn btn-danger admin" ng-click="renderModal.delItem()">Delete </button>
-			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>	
+		  <button id="btn-import-item" class="btn btn-warning btn-in-modal admin" ng-click="renderModal.importItem()"> Import </button>
+			<button id="btn-add-item" class="btn btn-success btn-in-modal admin" ng-click="renderModal.addItem()"> Add </button>
+			<button id="btn-edit-item" class="btn btn-primary btn-in-modal admin" ng-click="renderModal.editItem(projectdata.cat)"> Edit </button>
+			<button id="btn-del-item" class="btn btn-danger btn-in-modal admin" ng-click="renderModal.delItem()">Delete </button>
+			<button class="btn btn-default" data-dismiss="modal">Close</button>	
       </div>
     </div>
 
@@ -93,7 +93,7 @@
 <!-- project charter modal ends-->
 
 <!-- Add item modal begins using directive -->
-<div add-item-modal></div> 
+<add-item-modal add-item-submit="addItemSubmit()" active-pj = "activePj"></add-item-modal> 
 <!-- Add item modal ends -->
 
 <!-- import item modal begins using directive -->
@@ -241,9 +241,11 @@
 </div>
 <!-- Move project Modal end-->
 
-<!-- alert Modal -->
-<div alert-modal></div>
-<!--alert Modal -end-->
+<!-- customized alert Modal -->
+<cust-alert-modal></cust-alert-modal>
+<!--customized alert Modal -end-->
+
+<alert-modal></alert-modal>
 
 
 <!--tooltip modal -->

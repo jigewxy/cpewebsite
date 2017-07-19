@@ -1,7 +1,7 @@
 /*******************************************/
 /**controller for the active project page **/
 /*******************************************/
-app.controller('srtActiveCtrl', function($timeout, $rootScope, $location, AjaxPrvService, reusableSrcs) {
+app.controller('srtActiveCtrl', function($timeout, $rootScope, $location, AjaxPrvService) {
 
 
 
@@ -18,8 +18,9 @@ $(document).ready(function(){
     //simulate click event
     $timeout(function(){$('button#btn-state').click();}, 200);
 
-    $('li.tab-menu').removeClass('selected-tab');
-    $('li#active-tab').addClass('selected-tab');
+    $('li#active-tab').addClass('selected-tab').siblings().removeClass('selected-tab');
+       Utility.addAdminClass(['li#li-add-pj', 'li#li-del-pj']);
+       Utility.renderAdminFields();
     
 });
 
@@ -122,7 +123,6 @@ this.CustFilterObj = {
 function filterFnConstructor (arr, prop){
  
   var fnArray = [];
-  console.log(prop);
 
   _.each(arr, function(val){
     
@@ -138,7 +138,6 @@ function filterFnConstructor (arr, prop){
   })
 
  return fnArray;
-
 
 }
 
@@ -176,6 +175,9 @@ this.renderModal ={
         thisCtrl.setPjData(id);
         $('#display-pj-modal').modal('show');
 
+       Utility.addAdminClass(['button#btn-add-item', 'button#btn-edit-item', 'button#btn-del-item']);
+       Utility.renderAdminFields();
+
      },
     
     dispTooltip: function(){
@@ -194,7 +196,7 @@ this.renderModal ={
                                         .find('input[type=date]').attr('pattern', Utility.dateReg).val('').end()
                                         .find('input[type=text]').val('').end()
                                         .find('textarea').val('').end()
-                                        .find('div#add-pj.status').html('');
+                                        .find('div#add-pj-status').html('');
     
            thisCtrl.addPjObj={
 
@@ -206,7 +208,13 @@ this.renderModal ={
                     var that = this;
                     var xhrobj = AjaxPrvService.xhrConfig(formdata, 'POST','php/srt/addpj.php?');
                     AjaxPrvService.xhrPromise(xhrobj).then(function(resp){ 
-                        if (resp.trim()==='SUCCESS')
+                 
+                 if(data.trim()==='AUTHERROR'){
+                   
+                   Utility.emitAlertMsg(4, that.alertElems, 'Failed! ', 'Authentication failure, please log in first');
+
+                  } 
+                   else if (resp.trim()==='SUCCESS')
                         {
                         Utility.emitAlertMsg(1, that.alertElems, 'Success! ', 'Project has been added successfully');
                         refreshData();
@@ -226,7 +234,7 @@ this.renderModal ={
     },
 
     delPj: function(){
-        $('#del-pj-modal').modal('show');
+        $('#del-pj-modal').modal('show').find('div#del-pj-status').html('');;
         thisCtrl.delPjObj = {
             alertElems: 'div#del-pj-status',
             delClicked: false,
@@ -246,7 +254,11 @@ this.renderModal ={
                         var xhrobj = AjaxPrvService.xhrConfig(pjid, 'POST','php/srt/delpj.php?', null, 'singleValue');
                         AjaxPrvService.xhrPromise(xhrobj).then(function(resp){ 
 
-                            if (resp.trim()==='SUCCESS')
+                     if(data.trim()==='AUTHERROR'){
+                   
+                   Utility.emitAlertMsg(4, that.alertElems, 'Failed! ', 'Authentication failure, please log in first');
+
+                     }  else if (resp.trim()==='SUCCESS')
                             {
                             Utility.emitAlertMsg(1, that.alertElems, 'Success! ', 'Project has been deleted');
                             refreshData(function(){that.option = thisCtrl.entries[0].id;
@@ -281,7 +293,13 @@ this.renderModal ={
                 var xhrobj = AjaxPrvService.xhrConfig(formdata, 'POST','php/srt/additem.php?');
                     AjaxPrvService.xhrPromise(xhrobj).then(function(resp){ 
 
-                  if (resp.trim()==='SUCCESS')
+                if(data.trim()==='AUTHERROR'){
+                   
+                   Utility.emitAlertMsg(4, that.alertElems, 'Failed! ', 'Authentication failure, please log in first');
+
+                  }
+
+                 else if (resp.trim()==='SUCCESS')
                         {
                         Utility.emitAlertMsg(1, that.alertElems, 'Success! ', 'Item has been added successfully');
                         refreshData(function(){thisCtrl.setPjData(pjid);});
@@ -301,7 +319,8 @@ this.renderModal ={
 
     editItem: function(){
          $('#edit-item-modal').modal('show').find('table#table-summary-edit tr td:first-child').css('font-size', '15px').end()
-                                            .find('input[type=date]').attr('pattern', Utility.dateReg);
+                                            .find('input[type=date]').attr('pattern', Utility.dateReg)
+                                            .find('div#edit-item-status').html('');
          var pjid = thisCtrl.pjid;
          thisCtrl.editItemObj = {
 
@@ -312,7 +331,13 @@ this.renderModal ={
                 var xhrobj = AjaxPrvService.xhrConfig(formdata, 'POST','php/srt/edititem.php?');
                     AjaxPrvService.xhrPromise(xhrobj).then(function(resp){ 
 
-                  if (resp.trim()==='SUCCESS')
+                   if(data.trim()==='AUTHERROR'){
+                   
+                   Utility.emitAlertMsg(4, that.alertElems, 'Failed! ', 'Authentication failure, please log in first');
+
+                  }
+
+                 else if (resp.trim()==='SUCCESS')
                         {
                         Utility.emitAlertMsg(1, that.alertElems, 'Success! ', 'You changes have been successfully saved.');
                         refreshData(function(){thisCtrl.setPjData(pjid);});
@@ -355,8 +380,14 @@ this.renderModal ={
                 var that = this;
                 var xhrobj = AjaxPrvService.xhrConfig(formdata, 'POST','php/srt/deleteitem.php?');
                     AjaxPrvService.xhrPromise(xhrobj).then(function(resp){ 
-                        
-                  if (resp.trim()==='SUCCESS')
+                   
+                   if(data.trim()==='AUTHERROR'){
+                   
+                   Utility.emitAlertMsg(4, that.alertElems, 'Failed! ', 'Authentication failure, please log in first');
+
+                  }
+
+                 else if (resp.trim()==='SUCCESS')
                         {
                         Utility.emitAlertMsg(1, that.alertElems, 'Success! ', 'Item has been deleted.');
                         refreshData(function(){ thisCtrl.setPjData(pjid);that.selected="initial";});
@@ -376,7 +407,7 @@ this.renderModal ={
 
         };
 
-        $('#del-item-modal').modal('show');
+        $('#del-item-modal').modal('show').find('div#del-item-status').html('');;
    
 
     }

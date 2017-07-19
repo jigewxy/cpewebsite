@@ -11,18 +11,37 @@ app.controller('CompProCtrl', function($scope, $http, $window, $timeout, CpePjSe
 	 'Mobile':{}
 	};
 
+ init();
 
-$scope.tabs = [
+ 
+function init() {
 
-	{link: '#ojpro-projects', label: 'Officejet Pro', tag: 'ojpro'},
-	{link: '#oj-projects', label:'Officejet',tag:'oj'},
-	{link: '#pws-projects', label:'Page Wide', tag:'pws'},
-	{link: '#ics-projects', label:'Consumer', tag:'ics'},
-	{link: '#mobile-projects', label:'Mobile', tag:'mobile'}
 
- ];
+	$("#search-box").hide();
+	$scope.$parent.currentTab = 'projCompleted';
+    $scope.activePj = false;
 
- $scope.refreshData = function(){
+	$scope.tabs = [
+
+		{link: '#ojpro-projects', label: 'Officejet Pro', tag: 'ojpro'},
+		{link: '#oj-projects', label:'Officejet',tag:'oj'},
+		{link: '#pws-projects', label:'Page Wide', tag:'pws'},
+		{link: '#ics-projects', label:'Consumer', tag:'ics'},
+		{link: '#mobile-projects', label:'Mobile', tag:'mobile'}
+
+    ];
+
+	$(document).ready(function(){
+
+     refreshData(function(){ $timeout(function(){$('.tab-list').eq(0).find('a').click();}, 100);});
+       Utility.addAdminClass(['li#li-add-pd', 'li#li-del-pd', 'li#li-add-pj', 'li#li-del-pj']);
+       Utility.renderAdminFields();
+
+	});
+
+};
+
+function refreshData (){
 
 //clear the datapool object while refreshing the data everytime
 	pool = {
@@ -42,6 +61,12 @@ $scope.tabs = [
 
 		AjaxPrvService.xhrPromise(xhrobj).then(function(resp){
 
+            if(resp.pjlist ===undefined)
+			{
+			  $scope.alertcontent= 'Failed to connect to Databse, please contact Admin.';
+             $('div#cust-alert-modal').modal('show');
+			}
+			else{
 			$scope.pjlist= resp.pjlist;
 			$scope.pjlistArray = _.pluck($scope.pjlist, 'project_name');
 			$scope.fullPdList = _.pluck(resp.pdlist, 'product_name');
@@ -63,7 +88,7 @@ $scope.tabs = [
 				if(callback.length!==0){
 				_.each(callback, function(fn, i){fn();});
 			}
-
+			}
 			}, function(resp){
 
 			console.log("something went wrong");
@@ -73,21 +98,7 @@ $scope.tabs = [
 
 }
 
-init();
 
-
-function init() {
-
-
-	$("#search-box").hide();
-	$scope.$parent.currentTab = 'projCompleted';
-
-	$scope.refreshData();
-
-	setTimeout(function(){$('.tab-list').eq(0).find('a').click();}, 100);
-
-
-	};
 
 //Function to refresh data, with optional callback function (multiple) as arguments
  
@@ -147,40 +158,56 @@ $scope.setDatabase=function(id){
 	var xhrobj = AjaxPrvService.xhrConfig(id, 'POST',  'php/compj/getpjData.php?', null, 'singleValue');
 
 	AjaxPrvService.xhrPromise(xhrobj).then(function(resp){
-			$scope.projectdata= resp.pjdata;
-			$scope.itemlist = resp.itemlist;
-		//LEARNING --pick the 'type' as a individual array
 
-		if ($scope.itemlist.length===0)
-		{
-			//if itemlist is empty, set defectcount and featurecount to 0 as default;
-			_.extend($scope.projectdata,{'defectcount':0, 'featurecount':0});
-		}
+		if(resp.state===undefined){
+			$scope.alertcontent= 'Failed to connect to Database, please contact Admin.';
+			$('div#cust-alert-modal').modal('show');
+         }
+        else if(resp.state.trim()==="SUCCESS")
+        {
 
-		else
-		{
-			var type_arr = _.pluck($scope.itemlist, 'type');
+				$scope.projectdata= resp.pjdata;
+				$scope.itemlist = resp.itemlist;
+			//LEARNING --pick the 'type' as a individual array
 
-		//get defect fix and feature count
-		var cntObj= _.countBy(type_arr, function(df){
+			if ($scope.itemlist.length===0)
+			{
+				//if itemlist is empty, set defectcount and featurecount to 0 as default;
+				_.extend($scope.projectdata,{'defectcount':0, 'featurecount':0});
+			}
+
+			else
+			{
+				var type_arr = _.pluck($scope.itemlist, 'type');
+
+			//get defect fix and feature count
+			var cntObj= _.countBy(type_arr, function(df){
+			
+				return df==='Defect Fix'?'defectcount':'featurecount';
+
+			}); 
+
+			cntObj['featurecount']= type_arr.length - cntObj['defectcount'];
+
+
+			_.extend($scope.projectdata, cntObj);
 		
-			return df==='Defect Fix'?'defectcount':'featurecount';
+		//display release modal after database is set
+			$scope.renderModal.displayPj();
+	      }
+		} 
+		else 
+		{
+          $scope.alertcontent= 'Failed to connect to Databse, please contact Admin.';
+         $('div#cust-alert-modal').modal('show');
 
-		}); 
-
-		cntObj['featurecount']= type_arr.length - cntObj['defectcount'];
-
-
-		_.extend($scope.projectdata, cntObj);
-	
-	//display release modal after database is set
-        $scope.renderModal.displayPj();
-   }
+		}
 
 
 		}, function(resp){
 
-			console.log("something went wrong");
+			$scope.alertcontent= 'Failed to connect to Website, please contact Admin.';
+             $('div#cust-alert-modal').modal('show');
 
 		});
 
@@ -195,6 +222,11 @@ $scope.renderModal = {
 
 	displayPj: function(){
 		$('#release-modal').modal('show');
+
+
+      Utility.addAdminClass(['button#btn-import-item', 'button#btn-add-item','button#btn-edit-item','button#btn-del-item']);
+      Utility.renderAdminFields();
+
 		$timeout(function(){ 
 			//set tooltip height as the same as the table
 				$('div#div-tooltip').height($('div.table-summary').height());
@@ -257,7 +289,7 @@ $scope.renderModal = {
 				if (resp.trim() =="success")
 					{
 						CpePjService.emitAlertMsg(1, that.alertElems, 'Successful!', name+' has been successfully added!');
-						$scope.refreshData(function(){	$scope.productdata = $scope.datapool[$scope.selectedTab.label];}) 
+						refreshData(function(){	$scope.productdata = $scope.datapool[$scope.selectedTab.label];}) 
 					}
 					else 
 					{  
@@ -295,7 +327,7 @@ $scope.renderModal = {
 						if (resp.trim() =="success")
 							{
 								CpePjService.emitAlertMsg(1, that.alertElems, 'Successful!', pdname+' has been removed!');
-								$scope.refreshData(function(){	
+								refreshData(function(){	
 								$scope.productdata = $scope.datapool[$scope.selectedTab.label];
 								that.evalProductList(currentDiv); //update productlist in delete modal
 							}); 
@@ -362,7 +394,7 @@ $scope.renderModal = {
 						if (resp.trim() =="success")
 						{
 							CpePjService.emitAlertMsg(1, that.alertElems, 'Successful!  ', pjname+' has been added');
-							$scope.refreshData(function(){	
+							refreshData(function(){	
 							$scope.productdata = $scope.datapool[$scope.selectedTab.label];
 						}); 
 						}
@@ -425,7 +457,7 @@ $scope.renderModal = {
 				if (resp.trim() =="success")
 				{
 					CpePjService.emitAlertMsg(1, that.alertElems, 'Successful!  ', pjname+' has been deleted');
-					$scope.refreshData(function(){	
+					refreshData(function(){	
 					//update data for current tab and project list in the modal;
 					$scope.productdata = $scope.datapool[$scope.selectedTab.label];
 					that.evalPjList(pdname); 
@@ -448,10 +480,10 @@ $scope.renderModal = {
 
 	addItem: function(){
 
-		$('#add-item-modal').modal('show').find('input[type=text]').val('').end().find('#add-item-comp-status').val('');
+		$('#add-item-modal').modal('show').find('input[type=text]').val('').end().find('#add-item-status').val('');
         //construct addItemObj
 		$scope.addItemObj ={
-			alertElems: 'div#add-item-comp-status', 
+			alertElems: 'div#add-item-status', 
 			submit: function(){    
 				var data = $('#form-add-item').serializeArray();
 				var pjid = data[1].value;
@@ -459,10 +491,10 @@ $scope.renderModal = {
 				var xhrObj =  AjaxPrvService.xhrConfig(data,'POST','php/compj/addItem.php?');
 				AjaxPrvService.xhrPromise(xhrObj).then(function(resp){
 
-				if (resp.trim() =="success")
+				if (resp.trim() ==="success")
 				{
-					CpePjService.emitAlertMsg(1, that.alertElems, 'Successful!  ','Item has been added!');
-					$scope.refreshData(function(){	
+					CpePjService.emitAlertMsg(1, that.alertElems, 'Successful!  ', 'Item has been added!');
+					refreshData(function(){	
 					//update data for current tab and project list in the modal;
 					$scope.setDatabase(pjid);
 				    }); 
@@ -517,7 +549,7 @@ $scope.renderModal = {
 				if (resp.trim() =="success")
 				{
 					CpePjService.emitAlertMsg(1, that.alertElems, 'Successful!  ', 'Changes has been saved!');
-					$scope.refreshData(function(){	
+					refreshData(function(){	
 					//update data for current tab and project list in the modal;
 					$scope.setDatabase(that.pj.id);
 				    }); 
@@ -565,7 +597,7 @@ $scope.renderModal = {
 					{ 
 						CpePjService.emitAlertMsg(1, that.alertElems, 'Successful!', ' Items have been deleted.');
 
-						$scope.refreshData(function(){
+						refreshData(function(){
 						//update project data
 						$scope.setDatabase(that.pjid);
 						//reset checkbox value

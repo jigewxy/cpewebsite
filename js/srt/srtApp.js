@@ -1,4 +1,4 @@
-/* depends on ang-util.js */
+
 
  /*various way of inject constant */
 /*use app.constant to define the date pattern 
@@ -8,39 +8,10 @@
 .run(function($){
 	$rootScope.datePattern = '/[2][0][0-2][0-9][-]([0][1-9]|[1][0-2])[-]([0][1-9]|[1][0-9]|[2][0-9]|[3][0-1])/';
 }); */
-	
-  
-/*initialize bootstrap tooltip;*/
-$(document).ready(function(){
-    $('[data-toggle="tooltip"]').tooltip();   
-    Utility.hookLoginAnchor();
-   // Utility.topNavHover();
-});
 
-//use datepick for the project date information in order to standardize the data.
-$(document).on('mouseover',function(){
-
-      $( ".date-picker" ).datepicker(
-	  
-	  {
-	  //here we can't use yyyy-mm-dd, instead it will show year number twice.
-	   dateFormat:"yy-mm-dd",
-	   maxDate:"+10y",
-	   minDate:"-10y"
-	  }
-	  
-	  );
-}); 
-
-/*initialize the landing page click;*/
-/*$(document).one('mouseover', function(){
-	$('#tab-list li:nth-child(2)>a').click();
-	console.log('active project clicked');
-
-}); */
 
 /*inject routerProvider and reusableSrcs */
-var app=angular.module('srtApp', ['ngRoute', 'reuseableMod']);
+var app=angular.module('srtApp', ['ngRoute']);
 
 
 /*LEARNING - there is a bug in angularjs 1.6.x, the route now has a prefix '!', so need to customize the prefix here*/
@@ -149,64 +120,65 @@ app.factory('AjaxPrvService', function($q, $http){
     });
 
 
-    app.service('SrtService', function(AjaxPrvService){
+  app.service('SrtService', function(AjaxPrvService){
 
-     //type= 'ACTIVE' or 'COMPLETED'
-     function refreshData (ctrller, type, callback) {
+      //type= 'ACTIVE' or 'COMPLETED'
+      function refreshData (ctrller, type, callback) {
 
-      var xhrobj = AjaxPrvService.xhrConfig(type, 'POST','php/srt/getpjlist.php?', null, 'singleValue');
+            var xhrobj = AjaxPrvService.xhrConfig(type, 'POST','php/srt/getpjlist.php?', null, 'singleValue');
 
-      AjaxPrvService.xhrPromise(xhrobj).then(function(resp){ 
-    //note that .then() create another promise, to avoid confusion, we use callback() here to deal with this aychronization
+            AjaxPrvService.xhrPromise(xhrobj).then(function(resp){ 
+          //note that .then() create another promise, to avoid confusion, we use callback() here to deal with this aychronization
 
-    if(resp.state.trim() === 'ERROR')
-    {
-      alert('Database connection error');
-      return;
-    }
+          if(resp.state.trim() === 'ERROR')
+          {
+            alert('Database connection error');
+            return;
+          }
 
-     else {
-     ctrller.entries = resp.entries;
-    
-     if(callback!==undefined)
-     callback();
-  
-     }}, function(resp){
-     console.log("something went wrong");
-     console.log(resp);
-     });
+          else {
+          ctrller.entries = resp.entries;
+          
+          if(callback!==undefined)
+          callback();
+        
+          }}, function(resp){
+          console.log("something went wrong");
+          console.log(resp);
+          });
 
-    }
+          }
 
 
-   function setPjData (ctrller, id){
+  function setPjData (ctrller, id){
 
-    var xhrobj = AjaxPrvService.xhrConfig(id, 'POST','php/srt/getpj.php?', null, 'singleValue');
-    AjaxPrvService.xhrPromise(xhrobj).then(function(resp){ 
-    //note that .then() create another promise, to avoid confusion, we use callback() here to deal with this aychronization
-    if (resp.state.trim()==='ERROR'){
-         alert('Database connection error');
-    }
+          var xhrobj = AjaxPrvService.xhrConfig(id, 'POST','php/srt/getpj.php?', null, 'singleValue');
+          AjaxPrvService.xhrPromise(xhrobj).then(function(resp){ 
+          //note that .then() create another promise, to avoid confusion, we use callback() here to deal with this aychronization
+          if (resp.state.trim()==='ERROR'){
+              alert('Database connection error');
+          }
 
-    else {
-    ctrller.pjdata = resp.pjdata[0];
-    ctrller.pjid = ctrller.pjdata.id;
-    ctrller.itemlist = resp.itemlist;
-    }
+          else {
+          ctrller.pjdata = resp.pjdata[0];
+          ctrller.pjid = ctrller.pjdata.id;
+          ctrller.itemlist = resp.itemlist;
+          }
 
-    }, function(resp){
-    console.log("something went wrong");
-    console.log(resp);
-  });
+          }, function(resp){
+          console.log("something went wrong");
+          console.log(resp);
+        });
 
-}
+      }
 
-    return {
-      refreshData: refreshData,
-      setPjData: setPjData
-    }
 
-    })
+          return {
+            refreshData: refreshData,
+            setPjData: setPjData
+          }
+
+          })
 
     //import-item-modal directive
 /*
@@ -237,6 +209,7 @@ app.factory('AjaxPrvService', function($q, $http){
 }
 });
 */
+
 app.component('dispPjModal',{
       
      templateUrl: "srt/std-disp-modal.html",
@@ -293,7 +266,10 @@ app.component('statusOptions', {
 
         templateUrl: "template/statusoptions.html",
   });
+app.component('alertModal', {
 
+        templateUrl: "template/alertmodal.html",
+  });
 
 
 
@@ -305,20 +281,28 @@ app.component('statusOptions', {
 app.controller('srtCtrl', function ($location){
 	
 
-/*$scope.currentRoute= $location.url();
- console.log($scope.currentRoute);
- $rootScope.$watch= function(){
-  $scope.digestCount++;
- }*/
 
-	/*below $watch is to resolve the #item-status-sel class not updated issue */
-	
-	/*$scope.$watch('activeOrComp', function(newValue, oldValue){
-	if (newValue == true)
-	{ $('.item-status-sel').removeClass('ng-hide');}
-    else 
-	{$('.item-status-sel').removeClass('ng-show');}
-	});*/
+/*initialize bootstrap tooltip;*/
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();   
+    Utility.hookLoginAnchor();
+
+});
+
+//use datepick for the project date information in order to standardize the data.
+$(document).on('mouseover',function(){
+
+      $( ".date-picker" ).datepicker(
+	  
+	  {
+	  //here we can't use yyyy-mm-dd, instead it will show year number twice.
+	   dateFormat:"yy-mm-dd",
+	   maxDate:"+10y",
+	   minDate:"-10y"
+	  }
+	  
+	  );
+}); 
 	
 	
 });

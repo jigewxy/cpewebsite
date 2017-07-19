@@ -4,62 +4,93 @@
 /*****************************************************************/
 app.controller('activeProCtrl', function($scope, $http, $window, $timeout, CpePjService, CustomEnums, AjaxPrvService, ImportService) {
 
+init();
 
 //some initialization required
 function init() {
     $("#search-box").show();
     $scope.$parent.currentTab = 'projActive';
     $scope.prodcat=0;
+    $scope.activePj = true;
     $scope.projectobjs =[];
     $scope.uploadvalid = 0;
+
+
+
     //at landing page, shows all project in one table by simulating the click on "show all" button
-    $timeout(function(){$('li.list-btn').eq(0).find('button').trigger('click');}, 200);
+
+
+
+$(document).ready(function(){
+    
+    refreshData(function(){ $timeout(function(){$('li.list-btn').eq(0).find('button').trigger('click');}, 200);});
+       Utility.addAdminClass(['li#li-add-pj', 'li#li-del-pj']);
+       Utility.renderAdminFields();
+    
+});
+
+
 };
 
 function dummycallback(){
     //do nothing;
 }
 
+function refreshData (callback){
+
+//need a dummy data for GET service
+    var dummy= '';
+
+    var xhrobj = AjaxPrvService.xhrConfig(dummy, 'GET','php/cpepj/getdata.php?');
+
+    AjaxPrvService.xhrPromise(xhrobj).then(function(resp){ 
+        //note that .then() create another promise, to avoid confusion, we use callback() here to deal with this aychronization
+       if(resp.state===undefined){
+            $scope.alertcontent= 'Failed to connect to Database, please contact Admin.';
+            $('div#cust-alert-modal').modal('show');
+         }
+        else if(resp.state.trim()==="SUCCESS")
+        {
+            $scope.projectobjs =[]; //Need to reinitialize the array when data is refreshed.
+            $scope.projectinfo = resp.pj;
+            $scope.projectlist = Object.keys(resp.pj);
+            $scope.pdlist = resp.pdlist;
+
+                angular.forEach($scope.projectlist, function(value){
+
+                    var temp_obj ={};
+
+                    temp_obj=resp.pj[value];
+                    temp_obj.pjname= value;
+
+                $scope.projectobjs.push(temp_obj);}
+                )
+            //user defined callback() function to update the $scope data, if not needed, just use dummycallback.
+            callback();
+         }
+
+        else 
+        {
+         $scope.alertcontent= 'Failed to connect to Databse, please contact Admin.';
+        $('div#cust-alert-modal').modal('show');
+
+        }
+
+        }, function(resp){
+        console.log("something went wrong");
+        console.log(resp);
+    });
+
+}
+
+
+
 //refresh the page content by ajax call
 //LEARNING: in order to sychronise the data, instead of using nested deferred promise in the response function,
 //a callback function is cleaner solution here, we can use a dummy callback when the callback is not needed.
 
- $scope.refreshData= function (callback){
 
-//need a dummy data for GET service
-var dummy= '';
 
-var xhrobj = AjaxPrvService.xhrConfig(dummy, 'GET','php/cpepj/getdata.php?');
-
-AjaxPrvService.xhrPromise(xhrobj).then(function(resp){ 
-    //note that .then() create another promise, to avoid confusion, we use callback() here to deal with this aychronization
-    $scope.projectobjs =[]; //Need to reinitialize the array when data is refreshed.
-    $scope.projectinfo = resp.pj;
-    $scope.projectlist = Object.keys(resp.pj);
-    $scope.pdlist = resp.pdlist;
-
-        angular.forEach($scope.projectlist, function(value){
-
-            var temp_obj ={};
-
-            temp_obj=resp.pj[value];
-            temp_obj.pjname= value;
-
-        $scope.projectobjs.push(temp_obj);}
-        )
-    //user defined callback() function to update the $scope data, if not needed, just use dummycallback.
-    callback();
-
-    }, function(resp){
-    console.log("something went wrong");
-    console.log(resp);
-});
-
-}
-
-  
-init();
-$scope.refreshData(dummycallback);
 
 //set database when entry is selected, including projectinfo, projectname, projectitems, projectid..etc
 $scope.selDatabase = function(pname) {
@@ -88,7 +119,6 @@ $scope.renderModal ={
 
     addItem: function(){
 
-    
     $("#add-item-modal").modal("show");
     },
     
@@ -102,7 +132,7 @@ $scope.renderModal ={
                 
                 previewlist:[],
                 uploadCallback: function(){ 
-                    return $scope.refreshData(function(){
+                    return refreshData(function(){
                             $scope.projectdata=$scope.projectinfo[$scope.projectname];
                             $scope.projectitems=$scope.projectdata.itemlist;
                                 }); }, 
@@ -122,7 +152,7 @@ $scope.renderModal ={
 
     editItem: function(arg){
 
-        $("#modify-item-modal").modal("show");
+        $("#modify-item-modal").modal("show").find('input.date-picker').attr("pattern","20[0-2]\\d-(0[1-9]|1[0-2])-(0[1-9]|1\\d|2\\d|3[0-1])");
         $("select[name='pjcat']").val(arg);
 
     },
@@ -133,6 +163,11 @@ $scope.renderModal ={
         $("#delete-item-modal").modal("show");
     },
 
+   addPj: function(){
+
+       $('#add-new-project-modal').modal("show");
+
+     }, 
     delPj: function(){
 
         $scope.deletePressed=false;
@@ -143,6 +178,9 @@ $scope.renderModal ={
 
     displayPj:function(){
         $("#active-project-modal").modal("show");
+
+     Utility.addAdminClass(['button#btn-import-item', 'button#btn-add-item','button#btn-edit-item','button#btn-del-item']);
+     Utility.renderAdminFields();
         //set tooltip height references to summary table
         $timeout(function(){ $('div#div-tooltip').height($('div.table-summary').height());}, 200);
         var tooltip = $scope.projectdata.tooltip;
@@ -176,7 +214,7 @@ $scope.renderModal ={
 					{ 
 						CpePjService.emitAlertMsg(1, that.alertElems, 'Successful!', ' Project has been moved to COMPLETED state.');
                          $('#move-project-modal').find('input[type=submit]').hide();
-                        $scope.refreshData(function(){
+                        refreshData(function(){
                             $('#active-project-modal').modal('hide');
                         }); 
 
@@ -489,7 +527,7 @@ $scope.addPjSubmit =  function(){
     else 
     {  
         $scope.alertcontent= 'Failed to update database, please double check if the project name duplicates with any existing projects.';
-        $('div#alert-modal').modal('show');
+        $('div#cust-alert-modal').modal('show');
     }
 
     },  function(error){
@@ -498,7 +536,7 @@ $scope.addPjSubmit =  function(){
     });
 
 
-    $scope.refreshData(dummycallback);
+    refreshData(dummycallback);
 }
 
 
@@ -529,7 +567,7 @@ $scope.delPjSubmit = function (arg){
             $scope.projectlist.splice(i,1);
             $scope.deletedProj = $scope.projectlist[0];
             $scope.deletePressed = false;
-            $scope.refreshData(dummycallback);}
+            refreshData(dummycallback);}
             }, 
         function(status){
             console.log('delete failed');
@@ -555,7 +593,9 @@ $scope.addItemSubmit = function () {
             if (resp.trim() =="success")
             { 
                 CpePjService.emitAlertMsg(1, alertElems, 'Successful!', ' New item has been added successfully');
-                $scope.refreshData(function(){console.log("call back go");$scope.projectitems=$scope.projectinfo[$scope.projectname].itemlist;});
+                refreshData(function(){
+                    console.log("call back go");
+                    $scope.projectitems=$scope.projectinfo[$scope.projectname].itemlist;});
                 //refresh projectitems data
                 //$scope.$evalAsync($scope.projectitems=$scope.projectinfo[$scope.projectname].itemlist);
             }
@@ -584,7 +624,7 @@ AjaxPrvService.xhrPromise(xhrobj).then(
         if (resp.trim() =="success")
             {   
                 CpePjService.emitAlertMsg(1, alertElems, 'Successful!', ' Project data has been updated.');
-                $scope.refreshData(function(){
+                refreshData(function(){
                     //update project data
                     $scope.projectitems=$scope.projectinfo[$scope.projectname].itemlist;
                     $scope.projectdata=$scope.projectinfo[$scope.projectname];
@@ -614,7 +654,7 @@ AjaxPrvService.xhrPromise(xhrobj).then(
             { 
                 CpePjService.emitAlertMsg(1, alertElems, 'Successful!', ' Items have been deleted.');
 
-                $scope.refreshData(function(){
+                refreshData(function(){
                 console.log("call back go");
                 //update project data
                 $scope.projectitems=$scope.projectinfo[$scope.projectname].itemlist;

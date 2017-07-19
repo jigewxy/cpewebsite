@@ -6,9 +6,12 @@
           <h4 class="modal-title">Add New Item</h4>
         </div>
 <div class="modal-body">
-<div class="panel">
-<div class="panel-body">
 <form id="form-add-item" ng-submit="addItemSubmit()"> 
+  <div ng-if="!activePj">
+  <label class="control-label"><small>Project:</small></label>
+  <input class="form-control" name="pjname" value="{{pjName}}" readonly>
+  <input type="hidden" name="project_id" value="{{pjId}}">
+  </div>
 <label class="control-label"><small>CRID</small></label>
 <input type="text" class="form-control input-sm" name="crid" required>
 <label class="control-label"><small>Type</small></label>
@@ -56,6 +59,7 @@
 <option>OS Related</option>
 <option>Others</option>
 </select>
+<div ng-if ="activePj">
 <label class="control-label"><small>Status</small></label>
 <select class="form-control status-select" name="status">
 <option>In Progress</option>
@@ -63,18 +67,12 @@
 <option>Verified</option>
 <option>Reopen</option>
 </select>
-
-<!--div class="form">
-<input type="hidden" class="form-control" name="projectname" value="{{projectname}}">
-</div-->
-
+</div>
 <br><br>
-<input class="admin btn btn-primary" type="submit" value="Submit" >
+<input class="admin btn btn-in-modal btn-success" type="submit" value="ADD" >
 <br><br>
 </form>
 <div id="add-item-status"></div>
-</div>
-</div>
 </div>
 <div class="modal-footer"> 
 </div>

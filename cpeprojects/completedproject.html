@@ -14,10 +14,10 @@
 </ul>
 <br>
 <ul class="list-group">
-<li class="list-group-item tool-box" ng-click="renderModal.addPd()"><center><img class="nav-menu-image" src="images/project_create.png"></center><span class="overlay-add overlay"><div class="overlay-text">Add Product</div></span></li>
-<li class="list-group-item tool-box" ng-click="renderModal.delPd()"><center><img class="nav-menu-image" src="images/project_delete.png"></center><span class="overlay-del overlay"><div class="overlay-text">Delete Product</div></span></li>
-<li class="list-group-item tool-box" ng-click="renderModal.addPj()"><center><img class="nav-menu-image" src="images/add_project.png"></center><span class="overlay-add overlay"><div class="overlay-text">Add Project</div></span></li>
-<li class="list-group-item tool-box" ng-click="renderModal.delPj()"><center><img class="nav-menu-image" src="images/remove_project.png"></center><span class="overlay-del overlay"><div class="overlay-text">Delete Product</div></span></li>
+<li id="li-add-pd" class="list-group-item tool-box" ng-click="renderModal.addPd()"><center><img class="nav-menu-image" src="images/project_create.png"></center><span class="overlay-add overlay"><div class="overlay-text">Add Product</div></span></li>
+<li id="li-del-pd" class="list-group-item tool-box" ng-click="renderModal.delPd()"><center><img class="nav-menu-image" src="images/project_delete.png"></center><span class="overlay-del overlay"><div class="overlay-text">Delete Product</div></span></li>
+<li id="li-add-pj" class="list-group-item tool-box" ng-click="renderModal.addPj()"><center><img class="nav-menu-image" src="images/add_project.png"></center><span class="overlay-add overlay"><div class="overlay-text">Add Project</div></span></li>
+<li id="li-del-pj" class="list-group-item tool-box" ng-click="renderModal.delPj()"><center><img class="nav-menu-image" src="images/remove_project.png"></center><span class="overlay-del overlay"><div class="overlay-text">Delete Product</div></span></li>
 </ul>
 </div>
 
@@ -68,7 +68,8 @@
 <!-- Remove project Modal end-->
 
 <!-- Add item modal is defined -->
-<div comp-add-item-modal></div>
+<add-item-modal add-item-submit="addItemObj.submit()" active-pj = "activePj" pj-name = "addItemObj.pj.name" pj-id="addItemObj.pj.id"></add-item-modal> 
+<!--div comp-add-item-modal></div-->
 <!-- Add item modal ends -->
 
 <!-- Modify item modal starts -->
@@ -78,6 +79,12 @@
 <!-- Import item modal starts -->
 <div import-item-modal></div>
 <!-- Import item modal ends -->
+
+<!-- customized alert Modal -->
+<cust-alert-modal></cust-alert-modal>
+<!--alert Modal -end-->
+
+<alert-modal></alert-modal>
 
 <!-- Delete item modal is defined -->
 <div class="modal fade" id="remove-item-modal">

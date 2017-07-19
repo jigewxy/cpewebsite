@@ -3,25 +3,6 @@ must use dynamic initialization instead of static, (document).ready function doe
 in which view is partially rendered.*/
 
 
-$(document).on('mouseover','[data-hover="tooltip"]',function(){
-   $(this).tooltip('show');
-});
-
-//use datepick for the project date information in order to standardize the data.
-$(document).on('mouseover',function(){
-
-      $( ".date-picker" ).datepicker(
-	  
-	  {
-	  //here we can't use yyyy-mm-dd, instead it will show year number twice.
-	   dateFormat:"yy-mm-dd",
-	   maxDate:"+10y",
-	   minDate:"-10y"
-	  }
-	  
-	  );
-}); 
-
 
 var app = angular.module("myApp", ["ngRoute"]);
 
@@ -40,19 +21,19 @@ app.config(function($routeProvider) {
          templateUrl: "cpeprojects/dashboard.html",
 		 controller: "dbCtrl"
     })
-    .when("/activeproject", {
+    .when("/active", {
         templateUrl: "cpeprojects/activeproject.html",
 		controller:"activeProCtrl"
     })
-    .when("/completedproject", {
+    .when("/completed", {
         templateUrl: "cpeprojects/completedproject.html",
 		controller:"CompProCtrl"
     })
-	.when("/cpereport", {
+	.when("/statistics", {
         templateUrl: "cpeprojects/cpereport.html",
 		controller:"reportCtrl"
     })
-	.otherwise({redirectTo :"/activeproject"})
+	.otherwise({redirectTo :"/active"})
 });
 
 
@@ -82,31 +63,31 @@ app.config(function($routeProvider) {
 
 
 app.constant('CustomEnums', {
-colName: ['itemnumber','crid','type','summary','requestor','fixer','testteam','products', 'sha', 'component', 'status'],
-itemType: ['Defect Fix', 'New Feature'],
-itemStatus: ['In Progress', 'Fixed', 'Verified', 'Reopen'],
-itemComp: ['UI','EWS','Fax','Scan','Mech','ADF','Copy','IDS','Acumen','Ink Sub','Ink Security','Connectivity','SIPs','OXPD', 
-'Digital Send','LEDM','General Security','Mobility','Datapath','Board Config','ASIC','Power','Boot Loader','OS Related','Others'],
-alertType: {1:'success', 2:'info', 3:'warning', 4:'danger'},
+  colName: ['itemnumber','crid','type','summary','requestor','fixer','testteam','products', 'sha', 'component', 'status'],
+  itemType: ['Defect Fix', 'New Feature'],
+  itemStatus: ['In Progress', 'Fixed', 'Verified', 'Reopen'],
+  itemComp: ['UI','EWS','Fax','Scan','Mech','ADF','Copy','IDS','Acumen','Ink Sub','Ink Security','Connectivity','SIPs','OXPD', 
+  'Digital Send','LEDM','General Security','Mobility','Datapath','Board Config','ASIC','Power','Boot Loader','OS Related','Others'],
+  alertType: {1:'success', 2:'info', 3:'warning', 4:'danger'},
 });
 
 
 app.service('CpePjService', function($interval, CustomEnums){
 
   //constructor for Item Object
-  function ItemProto (arg) {
+    function ItemProto (arg) {
 
-  this.itemnumber = arg[0],
-  this.crid=arg[1],
-  this.type = arg[2],
-  this.summary = arg[3],
-  this.requestor = arg[4],
-  this.fixer = arg[5],
-  this.testteam = arg[6],
-  this.products = arg[7],
-  this.sha = arg[8],
-  this.component = arg[9],
-  this.status = arg[10]
+      this.itemnumber = arg[0],
+      this.crid=arg[1],
+      this.type = arg[2],
+      this.summary = arg[3],
+      this.requestor = arg[4],
+      this.fixer = arg[5],
+      this.testteam = arg[6],
+      this.products = arg[7],
+      this.sha = arg[8],
+      this.component = arg[9],
+      this.status = arg[10]
   }
 
 
@@ -221,9 +202,9 @@ app.service('CpePjService', function($interval, CustomEnums){
   var checkEnumFields = function (row){
 
   if (CustomEnums.itemType.indexOf(row[2].trim()) == -1 || CustomEnums.itemStatus.indexOf(row[10].trim()) == -1)
-  return false;
+    return false;
   else 
-  return true;
+    return true;
 
   }
 
@@ -540,27 +521,33 @@ var preValidate = {
 /* xhrConfig: return object with xhrrequest config (data, method, url) */
 
 
-/*directive definition for add-new-product */
 
-app.directive("stdAddNewProject", function(){
-	
-	
-	return {
-		
-		restrict: "EA",
-		templateUrl: "cpeprojects/std-add-new-project.html",
-		
-			
-	};
-	
-});
+app.directive('custAlertModal', function(){
 
-//add-item-modal directive
+
+       return { restrict: "EA",
+                templateUrl: "cpeprojects/directives/std-alert-modal.html",
+                replace: false
+              };
+  });
+
+app.component('alertModal', {
+
+        templateUrl: "template/alertmodal.html",
+  });
+
+  //add-item-modal directive
 app.directive('addItemModal', function(){
 
   return {
   restrict: "EA",
-  templateUrl: "cpeprojects/std-add-new-item.html",
+  templateUrl: "cpeprojects/directives/std-add-new-item.html",
+  scope: {
+     'addItemSubmit': "&addItemSubmit",
+     activePj: "<",
+     pjName: "<",
+     pjId: "<"
+  },
   replace:false
 
   };
@@ -571,13 +558,26 @@ app.directive('modifyItemModal', function(){
 
   return {
   restrict: "EA",
-  templateUrl: "cpeprojects/std-edit-item.html",
+  templateUrl: "cpeprojects/directives/std-edit-item.html",
   replace:false
 
   };
 
 });
 
+/*directive definition for add-new-product */
+
+app.directive("stdAddNewProject", function(){
+	
+	return {
+		
+		restrict: "EA",
+		templateUrl: "cpeprojects/directives/std-add-new-project.html",
+		
+			
+	};
+	
+});
 
 
 //import-item-modal directive
@@ -585,7 +585,7 @@ app.directive('importItemModal', function(){
 
   return {
   restrict: "EA",
-  templateUrl: "cpeprojects/std-import-itemlist.html",
+  templateUrl: "cpeprojects/directives/std-import-itemlist.html",
   replace:false
 
   };
@@ -598,7 +598,7 @@ app.directive('dispPjList', function(){
 
   return {
   restrict: "EA",
-  templateUrl: "cpeprojects/std-disp-pj-list.html",
+  templateUrl: "cpeprojects/directives/std-disp-pj-list.html",
   replace:false
 
   };
@@ -611,7 +611,7 @@ app.directive('dispPjModal', function(){
 
   return {
   restrict: "EA",
-  templateUrl: "cpeprojects/std-disp-pj-modal.html",
+  templateUrl: "cpeprojects/directives/std-disp-pj-modal.html",
   replace:false
 
   };
@@ -623,7 +623,7 @@ app.directive('compAddPdModal', function(){
 
   return {
   restrict: "EA",
-  templateUrl: "cpeprojects/std-comp-add-product.html",
+  templateUrl: "cpeprojects/directives/std-comp-add-product.html",
   replace:false
 
   };
@@ -635,7 +635,7 @@ app.directive('compDelPdModal', function(){
 
   return {
   restrict: "EA",
-  templateUrl: "cpeprojects/std-comp-del-product.html",
+  templateUrl: "cpeprojects/directives/std-comp-del-product.html",
   replace:false
 
   };
@@ -648,7 +648,7 @@ app.directive('compAddPjModal', function(){
 
   return {
   restrict: "EA",
-  templateUrl: "cpeprojects/std-comp-add-pj.html",
+  templateUrl: "cpeprojects/directives/std-comp-add-pj.html",
   replace:false
 
   };
@@ -660,7 +660,7 @@ app.directive('compDelPjModal', function(){
 
   return {
   restrict: "EA",
-  templateUrl: "cpeprojects/std-comp-del-pj.html",
+  templateUrl: "cpeprojects/directives/std-comp-del-pj.html",
   replace:false
 
   };
@@ -672,7 +672,7 @@ app.directive('compAddItemModal', function(){
 
   return {
   restrict: "EA",
-  templateUrl: "cpeprojects/std-comp-add-item.html",
+  templateUrl: "cpeprojects/directives/std-comp-add-item.html",
   replace:false
 
   };
@@ -684,20 +684,7 @@ app.directive('compEditItemModal', function(){
 
   return {
   restrict: "EA",
-  templateUrl: "cpeprojects/std-comp-edit-item.html",
-  replace:false
-
-  };
-
-});
-
-
-//modify item modal directive for completedproject.html
-app.directive('alertModal', function(){
-
-  return {
-  restrict: "EA",
-  templateUrl: "cpeprojects/std-alert-modal.html",
+  templateUrl: "cpeprojects/directives/std-comp-edit-item.html",
   replace:false
 
   };
@@ -712,9 +699,40 @@ app.directive('alertModal', function(){
 /*****************************************************************/
 app.controller('cpeCtrl', function($scope) {
 
-$("#search-box").hide();
 
-$scope.currentTab = '';
+
+
+function init() {
+    $("#search-box").hide();
+
+
+    $(document).on('mouseover','[data-hover="tooltip"]',function(){
+      $(this).tooltip('show');
+    });
+
+    //use datepick for the project date information in order to standardize the data.
+    $(document).on('mouseover',function(){
+
+        $( ".date-picker" ).datepicker(
+      
+      {
+      //here we can't use yyyy-mm-dd, instead it will show year number twice.
+        dateFormat:"yy-mm-dd",
+        maxDate:"+10y",
+        minDate:"-10y"
+      }
+      
+      );
+
+    }); 
+
+    Utility.hookLoginAnchor();
+
+    $scope.currentTab = '';
+}
+
+
+init();
     
 
 $scope.$watch ('currentTab', function(newValue, oldValue){

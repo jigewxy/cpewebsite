@@ -52,13 +52,13 @@ $scope.filterObj ={
 
         {	
             $scope.alertcontent = "Your Start date or end date format is not correct, please modify it and re-submit.";
-            $("div#alert-modal").modal('show'); 
+            $("div#cust-alert-modal").modal('show'); 
             return false;
         }
         else if( $scope.startdate > $scope.enddate)
         {     
             $scope.alertcontent = "Start date must be earlier than end date, please modify it and re-submit.";
-            $("div#alert-modal").modal('show'); 
+            $("div#cust-alert-modal").modal('show'); 
             return false;
         }
 
@@ -101,14 +101,14 @@ $scope.filterObj ={
                                 else 
                                 {  
                                     $scope.alertcontent = "Data base connection error, please contact admin!";
-                                    $("div#alert-modal").modal('show');
+                                    $("div#cust-alert-modal").modal('show');
                                 }
                                 
 
                                 },  function(error){
                                 {  
                                     $scope.alertcontent = "Web server connection error, please contact admin!";
-                                    $("div#alert-modal").modal('show');
+                                    $("div#cust-alert-modal").modal('show');
                                 }
                                 });
 

@@ -1,31 +1,38 @@
 /*********************************************/
 /**controller for the completed project page**/
 /*********************************************/
-app.controller('srtCompletedCtrl', function($location, reusableSrcs, AjaxPrvService, SrtService){
+app.controller('srtCompletedCtrl', function($location, AjaxPrvService, SrtService){
 
 //controller name as compCtrl
 
 this.completed = true; //determine whether the firmware link field should be shown or not.
-var thisCtrl = this;
-
-this.startDate = null;
+//initialize the date for the filter
+var today = new Date();
+this.startDate = new Date(today.setFullYear(today.getFullYear() -1));
 this.endDate = new Date();
+
+var thisCtrl = this;
 
 $(document).ready(function(){
 
-    $('li.tab-menu').removeClass('selected-tab');
-    $('li#completed-tab').addClass('selected-tab');
+    $('li#completed-tab').addClass('selected-tab').siblings().removeClass('selected-tab');
     SrtService.refreshData(thisCtrl, 'COMPLETED');
+    //enable admin control access
+    Utility.addAdminClass(['li#li-add-pj', 'li#li-del-pj']);
+    Utility.renderAdminFields();
+
     
 });
+
 
 //note that in the ng-repeat= "x in Obj | filter: filterObj.func", it is executing in global context, thus 
 // "THIS" is the window Object when it is called. 
 this.filterObj = {
 
 	reset: function(){
-	//	console.log(this);
-		thisCtrl.startDate = null;
+	//	reset the date for the filter
+        var today = new Date();
+		thisCtrl.startDate = new Date(today.setFullYear(today.getFullYear() -1));
 		thisCtrl.endDate = new Date();
 	},
 	func: function(arg){
@@ -44,6 +51,9 @@ this.renderModal ={
     display: function(id){
         SrtService.setPjData(thisCtrl, id);
         $('#display-pj-modal').modal('show');
+       Utility.addAdminClass(['button#btn-add-item', 'button#btn-edit-item', 'button#btn-del-item']);
+       Utility.renderAdminFields();
+
 
      },
     
@@ -75,7 +85,12 @@ this.renderModal ={
                     var that = this;
                     var xhrobj = AjaxPrvService.xhrConfig(formdata, 'POST','php/srt/addpj.php?');
                     AjaxPrvService.xhrPromise(xhrobj).then(function(resp){ 
-                        if (resp.trim()==='SUCCESS')
+                        
+                   if(data.trim()==='AUTHERROR'){
+                   
+                   Utility.emitAlertMsg(4, that.alertElems, 'Failed! ', 'Authentication failure, please log in first');
+
+                   }  else if (resp.trim()==='SUCCESS')
                         {
                         Utility.emitAlertMsg(1, that.alertElems, 'Success! ', 'Project has been added successfully');
 						
@@ -116,8 +131,12 @@ this.renderModal ={
                         var xhrobj = AjaxPrvService.xhrConfig(pjid, 'POST','php/srt/delpj.php?', null, 'singleValue');
                         AjaxPrvService.xhrPromise(xhrobj).then(function(resp){ 
 
-                            if (resp.trim()==='SUCCESS')
-                            {
+                   if(data.trim()==='AUTHERROR'){
+                   
+                   Utility.emitAlertMsg(4, that.alertElems, 'Failed! ', 'Authentication failure, please log in first');
+
+                    }  else if (resp.trim()==='SUCCESS')
+                             {
                             Utility.emitAlertMsg(1, that.alertElems, 'Success! ', 'Project has been deleted');
 							SrtService.refreshData(thisCtrl, 'COMPLETED',function(){that.option = thisCtrl.entries[0].id;
                                                    that.delClicked = false;} );
@@ -150,8 +169,14 @@ this.renderModal ={
                 var that = this;
                 var xhrobj = AjaxPrvService.xhrConfig(formdata, 'POST','php/srt/additem.php?');
                     AjaxPrvService.xhrPromise(xhrobj).then(function(resp){ 
+                  
+                   if(data.trim()==='AUTHERROR'){
+                   
+                   Utility.emitAlertMsg(4, that.alertElems, 'Failed! ', 'Authentication failure, please log in first');
 
-                  if (resp.trim()==='SUCCESS')
+                  }
+
+                 else if (resp.trim()==='SUCCESS')
                         {
                         Utility.emitAlertMsg(1, that.alertElems, 'Success! ', 'Item has been added successfully');
 							SrtService.refreshData(thisCtrl, 'COMPLETED', function(){ SrtService.setPjData(thisCtrl, pjid);} );
@@ -182,7 +207,12 @@ this.renderModal ={
                 var xhrobj = AjaxPrvService.xhrConfig(formdata, 'POST','php/srt/edititem.php?');
                     AjaxPrvService.xhrPromise(xhrobj).then(function(resp){ 
 
-                  if (resp.trim()==='SUCCESS')
+                  
+                   if(data.trim()==='AUTHERROR'){
+                   
+                   Utility.emitAlertMsg(4, that.alertElems, 'Failed! ', 'Authentication failure, please log in first');
+
+                  } else if (resp.trim()==='SUCCESS')
                         {
                         Utility.emitAlertMsg(1, that.alertElems, 'Success! ', 'You changes have been successfully saved.');
 						SrtService.refreshData(thisCtrl, 'COMPLETED', function(){SrtService.setPjData(thisCtrl, pjid);} );
@@ -226,7 +256,12 @@ this.renderModal ={
                 var xhrobj = AjaxPrvService.xhrConfig(formdata, 'POST','php/srt/deleteitem.php?');
                     AjaxPrvService.xhrPromise(xhrobj).then(function(resp){ 
                         
-                  if (resp.trim()==='SUCCESS')
+                 
+                   if(data.trim()==='AUTHERROR'){
+                   
+                   Utility.emitAlertMsg(4, that.alertElems, 'Failed! ', 'Authentication failure, please log in first');
+
+                  }  else  if (resp.trim()==='SUCCESS')
                         {
                         Utility.emitAlertMsg(1, that.alertElems, 'Success! ', 'Item has been deleted.');
 						SrtService.refreshData(thisCtrl, 'COMPLETED', function(){ SrtService.setPjData(thisCtrl, pjid);that.selected="initial";} );

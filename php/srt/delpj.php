@@ -3,6 +3,8 @@
 require_once '../util/ServerConfig.class.php'; //CLASS ServerConfig
 // Set the PDO based on server host and database name;
 
+UtilityFunc::authCheck();
+
 $conn = ServerConfig::setPdo(SRTDB);
 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 

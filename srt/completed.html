@@ -7,8 +7,8 @@
 <div class="container-fluid">
 <div class="col-md-2 left-nav-menu">
 <ul class="list-group">
-<li class="list-group-item" ng-click="compCtrl.renderModal.addPj()"><center><img class="nav-menu-image" src="images/project_create.png"></img><center><span class="overlay overlay-add"><div class="overlay-text">Add Project </div><span></li>
-<li class="list-group-item" ng-click="compCtrl.renderModal.delPj()"><center><img class="nav-menu-image" src="images/project_delete.png"></img></center><span class="overlay overlay-del"><div class="overlay-text">Delete Project </div><span> </li>
+<li id ='li-add-pj' class="list-group-item " ng-click="compCtrl.renderModal.addPj()"><center><img class="nav-menu-image" src="images/project_create.png"></img><center><span class="overlay overlay-add"><div class="overlay-text">Add Project </div><span></li>
+<li id ='li-del-pj' class="list-group-item" ng-click="compCtrl.renderModal.delPj()"><center><img class="nav-menu-image" src="images/project_delete.png"></img></center><span class="overlay overlay-del"><div class="overlay-text">Delete Project </div><span> </li>
 </ul>
 
 <div id="data-filter" class="form">
@@ -59,6 +59,7 @@
 <delete-item-modal del-item-obj="compCtrl.delItemObj" itemlist ="compCtrl.itemlist"></delete-item-modal>
 <!-- Delete item modal ends -->
 
+<alert-modal></alert-modal>
 
 </body>
 </html>

@@ -13,13 +13,13 @@ include 'template/setcookie.php';
 <script src="framework/angular.min.js"></script>
 <script src="framework/underscore-min.js"></script>
 <script src="framework/angular-route.min.js"></script>
+<script src="framework/underscore-min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src ="https://code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
 <script src="framework/highcharts.js"></script>
 <script src="framework/moment.js"></script>
 <script src="framework/highcharts-more.js"></script>
 <script src="framework/utility.js"></script>
-<script src="js/utility/ang-util.js"></script>
 <script src="js/srt/srtApp.js"></script>
 <script src="js/srt/activesrt.js"></script>
 <script src="js/srt/compsrt.js"></script>

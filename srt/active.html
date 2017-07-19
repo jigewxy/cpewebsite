@@ -6,8 +6,8 @@
 <div class="container-fluid">
 <div class="col-md-2 col-sm-2 col-xs-2 left-nav-menu">
 <ul class="list-group">
-  <li class="list-group-item" ng-click="activeCtrl.renderModal.addPj()"><center><img class="nav-menu-image" src="images/project_create.png"></center><span class="overlay overlay-add"><div class="overlay-text">Add Project </div></span></li>
-  <li class="list-group-item" ng-click="activeCtrl.renderModal.delPj()"><center><img class="nav-menu-image" src="images/project_delete.png"></center><span class="overlay overlay-del"><div class="overlay-text">Delete Project </div></span> </li>
+  <li id ='li-add-pj' class="list-group-item" ng-click="activeCtrl.renderModal.addPj()"><center><img class="nav-menu-image" src="images/project_create.png"></center><span class="overlay overlay-add"><div class="overlay-text">Add Project </div></span></li>
+  <li id ='li-del-pj' class="list-group-item" ng-click="activeCtrl.renderModal.delPj()"><center><img class="nav-menu-image" src="images/project_delete.png"></center><span class="overlay overlay-del"><div class="overlay-text">Delete Project </div></span> </li>
   <li class="list-group-item"><button id="btn-state" class="btn btn-filter btn-default" ng-click ="activeCtrl.CustFilterObj.state()">By State</button></li> 
   <li class="list-group-item"><button id="btn-region" class="btn btn-filter btn-default" ng-click ="activeCtrl.CustFilterObj.region()">By Region</button></li>
 </ul>
@@ -89,6 +89,7 @@
   </div>
 </div>
 
+<alert-modal></alert-modal>
 
 </body>
 </html>

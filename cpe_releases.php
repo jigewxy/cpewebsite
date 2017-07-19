@@ -274,7 +274,7 @@ include 'template/setcookie.php';
 </div>
 <!-- delete release modal ends -->
 
-<?php $message ="This feature is for Admin only, please log in first!"; include "template/alertmodal.php" ?>
+<?php  include "template/alertmodal.html" ?>
   
   
     
