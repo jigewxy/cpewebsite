@@ -5,6 +5,9 @@
 require_once '../util/ServerConfig.class.php'; //CLASS ServerConfig
 require_once '../util/UtilityFunc.class.php'; //class UtilityFunc
 
+
+UtilityFunc::authCheck();
+
 $pdname = trim($_POST['product']);
 
 $formdata = $_POST;
@@ -44,7 +47,7 @@ echo "Caught exception: ".$e->getMessage()."\n";
 }
 
 
-echo "success";
+echo "SUCCESS";
 
 
 ?>

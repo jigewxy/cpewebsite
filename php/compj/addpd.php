@@ -2,6 +2,8 @@
 require_once '../util/ServerConfig.class.php'; //CLASS ServerConfig
 require_once '../util/UtilityFunc.class.php'; //class UtilityFunc
 
+UtilityFunc::authCheck();
+
 $conn = ServerConfig::setPdo(PJDB);
 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
@@ -18,7 +20,7 @@ $stm->execute();
     echo "Caught exception: ".$e->getMessage()."\n";
 }
 
-echo "success";
+echo "SUCCESS";
 
 
 

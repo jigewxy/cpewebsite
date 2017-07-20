@@ -1,10 +1,9 @@
 <?php
 
-
 require_once '../util/ServerConfig.class.php'; //CLASS ServerConfig
 require_once '../util/UtilityFunc.class.php'; //class UtilityFunc
 
-try{
+UtilityFunc::authCheck();
 
 $conn = ServerConfig::setPdo(PJDB);
 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -19,15 +18,26 @@ unset($pjdata['project_id']);
 
 $pj_str ='';
 foreach($pjdata as $key=>$value){
-if($pj_str=='')
-$pj_str.= $key."=\"".addslashes($value)."\"";
-else
-$pj_str.= ",".$key."=\"".addslashes($value)."\"";
+  if($pj_str=='')
+  $pj_str.= $key."=\"".addslashes($value)."\"";
+  else
+  $pj_str.= ",".$key."=\"".addslashes($value)."\"";
 
 }
 
+try {
 $stm = $conn -> prepare(" UPDATE project SET {$pj_str} WHERE id={$pjid}");
-$stm->execute();
+$result = $stm->execute();
+
+if(!$result){
+throw new Exeception ("Fail to connect to database");
+}
+} catch (Exeception $e){
+
+echo "Caught exception: ".$e->getMessage()."\n";
+exit();
+
+};
 
 //prepare statements to update [itemlist] table
 
@@ -49,28 +59,32 @@ foreach ($itemdata as $colname=>$val_arr){
 
  foreach ($val_arr as $key=>$value){
 if ($itemstr_arr[$key]=='')
-$itemstr_arr[$key].= $colname."=\"".addslashes($value)."\"";
+  $itemstr_arr[$key].= $colname."=\"".addslashes($value)."\"";
 else
-$itemstr_arr[$key].=",".$colname."=\"".addslashes($value)."\"";
+  $itemstr_arr[$key].=",".$colname."=\"".addslashes($value)."\"";
 }
 }
 
 //print_r($itemcol_value);
 
+try{
 foreach($itemstr_arr as $key=>$value){
-$itemid= $itemid_arr[$key];
-$stm = $conn -> prepare(" UPDATE itemlist SET {$value} WHERE id={$itemid}");
-$stm->execute();
-}
-}
-
-echo "success";
-
-
+  $itemid= $itemid_arr[$key];
+  $stm = $conn -> prepare(" UPDATE itemlist SET {$value} WHERE id={$itemid}");
+  $stm->execute();
+   };
 } catch (Exeception $e){
 
 echo "Caught exception: ".$e->getMessage()."\n";
+exit();
 
-}
+};
+
+echo "SUCCESS"; }
+
+else  
+{ 
+echo "SUCCESS"; 
+ exit(); }
 
 ?>

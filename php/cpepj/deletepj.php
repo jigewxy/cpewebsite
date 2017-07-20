@@ -1,7 +1,10 @@
 <?php
 
 require_once '../util/ServerConfig.class.php'; //CLASS ServerConfig
+require_once '../util/UtilityFunc.class.php'; //CLASS ServerConfig
 // Set the PDO based on server host and database name;
+
+UtilityFunc::authCheckReturnObj();
 
 $returndata = array();
 $conn = ServerConfig::setPdo(PJDB);

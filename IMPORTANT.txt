@@ -1,3 +1,0 @@
-
-
-please download <data> folder from the CPSE linux server since it is not supposed to be shared here.

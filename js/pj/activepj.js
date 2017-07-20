@@ -114,124 +114,7 @@ $scope.selDatabase = function(pname) {
 }
 
 
-//function factory to render modals 
-$scope.renderModal ={
 
-    addItem: function(){
-
-    $("#add-item-modal").modal("show");
-    },
-    
-    importItem: function(){
-
-    $("#import-item-modal").modal("show");
-
-
-  //LEARNING: it is not a good practice to pass $scope as a parameter to service/factory, hence rewrite this portion of code.
-        $scope.importItemObj = {
-                
-                previewlist:[],
-                uploadCallback: function(){ 
-                    return refreshData(function(){
-                            $scope.projectdata=$scope.projectinfo[$scope.projectname];
-                            $scope.projectitems=$scope.projectdata.itemlist;
-                                }); }, 
-                previewModalShow: function(list){
-                $scope.importItemObj.previewlist = list;
-                    $scope.$digest($('div#preview-modal').modal('show'));
-                },
-                preValidate:ImportService.preValidate,
-                validateFile: function(){ImportService.validateFile('#import-item-status', 'spreadsheet', $scope.importItemObj.previewModalShow);},
-                uploadItem: function(){ImportService.uploadItem ('#import-item-status', '#spreadsheet', $scope.projectid, $scope.importItemObj.uploadCallback);}, //note that the last argument is Jquery selector
-                resetValidator: function(){ImportService.resetValidator('#import-item-status');},
-    
-            };
-
-
-    },
-
-    editItem: function(arg){
-
-        $("#modify-item-modal").modal("show").find('input.date-picker').attr("pattern","20[0-2]\\d-(0[1-9]|1[0-2])-(0[1-9]|1\\d|2\\d|3[0-1])");
-        $("select[name='pjcat']").val(arg);
-
-    },
-
-    delItem:function(){
-
-        //below is to make sure the "Delete" Button is shown instead of "Confirm" after user close the modal without confirm
-        $("#delete-item-modal").modal("show");
-    },
-
-   addPj: function(){
-
-       $('#add-new-project-modal').modal("show");
-
-     }, 
-    delPj: function(){
-
-        $scope.deletePressed=false;
-        $scope.deletedProj = $scope.projectlist[0]; //initialize the ngoption
-        //below is to make sure the "Delete" Button is shown instead of "Confirm" after user close the modal without confirm
-        $("#delete-project-modal").modal("show");
-    },
-
-    displayPj:function(){
-        $("#active-project-modal").modal("show");
-
-     Utility.addAdminClass(['button#btn-import-item', 'button#btn-add-item','button#btn-edit-item','button#btn-del-item']);
-     Utility.renderAdminFields();
-        //set tooltip height references to summary table
-        $timeout(function(){ $('div#div-tooltip').height($('div.table-summary').height());}, 200);
-        var tooltip = $scope.projectdata.tooltip;
-        //replace line break with seperate paragraph.
-        if(tooltip!==null){
-            tooltip = tooltip.replace(/\r\n/g, '</p><p class="p-tooltip">');
-            $('div#div-tooltip').html('<p class="p-tooltip">'+ tooltip + '</p>');
-          }
-         else {
-             $('div#div-tooltip').html('');
-         }
-    },
-
-    movePj: function(){
-
-        $('#move-project-modal').modal('show').find('input.date-picker').attr("pattern","20[0-2]\\d-(0[1-9]|1[0-2])-(0[1-9]|1\\d|2\\d|3[0-1])").css("width","50%");
-        
-      $scope.movePjObj = {
-        alertElems: 'div#move-pj-status',
-		pjid: $scope.projectdata['id'],
-		submit: function(){
-			var data= $("form#form-move-pj").serializeArray();
-			var that=this;
-			var xhrobj = AjaxPrvService.xhrConfig(data, 'POST', 'php/cpepj/movepj.php?');
-			AjaxPrvService.xhrPromise(xhrobj).then(
-				function(resp){
-
-                    console.log(resp);
-
-					if (resp.trim() =="success")
-					{ 
-						CpePjService.emitAlertMsg(1, that.alertElems, 'Successful!', ' Project has been moved to COMPLETED state.');
-                         $('#move-project-modal').find('input[type=submit]').hide();
-                        refreshData(function(){
-                            $('#active-project-modal').modal('hide');
-                        }); 
-
-
-					}
-					else { CpePjService.emitAlertMsg(4, that.alertElems, 'Failed!', ' Database connection error!');}
-					
-					}, 
-				function(status){
-					CpePjService.emitAlertMsg(4, that.alertElems, 'Error!', ' Web server connection error!'+status);
-				});
-
-            }
-            }
-        },
-
-};
 
 //function factory to select right value for modify modal
 $scope.selectRight ={
@@ -312,24 +195,6 @@ $scope.confirmDelProject= function() {
 }
 
 
-$scope.catToMove= '';
-
-$scope.loadProductList= function(){
-
-
-    $http.get('data/pjcompleted/product_list.json', {headers:{"cache-control":"no-cache"}}).then(function(response){
-
-    $scope.productlist=response.data[$scope.catToMove];
-
-
-    }, function(response){
-
-    $scope.content="something went wrong";
-    })
-
-
-};
-
 $scope.setFilterFn = function(e){
 
     $('li.list-btn>button').removeClass('btn-warning');
@@ -369,56 +234,56 @@ $scope.setFilterFn = function(e){
             },
 
             vrCompleted: function (arg){
-            var vrdate= new Date($scope.projectinfo[arg.pjname].datevr);
-            if (vrdate<=today)
-            return true;
-            else 
-            return false;
+                var vrdate= new Date($scope.projectinfo[arg.pjname].datevr);
+                if (vrdate<=today)
+                return true;
+                else 
+                return false;
             },
 
             checkVr: function (arg) {
-            var vrdate= new Date($scope.projectinfo[arg.pjname].datevr);
-            var rcdate= new Date($scope.projectinfo[arg.pjname].daterc);
-            if (vrdate>today && rcdate<=today)
-            return true;
-            else 
-            return false;
+                var vrdate= new Date($scope.projectinfo[arg.pjname].datevr);
+                var rcdate= new Date($scope.projectinfo[arg.pjname].daterc);
+                if (vrdate>today && rcdate<=today)
+                return true;
+                else 
+                return false;
             },
 
             checkRc: function (arg) {
-            var fcdate= new Date($scope.projectinfo[arg.pjname].datefc);
-            var rcdate= new Date($scope.projectinfo[arg.pjname].daterc);
-            if (rcdate>today && fcdate<=today)
-            return true;
-            else 
-            return false;
+                var fcdate= new Date($scope.projectinfo[arg.pjname].datefc);
+                var rcdate= new Date($scope.projectinfo[arg.pjname].daterc);
+                if (rcdate>today && fcdate<=today)
+                return true;
+                else 
+                return false;
             },
 
             checkFc: function (arg) {
-            var fcdate= new Date($scope.projectinfo[arg.pjname].datefc);
-            var start= new Date($scope.projectinfo[arg.pjname].datestart);
-            if (fcdate>today && start<=today)
-            return true;
-            else 
-            return false;
+                var fcdate= new Date($scope.projectinfo[arg.pjname].datefc);
+                var start= new Date($scope.projectinfo[arg.pjname].datestart);
+                if (fcdate>today && start<=today)
+                return true;
+                else 
+                return false;
             },
 
 
             checkStart: function (arg) {
-            var start= new Date($scope.projectinfo[arg.pjname].datestart);
-            if ( start>today)
-            return true;
-            else 
-            return false;
+                var start= new Date($scope.projectinfo[arg.pjname].datestart);
+                if ( start>today)
+                return true;
+                else 
+                return false;
             },
 
             checkCategory: function(div){
-            return function(arg) 
-            {var cat= $scope.projectinfo[arg.pjname].division;
-            if ( cat==div)
-            return true;
-            else 
-            return false;}
+                return function(arg) 
+                {var cat= $scope.projectinfo[arg.pjname].division;
+                if ( cat==div)
+                return true;
+                else 
+                return false;}
             }
 
             };
@@ -426,38 +291,38 @@ $scope.setFilterFn = function(e){
             switch (selFilter){
 
 
-            case 'show-all-btn':
-                $scope.filterMap = {
-                'All Projects': filterFn.showAll
-                }
-                break;
+                case 'show-all-btn':
+                    $scope.filterMap = {
+                    'All Projects': filterFn.showAll
+                    }
+                    break;
 
-            case 'state-filter-btn':
-                $scope.filterMap ={
-                'Completed':  filterFn.vrCompleted,
-                'Reaching VR': filterFn.checkVr,
-                'Reaching RC': filterFn.checkRc,
-                'Reaching FC': filterFn.checkFc,
-                'Not Started': filterFn.checkStart
+                case 'state-filter-btn':
+                    $scope.filterMap ={
+                    'Completed':  filterFn.vrCompleted,
+                    'Reaching VR': filterFn.checkVr,
+                    'Reaching RC': filterFn.checkRc,
+                    'Reaching FC': filterFn.checkFc,
+                    'Not Started': filterFn.checkStart
 
-                }
-                break;
-            
-            case 'cat-filter-btn':
-                $scope.filterMap ={
-                'Officejet Pro':  filterFn.checkCategory('Officejet Pro'),
-                'Officejet': filterFn.checkCategory('Officejet'),
-                'Consumer':filterFn.checkCategory('Consumer'),
-                'Pagewide': filterFn.checkCategory('PageWide'),
-                'Mobile':filterFn.checkCategory('Mobile')
-                }
-                break;
-
-            case 'tag-filter-btn':
+                    }
+                    break;
                 
-                $scope.filterMap =tagFnList;
+                case 'cat-filter-btn':
+                    $scope.filterMap ={
+                    'Officejet Pro':  filterFn.checkCategory('Officejet Pro'),
+                    'Officejet': filterFn.checkCategory('Officejet'),
+                    'Consumer':filterFn.checkCategory('Consumer'),
+                    'Pagewide': filterFn.checkCategory('PageWide'),
+                    'Mobile':filterFn.checkCategory('Mobile')
+                    }
+                    break;
 
-                break;
+                case 'tag-filter-btn':
+                    
+                    $scope.filterMap =tagFnList;
+
+                    break;
             
 
             }
@@ -506,7 +371,127 @@ $scope.getPdList = function(arg){
 
     $('select#select-product').html(options);
 
-}
+};
+
+//function factory to render modals 
+$scope.renderModal ={
+
+    addItem: function(){
+
+    $("#add-item-modal").modal("show");
+    },
+    
+    importItem: function(){
+
+    $("#import-item-modal").modal("show");
+
+
+  //LEARNING: it is not a good practice to pass $scope as a parameter to service/factory, hence rewrite this portion of code.
+        $scope.importItemObj = {
+                
+                previewlist:[],
+                uploadCallback: function(){ 
+                    return refreshData(function(){
+                            $scope.projectdata=$scope.projectinfo[$scope.projectname];
+                            $scope.projectitems=$scope.projectdata.itemlist;
+                                }); }, 
+                previewModalShow: function(list){
+                $scope.importItemObj.previewlist = list;
+                    $scope.$digest($('div#preview-modal').modal('show'));
+                },
+                preValidate:ImportService.preValidate,
+                validateFile: function(){ImportService.validateFile('#import-item-status', 'spreadsheet', $scope.importItemObj.previewModalShow);},
+                uploadItem: function(){ImportService.uploadItem ('#import-item-status', '#spreadsheet', $scope.projectid, $scope.importItemObj.uploadCallback);}, //note that the last argument is Jquery selector
+                resetValidator: function(){ImportService.resetValidator('#import-item-status');},
+    
+            };
+
+
+    },
+
+    editItem: function(arg){
+
+        $("#edit-item-modal").modal("show").find('input.date-picker').attr("pattern","20[0-2]\\d-(0[1-9]|1[0-2])-(0[1-9]|1\\d|2\\d|3[0-1])");
+        $("select[name='pjcat']").val(arg);
+
+    },
+
+    delItem:function(){
+
+        //below is to make sure the "Delete" Button is shown instead of "Confirm" after user close the modal without confirm
+        $("#delete-item-modal").modal("show");
+    },
+
+   addPj: function(){
+
+       $('#add-pj-modal').modal("show").find('input.date-picker').attr('pattern', Utility.dateReg);
+
+     }, 
+    delPj: function(){
+
+        $scope.deletePressed=false;
+        $scope.deletedProj = $scope.projectlist[0]; //initialize the ngoption
+        //below is to make sure the "Delete" Button is shown instead of "Confirm" after user close the modal without confirm
+        $("#delete-project-modal").modal("show");
+    },
+
+    displayPj:function(){
+        $("#active-project-modal").modal("show");
+
+     Utility.addAdminClass(['button#btn-import-item', 'button#btn-add-item','button#btn-edit-item','button#btn-del-item']);
+     Utility.renderAdminFields();
+        //set tooltip height references to summary table
+        $timeout(function(){ $('div#div-tooltip').height($('div.table-summary').height());}, 200);
+        var tooltip = $scope.projectdata.tooltip;
+        //replace line break with seperate paragraph.
+        if(tooltip!==null){
+            tooltip = tooltip.replace(/\r\n/g, '</p><p class="p-tooltip">');
+            $('div#div-tooltip').html('<p class="p-tooltip">'+ tooltip + '</p>');
+          }
+         else {
+             $('div#div-tooltip').html('');
+         }
+    },
+
+    movePj: function(){
+
+        $('#move-project-modal').modal('show').find('input.date-picker').attr("pattern","20[0-2]\\d-(0[1-9]|1[0-2])-(0[1-9]|1\\d|2\\d|3[0-1])").css("width","50%");
+        
+      $scope.movePjObj = {
+        alertElems: 'div#move-pj-status',
+		pjid: $scope.projectdata['id'],
+		submit: function(){
+			var data= $("form#form-move-pj").serializeArray();
+			var that=this;
+			var xhrobj = AjaxPrvService.xhrConfig(data, 'POST', 'php/cpepj/movepj.php?');
+			AjaxPrvService.xhrPromise(xhrobj).then(
+				function(resp){
+
+                    if(resp.trim()==='AUTHERROR'){    
+                        CpePjService.emitAlertMsg(4, that.alertElems, 'Failed! ', 'Authentication failure, please log in first');
+                   }
+					else if (resp.trim() ==="SUCCESS")
+					{ 
+						CpePjService.emitAlertMsg(1, that.alertElems, 'Successful!', ' Project has been moved to COMPLETED state.');
+                         $('#move-project-modal').find('input[type=submit]').hide();
+                        refreshData(function(){
+                            $('#active-project-modal').modal('hide');
+                        }); 
+
+
+					}
+					else { CpePjService.emitAlertMsg(4, that.alertElems, 'Failed!', ' Database connection error!');}
+					
+					}, 
+				function(status){
+					CpePjService.emitAlertMsg(4, that.alertElems, 'Error!', ' Web server connection error!'+status);
+				});
+
+            }
+            }
+        },
+
+};
 
 //add project submit function
 $scope.addPjSubmit =  function(){
@@ -519,12 +504,18 @@ $scope.addPjSubmit =  function(){
 
     AjaxPrvService.xhrPromise(xhrobj).then(function(resp){
 
-    if (resp.state =="success")
+                          
+     if(resp.state.trim()==='AUTHERROR'){    
+      CpePjService.emitAlertMsg(4, alertElems, 'Failed! ', 'Authentication failure, please log in first');
+      }
+
+     else if (resp.state.trim() =="SUCCESS")
     {
         CpePjService.emitAlertMsg(1, alertElems, 'Successful!', resp.pjname+' has been successfully added!');
+        refreshData(dummycallback);
     }
     //$('#add-pj-status').html('<div class="alert alert-success"><strong>Successful! </strong>'+resp.pjname+' has been successfully added! <button class="close" data-dismiss="alert">&times;</button></div>');
-    else 
+     else 
     {  
         $scope.alertcontent= 'Failed to update database, please double check if the project name duplicates with any existing projects.';
         $('div#cust-alert-modal').modal('show');
@@ -535,8 +526,6 @@ $scope.addPjSubmit =  function(){
     //$('#add-pj-status').html('<div class="alert alert-danger"><strong>Failed! </strong>something is wrong with server!'+error +'<button class="close" data-dismiss="alert">&times;</button></div>');
     });
 
-
-    refreshData(dummycallback);
 }
 
 
@@ -552,22 +541,30 @@ $scope.delPjSubmit = function (arg){
 
     AjaxPrvService.xhrPromise(xhrobj).then(
         function(resp){
-            if(resp.state.trim()==="ERROR")
+    
+          if(resp.state.trim()==='AUTHERROR'){    
+                CpePjService.emitAlertMsg(4, alertElems, 'Failed! ', 'Authentication failure, please log in first');
+           }
+           else if(resp.state.trim()==="SUCCESS")
             {
-            CpePjService.emitAlertMsg(4, alertElems, 'Failed!', 'Database connection Error');  
-            return;
+                var pjname = resp.pj;
+                CpePjService.emitAlertMsg(1, alertElems, 'Successful!', pjname+' has been deleted!');
+                //$('#del-pj-status').html('<div class="alert alert-success"><strong>Successful! </strong>'+pjname+' has been deleted! <button class="close" data-dismiss="alert">&times;</button></div>');
+                var i = $scope.projectlist.findIndex(function(val){ return val==pjname;});
+                //LEARNING -- don't use delete as it will replace the element with undefined; use splice() instead;
+                //delete $scope.projectlist[i];
+                $scope.projectlist.splice(i,1);
+                $scope.deletedProj = $scope.projectlist[0];
+                $scope.deletePressed = false;
+                refreshData(dummycallback);
+  
             }
            else {
-            var pjname = resp.pj;
-            CpePjService.emitAlertMsg(1, alertElems, 'Successful!', pjname+' has been deleted!');
-            //$('#del-pj-status').html('<div class="alert alert-success"><strong>Successful! </strong>'+pjname+' has been deleted! <button class="close" data-dismiss="alert">&times;</button></div>');
-            var i = $scope.projectlist.findIndex(function(val){ return val==pjname;});
-            //LEARNING -- don't use delete as it will replace the element with undefined; use splice() instead;
-            //delete $scope.projectlist[i];
-            $scope.projectlist.splice(i,1);
-            $scope.deletedProj = $scope.projectlist[0];
-            $scope.deletePressed = false;
-            refreshData(dummycallback);}
+
+            CpePjService.emitAlertMsg(4, alertElems, 'Failed!', 'Database connection Error');  
+            return;
+           }
+
             }, 
         function(status){
             console.log('delete failed');
@@ -590,7 +587,10 @@ $scope.addItemSubmit = function () {
 
     AjaxPrvService.xhrPromise(xhrobj).then(
         function(resp){
-            if (resp.trim() =="success")
+            if(resp.trim()==='AUTHERROR'){    
+                CpePjService.emitAlertMsg(4, alertElems, 'Failed! ', 'Authentication failure, please log in first');
+               }
+           else if (resp.trim() =="SUCCESS")
             { 
                 CpePjService.emitAlertMsg(1, alertElems, 'Successful!', ' New item has been added successfully');
                 refreshData(function(){
@@ -620,8 +620,10 @@ var xhrobj = AjaxPrvService.xhrConfig(formdata, 'POST', 'php/cpepj/editpj.php?')
 AjaxPrvService.xhrPromise(xhrobj).then(
     function(resp)
        {
-
-        if (resp.trim() =="success")
+            if(resp.trim()==='AUTHERROR'){    
+                CpePjService.emitAlertMsg(4, alertElems, 'Failed! ', 'Authentication failure, please log in first');
+               }
+        else if (resp.trim() ==="SUCCESS")
             {   
                 CpePjService.emitAlertMsg(1, alertElems, 'Successful!', ' Project data has been updated.');
                 refreshData(function(){
@@ -650,7 +652,11 @@ var formdata= $("form#form-del-item").serializeArray();
 var xhrobj = AjaxPrvService.xhrConfig(formdata, 'POST', 'php/cpepj/deleteitem.php?');
 AjaxPrvService.xhrPromise(xhrobj).then(
     function(resp){
-            if (resp.trim() =="success")
+
+            if(resp.trim()==='AUTHERROR'){    
+                CpePjService.emitAlertMsg(4, alertElems, 'Failed! ', 'Authentication failure, please log in first');
+               }
+            else if (resp.trim()==="SUCCESS")
             { 
                 CpePjService.emitAlertMsg(1, alertElems, 'Successful!', ' Items have been deleted.');
 

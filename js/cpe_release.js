@@ -382,7 +382,7 @@
                 var data= g_scopeProductData.getElementsByTagName('release')[index];
                 var arr_label = ['VR#', 'Version', 'VR Date', 'AREL', 'SAREL','NAREL', 'Branch', 'Update Type', 'Released By'];
                 var form_header = '<div class="form-group">';
-                var form_footer= '<hr><input type="submit" class="btn btn-primary" value="Submit" onclick="cpeRelModule.submittalObj.editEntry(event)"></div>';
+                var form_footer= '<hr><input type="submit" class="btn btn-primary btn-in-modal" value="SAVE" onclick="cpeRelModule.submittalObj.editEntry(event)"></div>';
                 var form_body='';
                 var i=0;
                     

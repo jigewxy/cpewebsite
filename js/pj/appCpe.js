@@ -18,19 +18,19 @@ app.config(['$locationProvider', function($locationProvider){
 app.config(function($routeProvider) {
     $routeProvider
     .when("/dashboard", {
-         templateUrl: "cpeprojects/dashboard.html",
+         templateUrl: "cpepj/dashboard.html",
 		 controller: "dbCtrl"
     })
     .when("/active", {
-        templateUrl: "cpeprojects/activeproject.html",
+        templateUrl: "cpepj/active.html",
 		controller:"activeProCtrl"
     })
     .when("/completed", {
-        templateUrl: "cpeprojects/completedproject.html",
+        templateUrl: "cpepj/completed.html",
 		controller:"CompProCtrl"
     })
 	.when("/statistics", {
-        templateUrl: "cpeprojects/cpereport.html",
+        templateUrl: "cpepj/statistics.html",
 		controller:"reportCtrl"
     })
 	.otherwise({redirectTo :"/active"})
@@ -447,15 +447,16 @@ var uploadItem = function(alertElems, inputId_jq, pjid, uploadCallback){
 
           var data = previewlist;
           data.push(pjid);
-          console.log(data);
 
           var xhrobj = AjaxPrvService.xhrConfig(data, 'POST', '  php/cpepj/ImportItem.php?', {"Content-Type": "application/json"}, 'json');
 
           AjaxPrvService.xhrPromise(xhrobj).then(function(resp){
       
-          console.log(resp);
-
-          if(resp.trim()==="success")
+            if(resp.trim()==='AUTHERROR')
+            {    
+                CpePjService.emitAlertMsg(4, alertElems, 'Failed! ', 'Authentication failure, please log in first');
+            }
+          else if(resp.trim()==="SUCCESS")
           {
                   //success(1) message
                 CpePjService.emitAlertMsg(1, alertElems, 'Successful!', '  Files uploaded successfully');
@@ -526,7 +527,7 @@ app.directive('custAlertModal', function(){
 
 
        return { restrict: "EA",
-                templateUrl: "cpeprojects/directives/std-alert-modal.html",
+                templateUrl: "cpepj/directives/std-alert-modal.html",
                 replace: false
               };
   });
@@ -541,7 +542,7 @@ app.directive('addItemModal', function(){
 
   return {
   restrict: "EA",
-  templateUrl: "cpeprojects/directives/std-add-new-item.html",
+  templateUrl: "cpepj/directives/std-add-new-item.html",
   scope: {
      'addItemSubmit': "&addItemSubmit",
      activePj: "<",
@@ -558,7 +559,7 @@ app.directive('modifyItemModal', function(){
 
   return {
   restrict: "EA",
-  templateUrl: "cpeprojects/directives/std-edit-item.html",
+  templateUrl: "cpepj/directives/std-edit-item.html",
   replace:false
 
   };
@@ -567,12 +568,12 @@ app.directive('modifyItemModal', function(){
 
 /*directive definition for add-new-product */
 
-app.directive("stdAddNewProject", function(){
+app.directive("stdAddProject", function(){
 	
 	return {
 		
 		restrict: "EA",
-		templateUrl: "cpeprojects/directives/std-add-new-project.html",
+		templateUrl: "cpepj/directives/std-add-project.html",
 		
 			
 	};
@@ -585,7 +586,7 @@ app.directive('importItemModal', function(){
 
   return {
   restrict: "EA",
-  templateUrl: "cpeprojects/directives/std-import-itemlist.html",
+  templateUrl: "cpepj/directives/std-import-itemlist.html",
   replace:false
 
   };
@@ -598,7 +599,7 @@ app.directive('dispPjList', function(){
 
   return {
   restrict: "EA",
-  templateUrl: "cpeprojects/directives/std-disp-pj-list.html",
+  templateUrl: "cpepj/directives/std-disp-pj-list.html",
   replace:false
 
   };
@@ -611,7 +612,7 @@ app.directive('dispPjModal', function(){
 
   return {
   restrict: "EA",
-  templateUrl: "cpeprojects/directives/std-disp-pj-modal.html",
+  templateUrl: "cpepj/directives/std-disp-pj-modal.html",
   replace:false
 
   };
@@ -623,7 +624,7 @@ app.directive('compAddPdModal', function(){
 
   return {
   restrict: "EA",
-  templateUrl: "cpeprojects/directives/std-comp-add-product.html",
+  templateUrl: "cpepj/directives/std-comp-add-product.html",
   replace:false
 
   };
@@ -635,7 +636,7 @@ app.directive('compDelPdModal', function(){
 
   return {
   restrict: "EA",
-  templateUrl: "cpeprojects/directives/std-comp-del-product.html",
+  templateUrl: "cpepj/directives/std-comp-del-product.html",
   replace:false
 
   };
@@ -648,7 +649,7 @@ app.directive('compAddPjModal', function(){
 
   return {
   restrict: "EA",
-  templateUrl: "cpeprojects/directives/std-comp-add-pj.html",
+  templateUrl: "cpepj/directives/std-comp-add-pj.html",
   replace:false
 
   };
@@ -660,7 +661,7 @@ app.directive('compDelPjModal', function(){
 
   return {
   restrict: "EA",
-  templateUrl: "cpeprojects/directives/std-comp-del-pj.html",
+  templateUrl: "cpepj/directives/std-comp-del-pj.html",
   replace:false
 
   };
@@ -672,7 +673,7 @@ app.directive('compAddItemModal', function(){
 
   return {
   restrict: "EA",
-  templateUrl: "cpeprojects/directives/std-comp-add-item.html",
+  templateUrl: "cpepj/directives/std-comp-add-item.html",
   replace:false
 
   };
@@ -684,7 +685,7 @@ app.directive('compEditItemModal', function(){
 
   return {
   restrict: "EA",
-  templateUrl: "cpeprojects/directives/std-comp-edit-item.html",
+  templateUrl: "cpepj/directives/std-comp-edit-item.html",
   replace:false
 
   };
@@ -699,7 +700,8 @@ app.directive('compEditItemModal', function(){
 /*****************************************************************/
 app.controller('cpeCtrl', function($scope) {
 
-
+    var today = new Date();
+    $scope.dateModel = {enddate: new Date(),   startdate:  new Date( today.setFullYear(today.getFullYear()-1)) };
 
 
 function init() {

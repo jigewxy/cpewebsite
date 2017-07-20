@@ -160,7 +160,7 @@ include 'template/setcookie.php';
 </div>
 
 
-<?php $message ="This feature is for Admin only, please log in first!"; include "template/alertmodal.php" ?>
+<?php include "template/alertmodal.html" ?>
 
 </body>
 </html>

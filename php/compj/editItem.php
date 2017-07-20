@@ -5,6 +5,8 @@ require_once '../util/ServerConfig.class.php'; //CLASS ServerConfig
 require_once '../util/UtilityFunc.class.php'; //class UtilityFunc
 
 
+UtilityFunc::authCheck();
+
 try{
 
     $conn = ServerConfig::setPdo(PJDB);

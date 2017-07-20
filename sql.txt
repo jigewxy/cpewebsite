@@ -1,2 +1,124 @@
-CREATE TABLE WEBERPDL (itemnumer SMALLINT NOT NULL, crid CHAR(20) NOT NULL, type CHAR(20) NOT NULL, summary VARCHAR(150) NOT NULL, requestor CHAR(20) NOT NULL, fixer CHAR(20) NOT NULL, testteam CHAR(20) NOT NULL, products CHAR(20) NOT NULL, component CHAR(20) NOT NULL, status CHAR(20) NOT NULL) DEFAULT CHARSET utf8;
+
+SRT SQL table:
+
+database name: cpeproject
+
+CREATE TABLE `project` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `customer` varchar(30) NOT NULL,
+  `product` varchar(30) NOT NULL,
+  `feature` varchar(100) NOT NULL,
+  `revenue` varchar(50) NOT NULL,
+  `region` enum('North America','EMEA','Asia Pacific','China') NOT NULL,
+  `requestor` varchar(30) NOT NULL,
+  `developer` varchar(50) NOT NULL,
+  `sq` char(20) NOT NULL,
+  `state` enum('Upcoming','Ongoing','Completed','On Hold') NOT NULL,
+  `branch` varchar(100) DEFAULT NULL,
+  `fwlink` varchar(200) DEFAULT NULL,
+  `tooltip` varchar(500) DEFAULT NULL,
+  `datestart` date NOT NULL,
+  `datefc` date NOT NULL,
+  `daterc` date NOT NULL,
+  `datevr` date NOT NULL,
+  PRIMARY KEY (`id`)
+)
+
+CREATE TABLE `itemlist` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `crid` char(20) NOT NULL,
+  `type` enum('New Feature','Defect Fix') NOT NULL,
+  `summary` varchar(200) NOT NULL,
+  `fixer` char(50) NOT NULL,
+  `skus` char(30) NOT NULL,
+  `status` enum('In Progress','Fixed','Verified','Reopen') NOT NULL,
+  `component` char(20) DEFAULT NULL,
+  `project_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `project_id` (`project_id`),
+  CONSTRAINT `itemlist_ibfk_1` FOREIGN KEY (`project_id`) REFERENCES `project` (`id`)
+)
+
+
+
+CPE project SQL table:
+database name: srtproject
+
+
+CREATE TABLE `project` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `skus` varchar(100) NOT NULL,
+  `tag` varchar(50) NOT NULL,
+  `datestart` date DEFAULT NULL,
+  `datefc` date DEFAULT NULL,
+  `daterc` date DEFAULT NULL,
+  `datevr` date NOT NULL,
+  `datelive` date DEFAULT NULL,
+  `datefdu` date DEFAULT NULL,
+  `datemfg` date DEFAULT NULL,
+  `pm` varchar(50) NOT NULL,
+  `fw` varchar(50) NOT NULL,
+  `sq` char(20) NOT NULL,
+  `uniquefw` int(11) NOT NULL,
+  `branch` varchar(100) NOT NULL,
+  `cat` enum('Major roll','Minor roll') NOT NULL,
+  `project_name` varchar(50) NOT NULL,
+  `currentstate` enum('Active','Completed') NOT NULL,
+  `scmkey` varchar(200) DEFAULT NULL,
+  `signature` varchar(200) DEFAULT NULL,
+  `fwlink` varchar(300) DEFAULT NULL,
+  `revision` char(20) DEFAULT NULL,
+  `roi` varchar(200) DEFAULT NULL,
+  `product_id` int(11) NOT NULL,
+  `tooltip` varchar(800) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `project_name` (`project_name`),
+  KEY `product_index` (`product_id`),
+  KEY `state_index` (`currentstate`),
+  CONSTRAINT `project_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE CASCADE
+)
+
+
+CREATE TABLE `itemlist` (
+  `id` smallint(6) NOT NULL AUTO_INCREMENT,
+  `crid` char(20) NOT NULL,
+  `type` enum('New Feature','Defect Fix') NOT NULL,
+  `summary` varchar(300) NOT NULL,
+  `requestor` varchar(50) NOT NULL,
+  `fixer` varchar(100) NOT NULL,
+  `testteam` varchar(50) NOT NULL,
+  `products` varchar(50) NOT NULL,
+  `sha` varchar(500) DEFAULT NULL,
+  `component` varchar(20) DEFAULT NULL,
+  `project_id` int(11) NOT NULL,
+  `status` enum('In Progress','Fixed','Reopen','Verified') NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `component_index` (`component`),
+  KEY `project_index` (`project_id`),
+  CONSTRAINT `itemlist_ibfk_1` FOREIGN KEY (`project_id`) REFERENCES `project` (`id`) ON DELETE CASCADE)
+
+
+  CREATE TABLE `product` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_name` char(20) NOT NULL,
+  `year` int(11) NOT NULL,
+  `division` enum('Officejet Pro','Officejet','Page Wide','Consumer','Mobile') NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `product_name` (`product_name`),
+  KEY `category_index` (`division`)
+)
+
+
+
+CPE TOOLS:
+
+database name: cpetools
+
+CREATE TABLE `cpetool` (
+  `entryid` smallint(6) NOT NULL AUTO_INCREMENT,
+  `title` char(50) NOT NULL,
+  `link` varchar(200) NOT NULL,
+  `description` varchar(200) NOT NULL,
+  PRIMARY KEY (`entryid`)
+)
 

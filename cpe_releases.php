@@ -101,7 +101,7 @@ include 'template/setcookie.php';
             </div>
 
             <div class="modal-footer">
-            <button id="btn-add-product" class="btn btn-success"> ADD </button>
+            <button id="btn-add-product" class="btn btn-success btn-in-modal"> ADD </button>
             </div>
         </div>
     </div>
@@ -152,7 +152,7 @@ include 'template/setcookie.php';
             </div>
 
             <div class="modal-footer">
-                <button id="btn-del-product" class="btn btn-danger">DELETE </button>
+                <button id="btn-del-product" class="btn btn-danger btn-in-modal">DELETE </button>
             </div>
         </div>
     </div>
@@ -204,7 +204,7 @@ include 'template/setcookie.php';
  </div>
 
  <div class="modal-footer">
- <button class="btn btn-primary" id="btn-add-entry"> ADD </button>
+ <button class="btn btn-success btn-in-modal" id="btn-add-entry"> ADD </button>
  </div>
 </div>
 </div>
@@ -263,7 +263,7 @@ include 'template/setcookie.php';
     </div>
     
  <div class="modal-footer">
- <button  class="btn btn-danger" id="btn-del-entry">Delete </button>
+ <button  class="btn btn-danger btn-in-modal" id="btn-del-entry">Delete </button>
  </div>
         
     

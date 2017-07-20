@@ -72,7 +72,24 @@ class UtilityFunc {
 
             if($_SESSION['auth'] != 'pass')
             { 
+            
             echo 'AUTHERROR';
+            exit();
+            } 
+            else  return;
+
+       }
+
+    //Function to do authentication check
+  public static function authCheckReturnObj() {
+            
+            session_start();
+            $authResp = array(); 
+
+            if($_SESSION['auth'] != 'pass')
+            { 
+            $authResp['state'] = "AUTHERROR";
+            echo json_encode($authResp, JSON_PRETTY_PRINT);
             exit();
             } 
             else  return;

@@ -11,6 +11,7 @@ require_once '../util/UtilityFunc.class.php'; //class UtilityFunc
 
 $returndata=array();
 
+try {
 $conn = ServerConfig::setPdo(PJDB);
 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
@@ -28,10 +29,18 @@ $stm_pl->execute();
 
 $pdlist = $stm_pl->fetchAll(PDO::FETCH_ASSOC);
 
+$returndata['state'] ="SUCCESS";
 $returndata['pdlist']= $pdlist;
 
 
 echo json_encode($returndata, JSON_PRETTY_PRINT);
+} catch (Exception $e){
+    
+    $returndata['state'] ="FAIL";
+    $returndata['msg'] = $e->getMessage();
+
+echo json_encode($returndata, JSON_PRETTY_PRINT);
+}
 
 
 ?>

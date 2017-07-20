@@ -65,11 +65,6 @@ $newAttr->value=$year;
 $newNode->appendChild($newAttr);
 $productNode->item(0)->appendChild($newNode);
 
-
-
-
-
-
 $rootNode = $dbPath -> query("//productroot");
 
 $newDbNodeName = strtolower($product_trimed).'root';

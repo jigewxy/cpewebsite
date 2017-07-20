@@ -313,8 +313,6 @@ else {
 Utility.addAdminClass = function (elems){
 
     var state = Utility.authState;
-    console.log(state);
-    console.log('function called');
 
     _.each(elems, function(i){
 
@@ -327,7 +325,6 @@ Utility.addAdminClass = function (elems){
 //manages the admin-only features
 Utility.renderAdminFields = function(){
 
-console.log('renderadmin fields');
 $('.admin-fail').css('opacity', '0.5').off().on('click', function(){
   $('#alert-modal').modal('show');
 });  

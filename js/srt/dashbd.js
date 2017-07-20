@@ -110,7 +110,7 @@ this.renderModal ={
                 var xhrobj = AjaxPrvService.xhrConfig(formdata, 'POST','php/srt/additem.php?');
                     AjaxPrvService.xhrPromise(xhrobj).then(function(resp){ 
 
-                if(data.trim()==='AUTHERROR'){
+                if(resp.trim()==='AUTHERROR'){
                    
                    Utility.emitAlertMsg(4, that.alertElems, 'Failed! ', 'Authentication failure, please log in first');
 
@@ -148,7 +148,7 @@ this.renderModal ={
                 var xhrobj = AjaxPrvService.xhrConfig(formdata, 'POST','php/srt/edititem.php?');
                     AjaxPrvService.xhrPromise(xhrobj).then(function(resp){ 
 
-                  if(data.trim()==='AUTHERROR'){
+                  if(resp.trim()==='AUTHERROR'){
                    
                    Utility.emitAlertMsg(4, that.alertElems, 'Failed! ', 'Authentication failure, please log in first');
 
@@ -197,7 +197,7 @@ this.renderModal ={
                 var xhrobj = AjaxPrvService.xhrConfig(formdata, 'POST','php/srt/deleteitem.php?');
                     AjaxPrvService.xhrPromise(xhrobj).then(function(resp){ 
 
-                if(data.trim()==='AUTHERROR'){
+                if(resp.trim()==='AUTHERROR'){
                    
                    Utility.emitAlertMsg(4, that.alertElems, 'Failed! ', 'Authentication failure, please log in first');
 

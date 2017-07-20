@@ -41,6 +41,9 @@ function init() {
 
 };
 
+
+
+//Note: refreshData() allows multiple callback functions as arguments.
 function refreshData (){
 
 //clear the datapool object while refreshing the data everytime
@@ -55,40 +58,77 @@ function refreshData (){
 //convert arguments to array of callback functions.
 	var callback = _.toArray(arguments);
 
-	// Ajax service, dummy data
+	// Ajax service with dummy data as input for GET request
 
 	var xhrobj = AjaxPrvService.xhrConfig('', 'GET', 'php/compj/getpjlist.php?');
 
 		AjaxPrvService.xhrPromise(xhrobj).then(function(resp){
 
-            if(resp.pjlist ===undefined)
-			{
-			  $scope.alertcontent= 'Failed to connect to Databse, please contact Admin.';
-             $('div#cust-alert-modal').modal('show');
-			}
-			else{
-			$scope.pjlist= resp.pjlist;
-			$scope.pjlistArray = _.pluck($scope.pjlist, 'project_name');
-			$scope.fullPdList = _.pluck(resp.pdlist, 'product_name');
+           if(resp.state==='SUCCESS')
+		   {
+				if(resp.pjlist ===undefined)
+				{
+				$scope.alertcontent= 'Failed to connect to Databse, please contact Admin.';
+				$('div#cust-alert-modal').modal('show');
+				}
+				else{
+				$scope.pjlist= resp.pjlist;
+				$scope.pjlistArray = _.pluck($scope.pjlist, 'project_name');
+				$scope.fullPdList = _.pluck(resp.pdlist, 'product_name');
 
-			_.each(resp.pdlist, function(value, index){
+				_.each(resp.pdlist, function(value, index){
 
-				pool[value.division][value.product_name]={'projectlist':[], 'year':value.year};
+					pool[value.division][value.product_name]={'projectlist':[], 'year':value.year};
 
-			});
+				});
 
-			for (var prop in $scope.pjlist)
-			{
-				pool = processResp($scope.pjlist[prop], pool);
-			
-			}
+				for (var prop in $scope.pjlist)
+				{
+					pool = processResp($scope.pjlist[prop], pool);
+				
+				}
 
-			$scope.datapool = pool;
+				$scope.datapool = pool;
 
-				if(callback.length!==0){
-				_.each(callback, function(fn, i){fn();});
-			}
-			}
+					if(callback.length!==0){
+							_.each(callback, function(fn, i){fn();});			
+					   if(resp.pjlist ===undefined)
+						 {
+						$scope.alertcontent= 'Your Database is empty!';
+						$('div#cust-alert-modal').modal('show');
+						 }
+						else{
+						$scope.pjlist= resp.pjlist;
+						$scope.pjlistArray = _.pluck($scope.pjlist, 'project_name');
+						$scope.fullPdList = _.pluck(resp.pdlist, 'product_name');
+
+						_.each(resp.pdlist, function(value, index){
+
+							pool[value.division][value.product_name]={'projectlist':[], 'year':value.year};
+
+						});
+
+						for (var prop in $scope.pjlist)
+						{
+							pool = processResp($scope.pjlist[prop], pool);
+						
+						}
+
+						$scope.datapool = pool;
+
+							if(callback.length!==0){
+							_.each(callback, function(fn, i){fn();});
+					}
+					}
+		        }
+			 }
+		   }
+           else 
+		   {
+            $scope.alertcontent= 'Failed to connect to Database, please contact Admin.';
+            $('div#cust-alert-modal').modal('show');
+
+		   }
 			}, function(resp){
 
 			console.log("something went wrong");
@@ -155,7 +195,7 @@ $scope.tabClass=function(tab){
 //set the database for different buttons
 $scope.setDatabase=function(id){
 
-	var xhrobj = AjaxPrvService.xhrConfig(id, 'POST',  'php/compj/getpjData.php?', null, 'singleValue');
+	var xhrobj = AjaxPrvService.xhrConfig(id, 'POST',  'php/compj/getpjdata.php?', null, 'singleValue');
 
 	AjaxPrvService.xhrPromise(xhrobj).then(function(resp){
 
@@ -274,19 +314,21 @@ $scope.renderModal = {
 
 				if (flag)
 				{
-				console.log(pname + ' already exist in database');
 				CpePjService.emitAlertMsg(4, that.alertElems, 'Error!', pname+' already exist in database!');
 				}
 				else
 				{
-				console.log('okay, will add');
-
 					var xhrobj = AjaxPrvService.xhrConfig(data,'POST','php/compj/addpd.php?');
 
 					AjaxPrvService.xhrPromise(xhrobj).then(function(resp){
+            
+			     var resp = resp.trim();
 
+                   if(resp==='AUTHERROR'){    
+                        CpePjService.emitAlertMsg(4, that.alertElems, 'Failed! ', 'Authentication failure, please log in first');
+                   }
 				//if successful, add new product to datapool and update the scope.
-				if (resp.trim() =="success")
+				 else if (resp==="SUCCESS")
 					{
 						CpePjService.emitAlertMsg(1, that.alertElems, 'Successful!', name+' has been successfully added!');
 						refreshData(function(){	$scope.productdata = $scope.datapool[$scope.selectedTab.label];}) 
@@ -323,8 +365,11 @@ $scope.renderModal = {
 				var pdname = data[1].value;
 				var xhrObj =  AjaxPrvService.xhrConfig(data,'POST','php/compj/delpd.php?');
 					AjaxPrvService.xhrPromise(xhrObj).then(function(resp){
-
-						if (resp.trim() =="success")
+                         var resp = resp.trim();
+                         if(resp==='AUTHERROR'){    
+                          CpePjService.emitAlertMsg(4, that.alertElems, 'Failed! ', 'Authentication failure, please log in first');
+                          }
+						else if(resp ==="SUCCESS")
 							{
 								CpePjService.emitAlertMsg(1, that.alertElems, 'Successful!', pdname+' has been removed!');
 								refreshData(function(){	
@@ -391,7 +436,11 @@ $scope.renderModal = {
 						var xhrObj =  AjaxPrvService.xhrConfig(data,'POST','php/compj/addPj.php?');
 						AjaxPrvService.xhrPromise(xhrObj).then(function(resp){
 
-						if (resp.trim() =="success")
+					 var resp = resp.trim();
+                         if(resp==='AUTHERROR'){    
+                          CpePjService.emitAlertMsg(4, that.alertElems, 'Failed! ', 'Authentication failure, please log in first');
+                          }
+						else if(resp ==="SUCCESS")
 						{
 							CpePjService.emitAlertMsg(1, that.alertElems, 'Successful!  ', pjname+' has been added');
 							refreshData(function(){	
@@ -454,8 +503,12 @@ $scope.renderModal = {
 				var xhrObj =  AjaxPrvService.xhrConfig(data,'POST','php/compj/delPj.php?');
 				AjaxPrvService.xhrPromise(xhrObj).then(function(resp){
 
-				if (resp.trim() =="success")
-				{
+				   var resp = resp.trim();
+                if(resp==='AUTHERROR'){    
+                          CpePjService.emitAlertMsg(4, that.alertElems, 'Failed! ', 'Authentication failure, please log in first');
+                          }
+				else if(resp ==="SUCCESS")
+				  {
 					CpePjService.emitAlertMsg(1, that.alertElems, 'Successful!  ', pjname+' has been deleted');
 					refreshData(function(){	
 					//update data for current tab and project list in the modal;
@@ -491,7 +544,11 @@ $scope.renderModal = {
 				var xhrObj =  AjaxPrvService.xhrConfig(data,'POST','php/compj/addItem.php?');
 				AjaxPrvService.xhrPromise(xhrObj).then(function(resp){
 
-				if (resp.trim() ==="success")
+			       var resp = resp.trim();
+                 if(resp==='AUTHERROR'){    
+                     CpePjService.emitAlertMsg(4, that.alertElems, 'Failed! ', 'Authentication failure, please log in first');
+                          }
+				else if(resp ==="SUCCESS")
 				{
 					CpePjService.emitAlertMsg(1, that.alertElems, 'Successful!  ', 'Item has been added!');
 					refreshData(function(){	
@@ -546,7 +603,11 @@ $scope.renderModal = {
 				var xhrObj =  AjaxPrvService.xhrConfig(data,'POST','php/compj/editItem.php?');
 				AjaxPrvService.xhrPromise(xhrObj).then(function(resp){
 
-				if (resp.trim() =="success")
+			     var resp = resp.trim();
+              if(resp==='AUTHERROR'){    
+                          CpePjService.emitAlertMsg(4, that.alertElems, 'Failed! ', 'Authentication failure, please log in first');
+                          }
+			  else if(resp ==="SUCCESS")
 				{
 					CpePjService.emitAlertMsg(1, that.alertElems, 'Successful!  ', 'Changes has been saved!');
 					refreshData(function(){	
@@ -593,7 +654,11 @@ $scope.renderModal = {
 			AjaxPrvService.xhrPromise(xhrobj).then(
 				function(resp){
 
-					if (resp.trim() =="success")
+				  var resp = resp.trim();
+                     if(resp==='AUTHERROR'){    
+                          CpePjService.emitAlertMsg(4, that.alertElems, 'Failed! ', 'Authentication failure, please log in first');
+                          }
+					else if(resp ==="SUCCESS")
 					{ 
 						CpePjService.emitAlertMsg(1, that.alertElems, 'Successful!', ' Items have been deleted.');
 

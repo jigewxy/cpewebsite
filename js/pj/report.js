@@ -8,20 +8,17 @@ app.controller('reportCtrl', function($scope, $http, $window, $timeout, CpePjSer
 function init (){
     
     $scope.$parent.currentTab = 'reportPage';
-    $scope.enddate=	new Date();
     $scope.alertcontent = "";
 
 };
 
 init();
 
-
 //counter function for the defect fix, new feature, major roll, minor roll;
 function iterCount (arr, prop, value){
 
     var memo =0;
     var temp = _.pluck(arr, prop);
-    console.log(temp);
 
     if(value ===undefined)
     return _.reduce(temp, function(memo,b){ return parseInt(memo)+ parseInt(b);});
@@ -37,8 +34,9 @@ $scope.filterObj ={
     pjsummary: {num: null, uniquefw: null, roi:null, defect:null, feature:null, major:null, minor:null },
     itemcount: null,
     reset: function(){
-        $scope.enddate = new Date();
-        $scope.startdate = null;
+        var today= new Date();
+        $scope.dateModel.enddate = new Date();
+        $scope.dateModel.startdate = new Date(today.setFullYear(today.getFullYear()-1));
 
     },
 
@@ -48,14 +46,14 @@ $scope.filterObj ={
 
         var errdates = ['0000-00-00', null, undefined, 0, ''];
 
-        if (_.indexOf(errdates, $scope.startdate) !== -1 || _.indexOf(errdates, $scope.enddate) !== -1)
+        if (_.indexOf(errdates, $scope.dateModel.startdate) !== -1 || _.indexOf(errdates, $scope.dateModel.enddate) !== -1)
 
         {	
             $scope.alertcontent = "Your Start date or end date format is not correct, please modify it and re-submit.";
             $("div#cust-alert-modal").modal('show'); 
             return false;
         }
-        else if( $scope.startdate > $scope.enddate)
+        else if( $scope.dateModel.startdate > $scope.dateModel.enddate)
         {     
             $scope.alertcontent = "Start date must be earlier than end date, please modify it and re-submit.";
             $("div#cust-alert-modal").modal('show'); 
@@ -74,7 +72,6 @@ $scope.filterObj ={
                     var that= this;
                     var memo =0;
 
-                    console.log($scope.startdate);
                     if (this.onSubmitCheck() === false)
                     {return; }
 

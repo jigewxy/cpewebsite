@@ -27,9 +27,9 @@
 </div>
 <br>
 
-<button class="btn btn-danger" type="button" ng-hide="delPjObj.delBtnPressed || (!delPjObj.product) || (!delPjObj.pj)" ng-click="delPjObj.preDeletion()"> Delete </button>
+<button class="btn btn-danger btn-in-modal" type="button" ng-hide="delPjObj.delBtnPressed || (!delPjObj.product) || (!delPjObj.pj)" ng-click="delPjObj.preDeletion()"> Delete </button>
 <p class="text-success" ng-show="delPjObj.delBtnPressed && delPjObj.product && delPjObj.pj"> Do you confirm to remove above project? </p>
-<input class="btn btn-primary" ng-show="delPjObj.delBtnPressed && delPjObj.product && delPjObj.pj" type="submit" value="Confirm">
+<input class="btn btn-primary btn-in-modal" ng-show="delPjObj.delBtnPressed && delPjObj.product && delPjObj.pj" type="submit" value="Confirm">
  </form>
  <div id="del-pj-comp-status"></div>	  
  </div>

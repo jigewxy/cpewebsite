@@ -4,6 +4,8 @@ require_once '../util/ServerConfig.class.php'; //CLASS ServerConfig
 require_once '../util/UtilityFunc.class.php'; //class UtilityFunc
 //PJDB = 'CPEPROJECTS'
 
+UtilityFunc::authCheck();
+
 try {
 $conn = ServerConfig::setPdo(PJDB);
 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -36,7 +38,7 @@ $stm = $conn->prepare("INSERT INTO itemlist({$columns}) VALUES ({$values})");
 
 $result = $stm->execute();
 
-if($result) { echo "success";}
+if($result) { echo "SUCCESS";}
 else  throw new Exception("Something wrong with the database connection, please contact Admin.");
 } 
 catch(Exeption $e)

@@ -23,9 +23,9 @@
 <br>
 <div class="form">
 <p class="text-success" ng-show="delPdObj.delPressed && delPdObj.pd"> Do you confirm to remove above product? All projects under it will also be deleted. </p>
-<input ng-show="delPdObj.delPressed && delPdObj.pd" type="submit" class="btn btn-primary" value="Confirm">
+<input ng-show="delPdObj.delPressed && delPdObj.pd" type="submit" class="btn btn-primary btn-in-modal" value="Confirm">
 <!--need to specify the type=button, or else it will submit the form unexpectedly -->
-<button class="btn btn-danger" type="button" ng-hide="delPdObj.delPressed || (!delPdObj.pd)" ng-click="delPdObj.deleteButtonPressed()"> Delete </button>
+<button class="btn btn-danger btn-in-modal" type="button" ng-hide="delPdObj.delPressed || (!delPdObj.pd)" ng-click="delPdObj.deleteButtonPressed()"> Delete </button>
 </div>
  </div>
  </form>

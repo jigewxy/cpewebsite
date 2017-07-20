@@ -6,6 +6,8 @@ require_once '../util/ServerConfig.class.php'; //CLASS ServerConfig
 require_once '../util/UtilityFunc.class.php'; //class UtilityFunc
 // Set the PDO based on server host and database name;
 
+UtilityFunc::authCheckReturnObj();
+
 try {
 //preprocess $_POST data to make it tally with column name
 function preProcessor(){
@@ -19,6 +21,8 @@ unset($temp['division']);
 return $temp;
 
 }
+
+$returndata = array();
 
 $db = 'cpeproject';
 
@@ -49,24 +53,31 @@ $result= $stm->execute();
 if ($result){
 //echo $stm;
 
-$feedback = array( 
-'state' => 'success',
+$returndata = array( 
+'state' => 'SUCCESS',
 'pjname' =>$_POST['projectname']
 );
 
-echo json_encode($feedback);
-
 } else
 {
-echo "ERROR writting to SQL Database";
+$returndata = array( 
+'state' => 'FAIL',
+'msg' => 'ERROR writting to SQL Database'
+);
+
 
 }
 }
 catch (Exeception $e){
 
-echo "Caught exception: ".$e->getMessage()."\n";
+$returndata = array( 
+'state' => 'FAIL',
+'msg' => $e->getMessage()
+);
 
 }
 
+
+echo json_encode($returndata);
 
 ?>
