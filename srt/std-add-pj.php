@@ -1,4 +1,4 @@
-
+<?php  include_once '../config/GlobalConstants.php'; ?>
 <div id="add-pj-modal" class="modal fade">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -18,10 +18,7 @@
         <input type="text" class="form-control input-sm" name="revenue" required>
         <label class="control-label"><small>Region:</small></label>
         <select class='srt-region-select form-control' name='region'>
-               <option>North America</option>
-               <option>EMEA</option>
-               <option>Asia Pacific</option>
-               <option>China</option>
+          <?php  foreach(PJREGION as $value) { echo "<option>{$value}</option>";}?>
         </select>
         <label class="control-label"><small>Requestor:</small></label>
         <input type="text" class="form-control input-sm" name="requestor" required>
@@ -47,10 +44,7 @@
         </div>
         <label class="control-label"><small>Current State:</small></label>
         <select class="form-control srt-state-select" name="state">
-          <option>Upcoming</option>
-          <option>Ongoing</option>
-          <option>Completed</option>
-          <option>On Hold</option>
+          <?php  foreach(PJSTATUS as $value) { echo "<option>{$value}</option>";}?>
         </select> 
         <br><br>
         <input class="btn btn-success btn-in-modal" type="submit" value="ADD">

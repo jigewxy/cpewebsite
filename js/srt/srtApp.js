@@ -221,7 +221,7 @@ app.component('dispPjModal',{
 
 app.component('addPjModal',{
       
-     templateUrl: "srt/std-add-pj.html",
+     templateUrl: "srt/std-add-pj.php",
      bindings: {addPjObj:"<",
                 completed:"<"} //one way binding
 
@@ -234,17 +234,18 @@ app.component('deletePjModal', {
 });
 
 app.component('addItemModal',  {
-        templateUrl: "srt/std-add-item.html",
+        templateUrl: "srt/std-add-item.php",
           bindings: {addItemObj:"<",
             pjid: "<"} //one way binding
 
   });
 
   app.component('editItemModal',  {
-        templateUrl: "srt/std-edit-item.html",
+        templateUrl: "srt/std-edit-item.php",
           bindings: {editItemObj:"<",
             pjdata: "<",
-            itemlist: "<"} //one way binding
+            itemlist: "<",
+            completed:"<"} //one way binding
 
   });
 
@@ -255,17 +256,6 @@ app.component('addItemModal',  {
 
   });
 
-
-
-app.component('componentOptions', {
-
-        templateUrl: "template/compoptions.html",
-});
-
-app.component('statusOptions', {
-
-        templateUrl: "template/statusoptions.html",
-  });
 app.component('alertModal', {
 
         templateUrl: "template/alertmodal.html",

@@ -2,14 +2,14 @@
 /*****************************************************************/
 /*activeProCtrl - controller for activeproject.html and dashboard.html
 /*****************************************************************/
-app.controller('activeProCtrl', function($scope, $http, $window, $timeout, CpePjService, CustomEnums, AjaxPrvService, ImportService) {
+app.controller('activeProCtrl', function($scope, $http, $timeout, CpePjService, CustomEnums, AjaxPrvService, ImportService) {
 
 init();
 
 //some initialization required
 function init() {
     $("#search-box").show();
-    $scope.$parent.currentTab = 'projActive';
+    $scope.$parent.currentTab = 'active';
     $scope.prodcat=0;
     $scope.activePj = true;
     $scope.projectobjs =[];
@@ -116,7 +116,8 @@ $scope.selDatabase = function(pname) {
 
 
 
-//function factory to select right value for modify modal
+//function factory to select right value for modify modal for the select box
+//better options is to use ng-value
 $scope.selectRight ={
 
 
@@ -134,20 +135,20 @@ $scope.selectRight ={
         switch (status)
 
         {
-        case "In Progress":
-            return "iteminprogress";
+            case "In Progress":
+                return "iteminprogress";
+                
+            case "Fixed":
+                return "itemfixed";
+                
+            case "Verified":
+                return "itemverified";
             
-        case "Fixed":
-            return "itemfixed";
-            
-        case "Verified":
-            return "itemverified";
-        
-        case "Reopen":
-            return "itemreopen";
-            
-        default:
-            return "bg-default";
+            case "Reopen":
+                return "itemreopen";
+                
+            default:
+                return "bg-default";
 
         }}
 
@@ -378,12 +379,12 @@ $scope.renderModal ={
 
     addItem: function(){
 
-    $("#add-item-modal").modal("show");
+    $("#add-item-modal").modal("show").find('div#add-item-status').html('');
     },
     
     importItem: function(){
 
-    $("#import-item-modal").modal("show");
+    $("#import-item-modal").modal("show").find('div#import-item-status').html('');
 
 
   //LEARNING: it is not a good practice to pass $scope as a parameter to service/factory, hence rewrite this portion of code.
@@ -411,20 +412,22 @@ $scope.renderModal ={
 
     editItem: function(arg){
 
-        $("#edit-item-modal").modal("show").find('input.date-picker').attr("pattern","20[0-2]\\d-(0[1-9]|1[0-2])-(0[1-9]|1\\d|2\\d|3[0-1])");
-        $("select[name='pjcat']").val(arg);
+        $("#edit-item-modal").modal("show").find('input.date-picker').attr("pattern","20[0-2]\\d-(0[1-9]|1[0-2])-(0[1-9]|1\\d|2\\d|3[0-1])").end()
+                                           .find('div#edit-item-status').html('').end()
+                                           .find("select[name='pjcat']").val(arg);
 
     },
 
     delItem:function(){
 
         //below is to make sure the "Delete" Button is shown instead of "Confirm" after user close the modal without confirm
-        $("#delete-item-modal").modal("show");
+        $("#delete-item-modal").modal("show").find('div#del-item-status').html('');;
     },
 
    addPj: function(){
 
-       $('#add-pj-modal').modal("show").find('input.date-picker').attr('pattern', Utility.dateReg);
+       $('#add-pj-modal').modal("show").find('input.date-picker').attr('pattern', Utility.dateReg).end()
+                                       .find('div#add-pj-status').html('');
 
      }, 
     delPj: function(){
@@ -432,30 +435,33 @@ $scope.renderModal ={
         $scope.deletePressed=false;
         $scope.deletedProj = $scope.projectlist[0]; //initialize the ngoption
         //below is to make sure the "Delete" Button is shown instead of "Confirm" after user close the modal without confirm
-        $("#delete-project-modal").modal("show");
+        $("#delete-project-modal").modal("show").find('div#del-pj-status').html('');;
     },
 
     displayPj:function(){
         $("#active-project-modal").modal("show");
 
-     Utility.addAdminClass(['button#btn-import-item', 'button#btn-add-item','button#btn-edit-item','button#btn-del-item']);
-     Utility.renderAdminFields();
-        //set tooltip height references to summary table
-        $timeout(function(){ $('div#div-tooltip').height($('div.table-summary').height());}, 200);
-        var tooltip = $scope.projectdata.tooltip;
-        //replace line break with seperate paragraph.
-        if(tooltip!==null){
-            tooltip = tooltip.replace(/\r\n/g, '</p><p class="p-tooltip">');
-            $('div#div-tooltip').html('<p class="p-tooltip">'+ tooltip + '</p>');
-          }
-         else {
-             $('div#div-tooltip').html('');
-         }
+        Utility.addAdminClass(['button#btn-import-item', 'button#btn-add-item','button#btn-edit-item','button#btn-del-item']);
+        Utility.renderAdminFields();
+            //set tooltip height references to summary table
+            $timeout(function(){ $('div#div-tooltip').height($('div.table-summary').height());}, 200);
+            var tooltip = $scope.projectdata.tooltip;
+            //replace line break with seperate paragraph.
+            if(tooltip!==null){
+                tooltip = tooltip.replace(/\r\n/g, '</p><p class="p-tooltip">');
+                $('div#div-tooltip').html('<p class="p-tooltip">'+ tooltip + '</p>');
+            }
+            else {
+                $('div#div-tooltip').html('');
+            }
     },
 
     movePj: function(){
 
-        $('#move-project-modal').modal('show').find('input.date-picker').attr("pattern","20[0-2]\\d-(0[1-9]|1[0-2])-(0[1-9]|1\\d|2\\d|3[0-1])").css("width","50%");
+        //add regex pattern for date input and register the change event for the 'Not Available' checkbox
+        $('#move-project-modal').modal('show').find('input.date-picker').attr("pattern","20[0-2]\\d-(0[1-9]|1[0-2])-(0[1-9]|1\\d|2\\d|3[0-1])").css("width","50%").end()
+                                              .find('div#move-pj-status').html('').end()
+                                              .find('input.checkbox-date-na').on('change', function(e){Utility.datePickerValidate(e);});
         
       $scope.movePjObj = {
         alertElems: 'div#move-pj-status',
@@ -689,7 +695,7 @@ app.controller('dbCtrl', function($scope, $http, $window) {
 
 $("#search-box").hide();
 
-$scope.$parent.currentTab = 'dashboardPage';
+$scope.$parent.currentTab = 'dashboard';
 
 $(function() {
 

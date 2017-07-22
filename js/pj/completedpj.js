@@ -18,7 +18,7 @@ function init() {
 
 
 	$("#search-box").hide();
-	$scope.$parent.currentTab = 'projCompleted';
+	$scope.$parent.currentTab = 'completed';
     $scope.activePj = false;
 
 	$scope.tabs = [
@@ -288,7 +288,7 @@ $scope.renderModal = {
 	},
 
 	addPd: function(){
-   		 $('#add-pd-modal').modal('show');
+   		 $('#add-pd-modal').modal('show').find('div#add-pd-status').html('');;
 
 //Add product object 
 
@@ -349,7 +349,7 @@ $scope.renderModal = {
 	},
     
 	delPd: function(){
-			$('#del-pd-modal').modal('show');
+			$('#del-pd-modal').modal('show').find('div#del-pd-status').html('');
 		//delete product object
 
 			$scope.delPdObj = {
@@ -410,7 +410,9 @@ $scope.renderModal = {
  	},
 
 	addPj: function(){
-		$('#add-pj-modal').modal('show').find('input.date-picker').attr("pattern","20[0-2]\\d-(0[1-9]|1[0-2])-(0[1-9]|1\\d|2\\d|3[0-1])").css("width","50%");
+		$('#add-pj-modal').modal('show').find('input.date-picker').attr("pattern","20[0-2]\\d-(0[1-9]|1[0-2])-(0[1-9]|1\\d|2\\d|3[0-1])").css("width","50%").end()
+		                                .find('div#add-pj-comp-status').html('').end()
+										.find('input.checkbox-date-na').on('change', function(e){Utility.datePickerValidate(e);});
 
 		//construct addPjObj
 		$scope.addPjObj = {
@@ -463,7 +465,7 @@ $scope.renderModal = {
 	},
 	delPj: function(){
 
-		$('#del-pj-modal').modal('show');
+		$('#del-pj-modal').modal('show').find('div#del-pj-comp-status').html('');
 
 		//construct delPjObj
 		$scope.delPjObj ={
@@ -533,7 +535,8 @@ $scope.renderModal = {
 
 	addItem: function(){
 
-		$('#add-item-modal').modal('show').find('input[type=text]').val('').end().find('#add-item-status').val('');
+		$('#add-item-modal').modal('show').find('input[type=text]').val('').end()
+		                                  .find('#add-item-status').val('');
         //construct addItemObj
 		$scope.addItemObj ={
 			alertElems: 'div#add-item-status', 
@@ -585,8 +588,8 @@ $scope.renderModal = {
 // edititem modal show and object setup
     editItem: function(){
   
-       $('#edit-item-modal').modal('show').find('input.date-picker').attr("pattern","20[0-2]\\d-(0[1-9]|1[0-2])-(0[1-9]|1\\d|2\\d|3[0-1])")
-	   .attr('placeholder',"Leave it empty if not applicable").end().find('div#edit-item-comp-status').html('');
+       $('#edit-item-modal').modal('show').find('input.date-picker').attr("pattern","20[0-2]\\d-(0[1-9]|1[0-2])-(0[1-9]|1\\d|2\\d|3[0-1])").attr('placeholder',"Leave it empty if not applicable").end()
+	   									  .find('div#edit-item-status').html('');
         //LEARNING - alternative of for loop. converting 0000-00-00 to empty.
 		[0,1,2].forEach(function(i){
 			if($('input.date-publish').eq(i).val() ==="0000-00-00") {
@@ -595,7 +598,7 @@ $scope.renderModal = {
 
                //construct addItemObj
 		$scope.editItemObj ={
-			alertElems: 'div#edit-item-comp-status', 
+			alertElems: 'div#edit-item-status', 
 			pj: {'id': $scope.projectdata['id'], 'name':$scope.projectdata['project_name']},
 			submit: function(){    
 				var data = $('#form-edit-item').serializeArray();
@@ -634,7 +637,7 @@ $scope.renderModal = {
     //deleteitem modal and object setup
     deleteItem:function(){
 
-		$('#remove-item-modal').modal('show');
+		$('#remove-item-modal').modal('show').find('div#del-item-comp-status').html('');
 
 		$scope.delItemObj ={
 		alertElems: 'div#del-item-comp-status',

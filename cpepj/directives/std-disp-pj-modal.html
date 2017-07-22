@@ -36,17 +36,17 @@
 			</div>
   </div>
 	  <hr>
-      <table id="cpe-release-table" class="table table-bordered table-condensed">
-       <tr><th>#</th><th>CRID</th><th>Type</th><th class="cell-summary">Summary</th><th>Requestor</th><th>Fix Provider</th><th>Test Partner<th>Affected SKUs</th><th>SHA</th><th>Component</th></tr>
+      <table id="comp-pj-table" class="table table-bordered table-condensed table-pj-disp">
+       <tr class="tr-item-table"><th>#</th><th>CRID</th><th>Type</th><th class="cell-summary">Summary</th><th>Requestor</th><th>Fix Provider</th><th>Test Partner<th>Affected SKUs</th><th>SHA</th><th>Component</th></tr>
        <tr ng-repeat="x in itemlist"><td>{{$index+1}}</td><td>{{x.crid}}</td><td>{{x.type}}</td><td>{{x.summary}}</td><td>{{x.requestor}}</td><td>{{x.fixer}}</td><td>{{x.testteam}}</td><td>{{x.products}}</td><td>{{x.sha}}</td><td>{{x.component}}</td></tr>
     </table>
 	
       </div>
       <div class="modal-footer">
-				<button id="btn-import-item" class="btn btn-warning btn-in-modal" ng-click="renderModal.importItem()"> Import </button>
-	      <button id="btn-add-item" class="btn btn-success btn-in-modal" ng-click="renderModal.addItem()">Add</button>
-		    <button id="btn-edit-item" class="btn btn-primary btn-in-modal" ng-click="renderModal.editItem()">Edit</button>
-	      <button id="btn-del-item" class="btn btn-danger btn-in-modal"  ng-click="renderModal.deleteItem()">Delete</button>
+				<button id="btn-import-item" class="btn btn-warning btn-in-modal" ng-click="renderModal.importItem()"> IMPORT </button>
+	      <button id="btn-add-item" class="btn btn-success btn-in-modal" ng-click="renderModal.addItem()">ADD</button>
+		    <button id="btn-edit-item" class="btn btn-primary btn-in-modal" ng-click="renderModal.editItem()">EDIT</button>
+	      <button id="btn-del-item" class="btn btn-danger btn-in-modal"  ng-click="renderModal.deleteItem()">DELETE</button>
         <button class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>

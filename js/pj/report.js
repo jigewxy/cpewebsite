@@ -7,7 +7,7 @@ app.controller('reportCtrl', function($scope, $http, $window, $timeout, CpePjSer
 	/* combine all db and save it in $scope.repo */
 function init (){
     
-    $scope.$parent.currentTab = 'reportPage';
+    $scope.$parent.currentTab = 'statistics';
     $scope.alertcontent = "";
 
 };

@@ -1,3 +1,4 @@
+<?php  include_once '../config/GlobalConstants.php'; ?>
 <div class="modal fade" id="add-item-modal">
   <div class="modal-dialog">
   <div class="modal-content">
@@ -21,8 +22,15 @@
         <input type="text" class="form-control input-sm" name="fixer" required>
         <label class="control-label"><small>Affected SKUs:</small></label>
         <input type="text" class="form-control input-sm" name="skus" required>
-        <component-options></component-options>
-        <status-options></status-options>
+
+        <label class="control-label"><small>Component:</small></label>
+        <select class="form-control component-select" name="component">
+        <?php  foreach(ITEMCOMPONENT as $value) { echo "<option>{$value}</option>";}?>
+        </select>
+        <label class="control-label"><small>Status:</small></label>
+        <select class="form-control status-select" name="status">
+        <?php  foreach(ITEMSTATUS as $value) { echo "<option>{$value}</option>";}?>
+        </select>
         <br><br>
         <input class="btn btn-success btn-in-modal" type="submit" value="ADD" >
     </form>
@@ -31,4 +39,5 @@
       </div>
     </div>
   </div>
+
   

@@ -24,7 +24,7 @@ $pjlist=$stm->fetchAll(PDO::FETCH_ASSOC);
 $returndata['pjlist']= $pjlist;
 
 //get full product lsit
-$stm_pl = $conn -> prepare("SELECT * FROM product");
+$stm_pl = $conn -> prepare("SELECT * FROM product ORDER BY year DESC");
 $stm_pl->execute();
 
 $pdlist = $stm_pl->fetchAll(PDO::FETCH_ASSOC);

@@ -1,5 +1,7 @@
 <?php 
+include_once 'config/GlobalConstants.php';
 include 'template/setcookie.php';
+
 ?>
 <html>
 <head>

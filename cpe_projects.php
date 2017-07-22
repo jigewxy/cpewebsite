@@ -1,5 +1,7 @@
 <?php 
+include_once 'config/GlobalConstants.php';
 include 'template/setcookie.php';
+
 ?>
 <html>
 <head>
@@ -37,10 +39,10 @@ include 'template/setcookie.php';
 <nav class="navbar navbar-default">
 <div class="container-fluid">
   <ul class="nav navbar-nav">
-    <li class="nav-menu" id="li-db"><a href="#dashboard">Dashboard</a></li>
-    <li class="nav-menu" id="li-ap"><a href="#active">Active</a></li>
-    <li class="nav-menu" id="li-cp"><a href="#completed">Completed</a></li>
-  	<li class="nav-menu" id="li-cr"><a href="#statistics">Statistics</a></li>
+    <li class="nav-menu" id="li-dashboard"><a href="#dashboard">Dashboard</a></li>
+    <li class="nav-menu" id="li-active"><a href="#active">Active</a></li>
+    <li class="nav-menu" id="li-completed"><a href="#completed">Completed</a></li>
+  	<li class="nav-menu" id="li-statistics"><a href="#statistics">Statistics</a></li>
 	</ul>
  <form class="navbar-form navbar-left">
 	<div id="search-box" class="input-group">

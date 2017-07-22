@@ -47,22 +47,22 @@
 			<span class="glyphicon glyphicon-paste"> </span></button>
       </div>
 
-      <div class="modal-body">
+   <div class="modal-body">
 	 <div class="table-summary col-md-6">
 	 	<table class= "table table-striped table-bordered table-hover table-condensed summary-table col-md-4">
-			<tr><td class="bg-info" width="30%"> SKUs </td> <td  > {{projectdata.skus}}</td></tr>
-			<tr><td class="bg-info"> Tagname </td> <td  >{{projectdata.tag}}</td></tr>
-			<tr><td class="bg-info"> Product Category </td> <td>{{projectdata.division}}</td></tr>
-			<tr><td class="bg-info"> Start Date </td> <td  > {{projectdata.datestart}}</td></tr>
-			<tr><td class="bg-info"> FC Date </td> <td  > {{projectdata.datefc}}</td></tr>
-			<tr><td class="bg-info"> RC Date </td> <td  > {{projectdata.daterc}}</td></tr>
-			<tr><td class="bg-info"> VR Date </td> <td  >{{projectdata.datevr}}</td></tr>
-			<tr><td class="bg-info"> Program Manager </td> <td  > {{projectdata.pm}}</td></tr>
-			<tr><td class="bg-info"> Firmware Integrator </td> <td  > {{projectdata.fw}}</td></tr>
-			<tr><td class="bg-info"> SQ Lead </td> <td  >{{projectdata.sq}}</td></tr>
-			<tr><td class="bg-info"> Unique Firmware </td> <td  >{{projectdata.uniquefw}}</td></tr>
-			<tr><td class="bg-info"> Branch </td> <td  >{{projectdata.branch}}</td></tr>
-			<tr><td class="bg-info"> Project Category </td> <td  >{{projectdata.cat}}</td></tr>
+			<tr><td width="30%"> SKUs </td> <td> {{projectdata.skus}}</td></tr>
+			<tr><td> Tagname </td> <td>{{projectdata.tag}}</td></tr>
+			<tr><td> Product Category </td> <td>{{projectdata.division}}</td></tr>
+			<tr><td> Start Date </td> <td> {{projectdata.datestart}}</td></tr>
+			<tr><td> FC Date </td> <td> {{projectdata.datefc}}</td></tr>
+			<tr><td> RC Date </td> <td> {{projectdata.daterc}}</td></tr>
+			<tr><td> VR Date </td> <td>{{projectdata.datevr}}</td></tr>
+			<tr><td> Program Manager </td> <td> {{projectdata.pm}}</td></tr>
+			<tr><td> Firmware Integrator </td> <td> {{projectdata.fw}}</td></tr>
+			<tr><td> SQ Lead </td> <td>{{projectdata.sq}}</td></tr>
+			<tr><td> Unique Firmware </td> <td>{{projectdata.uniquefw}}</td></tr>
+			<tr><td> Branch </td> <td>{{projectdata.branch}}</td></tr>
+			<tr><td> Project Category </td> <td>{{projectdata.cat}}</td></tr>
 	 	</table>
 	 </div>
 	<div class="col-md-6">
@@ -74,9 +74,9 @@
 			</div>
   </div>
 	<hr> 
-      	<table id="active-project-table" class="table table-bordered table-condensed">
-			<tr style="font-size:12px; font-weight:bold"><th>#</th><th>CRID</th><th>Type</th><th class="cell-summary">Summary</th><th>Requestor</th><th>Fix Provider</th><th>Test Partner</th><th>Affected SKUs</th><th>SHA</th><th>component</th><th>Status</th></tr>
-			<tr style="font-size:10px" ng-repeat="x in projectitems"><td> {{$index+1}} </td><td>{{x.crid}}</td><td>{{x.type}}</td><td>{{x.summary}}</td><td>{{x.requestor}}</td><td>{{x.fixer}}</td><td>{{x.testteam}}</td><td>{{x.products}}</td><td>{{x.sha}}</td><td>{{x.component}}</td><td ng-class="selectRight.statusColor(x.status)">{{x.status}}</td></tr>
+      	<table id="active-pj-table" class="table table-bordered table-condensed table-pj-disp">
+			<tr class="tr-item-table"><th>#</th><th>CRID</th><th>Type</th><th class="cell-summary">Summary</th><th>Requestor</th><th>Fix Provider</th><th>Test Partner</th><th>Affected SKUs</th><th>SHA</th><th>Component</th><th>Status</th></tr>
+			<tr ng-repeat="x in projectitems"><td> {{$index+1}} </td><td>{{x.crid}}</td><td>{{x.type}}</td><td>{{x.summary}}</td><td>{{x.requestor}}</td><td>{{x.fixer}}</td><td>{{x.testteam}}</td><td>{{x.products}}</td><td>{{x.sha}}</td><td>{{x.component}}</td><td ng-class="selectRight.statusColor(x.status)">{{x.status}}</td></tr>
       	</table>
       </div>
       <div class="modal-footer">
@@ -108,36 +108,32 @@
 <div class="modal fade" id="delete-item-modal">
 
 <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header bg-success">
-          <button type="button" class="close" data-dismiss="modal"><small>Cancel</small>&times;</button>
-          <h4 class="modal-title">Select Items To Delete</h4>
-        </div>
-<div class="modal-body">
-<div class="panel">
-<div class="panel-body">
-<form id="form-del-item" ng-submit="deleteItemSubmit()"> 
-<div class="active-project-table-delete">  
-      <table class="table table-bordered table-condensed table-striped table-hover">
-      <tr><td></td><td>Item</td><td>CRID</td><td>Summary</td></tr>
-      <tr style="font-size:12px" ng-repeat="x in projectitems">
-	  <!-- Bind the checkbox value to scope variable as an input of the function to display the DELETE button-->
-	  <!--LEARNING Bootstrap form-control has issue with checkbox displaying across browsers, so remove the form-control class -->
-	  <td><input type="checkbox" name="{{x.id}}" ng-model="checkboxValue[$index]"></td><td>{{$index+1}}</td><td>{{x.crid}}</td><td>{{x.summary}}</td>
-      </tr>
-      </table>
-</div>
-<br>
-<h5 ng-hide="checkboxChecked()" class="text-success"> Please select one or more items above </h5>
-<input class="admin btn btn-danger" type="submit" value="Delete" ng-show="checkboxChecked()">
-</form>
-<div id="del-item-status"></div>
-</div>
-</div>
-</div>
-</div>
-<div class="modal-footer"> 
-</div>
+	<div class="modal-content">
+					<div class="modal-header bg-success">
+						<button type="button" class="close" data-dismiss="modal"><small>Cancel</small>&times;</button>
+						<h4 class="modal-title">Select Items To Delete</h4>
+					</div>
+		<div class="modal-body">
+			<form id="form-del-item" ng-submit="deleteItemSubmit()"> 
+				<div class="active-project-table-delete">  
+							<table class="table table-bordered table-condensed table-striped table-hover">
+							<tr><td></td><td>Item</td><td>CRID</td><td>Summary</td></tr>
+							<tr style="font-size:12px" ng-repeat="x in projectitems">
+						<!-- Bind the checkbox value to scope variable as an input of the function to display the DELETE button-->
+						<!--LEARNING Bootstrap form-control has issue with checkbox displaying across browsers, so remove the form-control class -->
+						<td><input type="checkbox" name="{{x.id}}" ng-model="checkboxValue[$index]"></td><td>{{$index+1}}</td><td>{{x.crid}}</td><td>{{x.summary}}</td>
+							</tr>
+							</table>
+				</div>
+					<br>
+					<h5 ng-hide="checkboxChecked()" class="text-success"> Please select one or more items above </h5>
+					<input class="admin btn btn-danger" type="submit" value="Delete" ng-show="checkboxChecked()">
+				</form>
+				<div id="del-item-status"></div>
+				</div>
+		</div>
+		<div class="modal-footer"> 
+	</div>
 </div>
 
 </div>
@@ -153,35 +149,35 @@
 <!-- Delete project modal is defined -->
 <div class="modal fade" id="delete-project-modal">
 
-<div class="modal-dialog">
-<div class="modal-content">
-        <div class="modal-header bg-">
-          <button type="button" class="close" data-dismiss="modal"><small>Cancel</small>&times;</button>
-          <h4 class="modal-title">Select Project To Delete</h4>
-        </div>
-<div class="modal-body">
-<div class="panel">
-<div class="panel-body">
+	<div class="modal-dialog">
+		<div class="modal-content">
+						<div class="modal-header bg-">
+							<button type="button" class="close" data-dismiss="modal"><small>Cancel</small>&times;</button>
+							<h4 class="modal-title">Select Project To Delete</h4>
+						</div>
+		<div class="modal-body">
+			<div class="panel">
+			<div class="panel-body">
 
-<!-- use ng-submit, ng-options for the form submission, and the selected option is availble in $scope.deletedProj.-->
-<form id= "delete-pj-form" ng-submit ="delPjSubmit(deletedProj)"> 
-<select class="form-control del-project-select" ng-model="deletedProj" ng-change="trackSelectChange()" ng-options="project for project in projectlist">
-</select>
-<br><br>
+			<!-- use ng-submit, ng-options for the form submission, and the selected option is availble in $scope.deletedProj.-->
+			<form id= "delete-pj-form" ng-submit ="delPjSubmit(deletedProj)"> 
+			<select class="form-control del-project-select" ng-model="deletedProj" ng-change="trackSelectChange()" ng-options="project for project in projectlist">
+			</select>
+			<br><br>
 
-<input ng-hide="deletePressed" class="admin btn btn-danger"  ng-click="confirmDelProject()" value="Delete">
-<p ng-show="deletePressed" class="text-success"> Do you confirm to delete above project? </P>
-<input class="form-control input-sm" type="hidden" name="selectedProj" value ="{{deletedProj}}">
-<input ng-show="deletePressed" class="admin btn btn-primary" type="submit" value="Confirm">
-</form>
+			<input ng-hide="deletePressed" class="admin btn btn-danger"  ng-click="confirmDelProject()" value="Delete">
+			<p ng-show="deletePressed" class="text-success"> Do you confirm to delete above project? </P>
+			<input class="form-control input-sm" type="hidden" name="selectedProj" value ="{{deletedProj}}">
+			<input ng-show="deletePressed" class="admin btn btn-primary" type="submit" value="Confirm">
+			</form>
 
-<div id="del-pj-status"></div>
+			<div id="del-pj-status"></div>
 
-</div>
-</div>
-</div>
-</div>
-</div>
+			</div>
+			</div>
+		</div>
+		</div>
+	</div>
 </div>
 <!-- Delete project modal ends -->
 
@@ -207,19 +203,19 @@
 			<br>
 			<input class="date-picker form-control" id="live-date-input" name="datelive" type="text">
 			<small>  --or--  </small>
-			<label class="checkbox-inline"><input type="checkbox" id="live-date-check" onchange="Utility.datePickerValidate(event)">Not Applicable</label>
+			<label class="checkbox-inline"><input type="checkbox" class="checkbox-date-na" id="live-date-check" >Not Applicable</label>
 			<br>
 			<label class="control-label"><small>FDU Publish Date:</small></label>
 			<br>
 			<input class="date-picker form-control" id="fdu-date-input" name="datefdu" type="text" >
 			<small>  --or--  </small>
-			<label class="checkbox-inline"><input type="checkbox" id="fdu-date-check" onchange="Utility.datePickerValidate(event)">Not Applicable</label>
+			<label class="checkbox-inline"><input type="checkbox" class="checkbox-date-na" id="fdu-date-check">Not Applicable</label>
 			<br>
 			<label class="control-label"><small>MFG Roll-in Date:</small></label>
 			<br>
 			<input class="date-picker form-control" id="mfg-date-input" name="datemfg" type="text">
 			<small>  --or--  </small>
-			<label class="checkbox-inline"><input type="checkbox" id="mfg-date-check" onchange="Utility.datePickerValidate(event)">Not Applicable</label>
+			<label class="checkbox-inline"><input type="checkbox" class="checkbox-date-na" id="mfg-date-check">Not Applicable</label>
 			<br>
 			<hr>
 			<label class="control-label"><small>SHA</small></label>
@@ -276,32 +272,9 @@
 </div>
 </div>
 
+
 <!-- upload preview modal-->
-<div id="preview-modal" class="modal fade" role="dialog">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-			<h4 class="modal-title text-primary"><center>Preview</center></h4>
-			<button type="button" class="close" data-dismiss="modal">&times;</button>
-      </div>
-
-      <div class="modal-body">
-      	<table id="preview-table" class="table table-bordered table-condensed">
-			<tr><th>#</th><th>CRID</th><th>Type</th><th class="cell-summary">Summary</th><th>Requestor</th><th>Fix Provider</th><th>Test Partner</th><th>Affected SKUs</th><th>SHA</th><th>component</th><th>Status</th></tr>
-			<tr ng-repeat="x in importItemObj.previewlist"><td> {{$index+1}} </td><td ng-class="importItemObj.preValidate.empty(x.crid)">{{x.crid}}</td><td ng-class="importItemObj.preValidate.type(x.type)">{{x.type}}</td>
-			<td ng-class="importItemObj.preValidate.empty(x.summary)">{{x.summary}}</td><td ng-class="importItemObj.preValidate.empty(x.requestor)">{{x.requestor}}</td><td ng-class="importItemObj.preValidate.empty(x.fixer)">{{x.fixer}}</td>
-			<td ng-class="importItemObj.preValidate.empty(x.testteam)">{{x.testteam}}</td><td ng-class="importItemObj.preValidate.empty(x.products)">{{x.products}}</td><td ng-class="importItemObj.preValidate.empty(x.sha)">{{x.sha}}</td>
-			<td ng-class="importItemObj.preValidate.comp(x.component)">{{x.component}}</td><td ng-class="importItemObj.preValidate.status(x.status)">{{x.status}}</td></tr>
-      	</table>
-		<center><h4>Note: Fields in YELLOW are not compulsory to be corrected, but highly recommended to to so. </h4></center>
-      </div>
-      <div class="modal-footer">
-			<button type="button" class="btn btn-primary btn-in-modal" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-
-  </div>
-</div>
+<preview-modal></preview-modal>
 <!-- update preview modal ends-->
 
 

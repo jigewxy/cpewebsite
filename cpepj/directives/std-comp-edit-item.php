@@ -1,3 +1,4 @@
+<?php  include_once '../../config/GlobalConstants.php'; ?>
 <!-- Edit item modal is defined, can't use "draggable" here, it will break the cursor behavior in input field -->
 <div class="modal fade" id="edit-item-modal">
 
@@ -42,13 +43,13 @@
                   <!--placeholder for the tooltip -->
             </div>
 
-        <table id= "item-table" class="table table-bordered table-condensed">
-              <tr class="fixed-cell"><td>#</td><td>CRID</td><td>Type</td><td>Summary</td><td>Requestor</td><td>Fix Provider</td>
-                    <td>Test Partner</td><td>Affected SKUs</td><td>SHA</td><td>component</td></tr>
+        <table id="item-table" class="table table-bordered table-condensed">
+              <tr class="tr-item-table"><th>#</th><th class="th-crid">CRID</th><th>Type</th><th class="th-summary">Summary</th><th>Requestor</th><th>Fix Provider</th>
+                    <th class="th-sq">Test Partner</th><th>Affected SKUs</th><th class="th-sha">SHA</th><th>Component</th></tr>
               <tr ng-repeat="x in itemlist">
                 <td>{{$index+1}}</td>
                 <td><input class="form-control input-sm" name="crid[]" type="text" value ="{{x.crid}}"></td>
-                <td class="sel-box-col"><select class="form-control type-modify-box" name="type[]" ng-init="editItem.selectRight.type(x.type, $index)"> 
+                <td class="sel-box-col"><select class="form-control type-modify-box" name="type[]" ng-value="x.type"> 
                     <option>Defect Fix</option>
                     <option>New Feature</option>
                   </select></td>
@@ -57,42 +58,18 @@
                 <td><input class="form-control input-sm" name="fixer[]" type="text" value ="{{x.fixer}}"></td>
                 <td><input class="form-control input-sm" name="testteam[]" type="text" value ="{{x.testteam}}"></td>
                 <td><input class="form-control input-sm" name="products[]" type="text" value ="{{x.products}}"></td>
-                <td><input class="form-control input-sm input-expand" name="sha[]" type="text" value ="{{x.sha}}">
+                <td><input class="form-control input-sm" name="sha[]" type="text" value ="{{x.sha}}">
                  <input name="id[]" type="hidden" value ="{{x.id}}"></td>
-                <td class="sel-box-col"><select class="form-control component-modify-box" name="component[]" ng-init="editItem.selectRight.component(x.component, $index)"> 
-                <option>UI</option>
-                <option>EWS</option>
-                <option>Fax</option>
-                <option>Scan</option>
-                <option>Mech</option>
-                <option>ADF</option>
-                <option>Copy</option>
-                <option>IDS</option>
-                <option>Acumen</option>
-                <option>Ink Sub</option>
-                <option>Ink Security</option>
-                <option>Connectivity</option>
-                <option>SIPs</option>
-                <option>OXPD</option>
-                <option>Digital Send</option>
-                <option>LEDM</option>
-                <option>General Security</option>
-                <option>Mobility</option>
-                <option>Datapath</option>
-                <option>Board Config</option>
-                <option>ASIC</option>
-                <option>Power</option>
-                <option>Boot Loader</option>
-                <option>OS Related</option>
-                <option>Others</option>
+                <td class="sel-box-col"><select class="form-control component-modify-box" name="component[]" ng-value="x.component"> 
+                   <?php  foreach(ITEMCOMPONENT as $value) { echo "<option>{$value}</option>";}?>
                     </select></td>
               </tr>
           </table>
 
           <br><br>
-          <input class="btn btn-primary btn-in-modal" type="submit" value="Save" >
+          <input class="btn btn-primary btn-in-modal" type="submit" value="SAVE" >
          </form>
-         <div id="edit-item-comp-status"></div>
+         <div id="edit-item-status"></div>
         </div>
       </div>
     </div>

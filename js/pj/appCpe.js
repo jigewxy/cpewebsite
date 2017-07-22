@@ -136,7 +136,8 @@ app.service('CpePjService', function($interval, CustomEnums){
         }
   }
 
-  //curring function for $scope.selectRight
+  //curring function for $scope.selectRight 
+  //better option is to use ng-value instead of ng-init, cleaner and simpler
 
   var currySelectRight = function(selector){
 
@@ -542,7 +543,7 @@ app.directive('addItemModal', function(){
 
   return {
   restrict: "EA",
-  templateUrl: "cpepj/directives/std-add-new-item.html",
+  templateUrl: "cpepj/directives/std-add-item.php",
   scope: {
      'addItemSubmit': "&addItemSubmit",
      activePj: "<",
@@ -559,7 +560,7 @@ app.directive('modifyItemModal', function(){
 
   return {
   restrict: "EA",
-  templateUrl: "cpepj/directives/std-edit-item.html",
+  templateUrl: "cpepj/directives/std-edit-item.php",
   replace:false
 
   };
@@ -673,7 +674,7 @@ app.directive('compAddItemModal', function(){
 
   return {
   restrict: "EA",
-  templateUrl: "cpepj/directives/std-comp-add-item.html",
+  templateUrl: "cpepj/directives/std-comp-add-item.php",
   replace:false
 
   };
@@ -685,10 +686,21 @@ app.directive('compEditItemModal', function(){
 
   return {
   restrict: "EA",
-  templateUrl: "cpepj/directives/std-comp-edit-item.html",
+  templateUrl: "cpepj/directives/std-comp-edit-item.php",
   replace:false
 
   };
+
+});
+
+
+app.directive('previewModal', function(){
+
+return {
+  restrict: "EA",
+  tempalteUrl:  "cpepj/directives/std-preview-modal.html",
+  replace:false
+}
 
 });
 
@@ -738,32 +750,38 @@ init();
     
 
 $scope.$watch ('currentTab', function(newValue, oldValue){
+
+  console.log(newValue);
+  $('#li-'+newValue).addClass('selected-tab').siblings().removeClass('selected-tab');
+
     
-switch (newValue){
+/*switch (newValue){
         
-    case 'dashboardPage': 
+    case 'dashboard': 
           $('#li-db').siblings().removeClass('selected-tab');
         $('#li-db').addClass('selected-tab');
  
        break;
         
-      case 'projActive': 
+      case 'active': 
         $('#li-ap').siblings().removeClass('selected-tab');
         $('#li-ap').addClass('selected-tab');
  
        break;
         
-       case 'projCompleted': 
+       case 'completed': 
         $('#li-cp').siblings().removeClass('selected-tab');
         $('#li-cp').addClass('selected-tab');
  
        break;
-      case 'reportPage': 
+      case 'statistics': 
         $('#li-cr').siblings().removeClass('selected-tab');
         $('#li-cr').addClass('selected-tab');
        break;
    
-}}); 
+} */
+
+}); 
     
 
 

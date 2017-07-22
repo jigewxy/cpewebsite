@@ -1,3 +1,4 @@
+<?php  include_once '../../config/GlobalConstants.php'; ?>
 <div class="modal fade" id="add-item-modal">
 <div class="modal-dialog">
       <div class="modal-content">
@@ -33,39 +34,12 @@
 <input type="text" class="form-control input-sm" name="sha" placeholder="Put N/A if not applicable" required>
 <label class="control-label"><small>component</small></label>
 <select class="form-control component-select" name="component">
-<option>UI</option>
-<option>EWS</option>
-<option>Fax</option>
-<option>Scan</option>
-<option>Mech</option>
-<option>ADF</option>
-<option>Copy</option>
-<option>IDS</option>
-<option>Acumen</option>
-<option>Ink Sub</option>
-<option>Ink Security</option>
-<option>Connectivity</option>
-<option>SIPs</option>
-<option>OXPD</option>
-<option>Digital Send</option>
-<option>LEDM</option>
-<option>General Security</option>
-<option>Mobility</option>
-<option>Datapath</option>
-<option>Board Config</option>
-<option>ASIC</option>
-<option>Power</option>
-<option>Boot Loader</option>
-<option>OS Related</option>
-<option>Others</option>
+        <?php  foreach(ITEMCOMPONENT as $value) { echo "<option>{$value}</option>";}?>
 </select>
 <div ng-if ="activePj">
 <label class="control-label"><small>Status</small></label>
 <select class="form-control status-select" name="status">
-<option>In Progress</option>
-<option>Fixed</option>
-<option>Verified</option>
-<option>Reopen</option>
+        <?php  foreach(ITEMSTATUS as $value) { echo "<option>{$value}</option>";}?>
 </select>
 </div>
 <br><br>

@@ -7,7 +7,4 @@
 
     setcookie('auth', $_SESSION['auth']);
 
-    echo $_SESSION['auth'].'/n';
-    echo session_id();
-
-    ?>
+?>

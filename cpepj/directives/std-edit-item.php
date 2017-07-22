@@ -1,3 +1,4 @@
+<?php  include_once '../../config/GlobalConstants.php'; ?>
 <div class="modal fade" id="edit-item-modal">
 
 	<div class="modal-dialog modal-lg">
@@ -39,64 +40,38 @@
     					</div>
 
 
-						<table id = "item-table" class="table table-bordered table-condensed">
-							<tr style="font-size:12px" class="fixed-cell"><th>#</th><th>CRID</th><th>Type</th><th class="cell-summary">Summary</th><th>Requestor</th><th>Fix Provider</th><th>Test Partner</th><th>Affected SKUs</th><th>SHA</th><th>Component</th><th>Status</th></tr>
+						<table id= "item-table" class="table table-bordered table-condensed">
+							<tr class="tr-item-table"><th>#</th><th class="th-crid">CRID</th><th>Type</th><th class="th-summary">Summary</th><th>Requestor</th><th>Fix Provider</th>
+							<th class="th-sq">Test Partner</th><th>Affected SKUs</th><th class="th-sha">SHA</th><th>Component</th><th>Status</th></tr>
 							<tr ng-repeat="x in projectitems">
 								<td width="3%">{{$index+1}}</td>
-								<td><input class="form-control input-sm input-expand" name="crid[]" type="text" value ="{{x.crid}}"></td>
+								<td><input class="form-control input-sm" name="crid[]" type="text" value ="{{x.crid}}"></td>
 								<td class="sel-box-col">
-									<select class="form-control type-modify-box" name="type[]" ng-init="selectRight.type(x.type, $index)"> 
+									<select class="form-control type-modify-box" name="type[]" ng-value="x.type"> 
 										<option>Defect Fix</option>
 										<option>New Feature</option>
 									</select>
 								</td>
 								<td><input class="form-control input-sm input-expand-more"  name="summary[]" type="text" value ="{{x.summary}}"></td>
-								<td><input class="form-control input-sm input-expand" name="requestor[]" type="text" value ="{{x.requestor}}"></td>
-								<td><input class="form-control input-sm input-expand" name="fixer[]" type="text" value ="{{x.fixer}}"></td>
-								<td><input class="form-control input-sm input-expand" name="testteam[]" type="text" value ="{{x.testteam}}"></td>
-								<td><input class="form-control input-sm input-expand" name="products[]" type="text" value ="{{x.products}}"></td>
-								<td><input class="form-control input-sm input-expand" name="sha[]" type="text" value ="{{x.sha}}"></td>
+								<td><input class="form-control input-sm" name="requestor[]" type="text" value ="{{x.requestor}}"></td>
+								<td><input class="form-control input-sm" name="fixer[]" type="text" value ="{{x.fixer}}"></td>
+								<td><input class="form-control input-sm" name="testteam[]" type="text" value ="{{x.testteam}}"></td>
+								<td><input class="form-control input-sm" name="products[]" type="text" value ="{{x.products}}"></td>
+								<td><input class="form-control input-sm" name="sha[]" type="text" value ="{{x.sha}}"></td>
 								<td class="sel-box-col">
-									<select class="form-control component-modify-box" name="component[]" ng-init="selectRight.component(x.component, $index)"> 
-										<option>UI</option>
-										<option>EWS</option>
-										<option>Fax</option>
-										<option>Scan</option>
-										<option>Mech</option>
-										<option>ADF</option>
-										<option>Copy</option>
-										<option>IDS</option>
-										<option>Acumen</option>
-										<option>Ink Sub</option>
-										<option>Ink Security</option>
-										<option>Connectivity</option>
-										<option>SIPs</option>
-										<option>OXPD</option>
-										<option>Digital Send</option>
-										<option>LEDM</option>
-										<option>General Security</option>
-										<option>Mobility</option>
-										<option>Datapath</option>
-										<option>Board Config</option>
-										<option>ASIC</option>
-										<option>Power</option>
-										<option>Boot Loader</option>
-										<option>OS Related</option>
-										<option>Others</option>
+									<select class="form-control component-modify-box" name="component[]" ng-value="x.component"> 
+                                        <?php  foreach(ITEMCOMPONENT as $value) { echo "<option>{$value}</option>";}?>
 									</select></td>
 								<td class="sel-box-col">
-									<select class="form-control status-modify-box" name="status[]" ng-init="selectRight.status(x.status, $index)"> 
-										<option>In Progress</option>
-										<option>Fixed</option>
-										<option>Verified</option>
-										<option>Reopen</option>
+									<select class="form-control status-modify-box" name="status[]" ng-value="x.status"> 
+	                                     <?php  foreach(ITEMSTATUS as $value) { echo "<option>{$value}</option>";}?> 
 									</select>
 								</td>
 								<input class="form-control input-sm" name="id[]" type="hidden" value ="{{x.id}}">
 								
 							</tr>
 						</table>
-						<input class="btn btn-primary btn-in-modal" type="submit" value="Save" >
+						<input class="btn btn-primary btn-in-modal" type="submit" value="SAVE" >
 					</form>
 				    <br>
 					<div id="edit-item-status"></div>
