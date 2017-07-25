@@ -16,7 +16,7 @@ $conn = ServerConfig::setPdo(PJDB);
 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 $stm= $conn->prepare("SELECT pj.id, pj.project_name, pj.revision,pd.year, pd.product_name, pd.division FROM project AS pj INNER 
-                 JOIN product AS pd ON pj.product_id=pd.id WHERE pj.currentstate='Completed'");
+                 JOIN product AS pd ON pj.product_id=pd.id WHERE pj.currentstate='Completed' ORDER BY pj.revision DESC");
 
 $stm->execute();            
 

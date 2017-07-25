@@ -218,7 +218,8 @@ $scope.setDatabase=function(id){
 
 			else
 			{
-				var type_arr = _.pluck($scope.itemlist, 'type');
+
+			var type_arr = _.pluck($scope.itemlist, 'type');
 
 			//get defect fix and feature count
 			var cntObj= _.countBy(type_arr, function(df){
@@ -231,10 +232,9 @@ $scope.setDatabase=function(id){
 
 
 			_.extend($scope.projectdata, cntObj);
-		
 		//display release modal after database is set
-			$scope.renderModal.displayPj();
 	      }
+		  	$scope.renderModal.displayPj();
 		} 
 		else 
 		{

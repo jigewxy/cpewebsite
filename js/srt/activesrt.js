@@ -27,9 +27,9 @@ $(document).ready(function(){
 
 function refreshData (callback) {
 
-var xhrobj = AjaxPrvService.xhrConfig('ACTIVE', 'POST','php/srt/getpjlist.php?', null, 'singleValue');
+ var xhrobj = AjaxPrvService.xhrConfig('ACTIVE', 'POST','php/srt/getpjlist.php?', null, 'singleValue');
 
-AjaxPrvService.xhrPromise(xhrobj).then(function(resp){ 
+ AjaxPrvService.xhrPromise(xhrobj).then(function(resp){ 
     //note that .then() create another promise, to avoid confusion, we use callback() here to deal with this aychronization
 
     if(resp.state.trim() === 'ERROR')

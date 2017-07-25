@@ -36,44 +36,46 @@ app.factory('AjaxPrvService', function($q, $http){
  var xhrPromise = function(obj){
       var deferred = $q.defer();
       var promise = deferred.promise;
-      
+    
       var defaultHeaders = {'Content-Type': 'application/x-www-form-urlencoded'}; //or multipart/form-data
       //var defaultHeaders = {'Content-Type': 'multipart/form-data; boundary=gc0p4Jq0M2Yt08jU534c0p'}; //or application/x-www-form-urlencoded
 
       var transformReq = {
       //$httpTransformRequest for form data 
-      formdata: function (data){
+            formdata: function (data){
 
-      if (data ===undefined){
+            if (data ===undefined){
 
-        return data;
-      }
-    
-        else 
-        return $.param(data);
+              return data;
+            }
+          
+              else 
+              return $.param(data);
 
-      },
+            },
 
-      //$httpTransformRequest for json object -- used in file uploading
-      json: function (data){
-      console.log('json object');
+            //$httpTransformRequest for json object -- used in file uploading
+            json: function (data){
+            console.log('json object');
 
 
-    //LEARNING - to strip any properties used by Angular (start with $$, for example: $$hashKey)
-    //use Angular.toJson instead of JSON.stringify
+          //LEARNING - to strip any properties used by Angular (start with $$, for example: $$hashKey)
+          //use Angular.toJson instead of JSON.stringify
 
-        return angular.toJson(data);
-      
-      },
+              return angular.toJson(data);
+            
+            },
 
-    // for single value  -- used in getPjdata.php
-    singleValue: function(data){
+          // for single value  -- used in getPjdata.php
+          singleValue: function(data){
 
-      return $.param({'value':data});
+            return $.param({'value':data});
 
-    }
+          }
 
-    }
+        }
+
+        var defaultCacheOption =  true;
 
       
       $http({
@@ -81,7 +83,8 @@ app.factory('AjaxPrvService', function($q, $http){
           method:obj.method,
           data: obj.data,
           headers: obj.headers || defaultHeaders,
-          transformRequest : transformReq[obj.trans] || transformReq.formdata
+          transformRequest : transformReq[obj.trans] || transformReq.formdata,
+          cache: obj.cache || defaultCacheOption
         }).then(function(resp){
 
         //resove promise
@@ -99,16 +102,16 @@ app.factory('AjaxPrvService', function($q, $http){
 
     //5 parameters - data, url, method, headers, transformRequest;
     //headers and transformRequest are optional, if not set, will use default config.
-    var xhrConfig = function (data, method, url, headers, trans){
+    var xhrConfig = function (data, method, url, headers, trans, cache){
 
-      var xhrobj = {};
-      xhrobj.data = data;
-      xhrobj.method = method;
-      xhrobj.url = url;
-      xhrobj.headers = headers;
-      xhrobj.trans = trans;
-
-      return xhrobj;
+        var xhrobj = {};
+        xhrobj.data = data;
+        xhrobj.method = method;
+        xhrobj.url = url;
+        xhrobj.headers = headers;
+        xhrobj.trans = trans;
+        xhrobj.cache = cache;
+        return xhrobj;
 
       };
 

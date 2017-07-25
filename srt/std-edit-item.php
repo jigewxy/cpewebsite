@@ -27,7 +27,7 @@
 	 <tr><td> Developer</td> <td><input class="form-control" type="text" name="developer" value ="{{$ctrl.pjdata.developer}}"></td></tr>
      <tr><td> Test Lead</td> <td><input class="form-control" type="text" name="sq" value ="{{$ctrl.pjdata.sq}}"></td></tr>
 	 <tr><td> Branch Info</td> <td><input class="form-control" type="text" name="branch" value ="{{$ctrl.pjdata.branch}}"></td></tr>
-	 <tr ng-if="$ctrl.completed"><td> Firmware Link</td><td><input class="form-control" type="text" name="fwlink" value ="{{$ctrl.pjdata.fwlink}}"></td></tr>
+	 <tr><td> Firmware Link</td><td><input class="form-control" type="text" name="fwlink" value ="{{$ctrl.pjdata.fwlink}}"></td></tr>
 	 <tr class="item-status-sel"><td>Current State</td><td><select class='srt-state-select state-edit-sel form-control' name='state' ng-value ="$ctrl.pjdata.state"> 
        <?php  foreach(PJSTATUS as $value) { echo "<option>{$value}</option>";}?>
                </select></td></tr>
