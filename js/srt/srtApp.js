@@ -58,11 +58,10 @@ app.factory('AjaxPrvService', function($q, $http){
             json: function (data){
             console.log('json object');
 
-
           //LEARNING - to strip any properties used by Angular (start with $$, for example: $$hashKey)
           //use Angular.toJson instead of JSON.stringify
 
-              return angular.toJson(data);
+            return angular.toJson(data);
             
             },
 
@@ -218,7 +217,8 @@ app.component('dispPjModal',{
      templateUrl: "srt/std-disp-modal.html",
      bindings: {pjdata:"<",
                 itemlist:"<",
-                renderModal: "<"} //one way binding
+                renderModal: "<",
+                setStatusColor: "<"} //one way binding
 
 });
 

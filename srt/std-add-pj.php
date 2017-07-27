@@ -28,7 +28,7 @@
         <label class="control-label"><small>FC Date:</small></label>
         <input type="date" class="form-control date-picker input-sm" name="datefc" required>
         <label class="control-label"><small>RC Date:</small></label>
-        <input type="date" class="form-control date-picker input-sm" name="datefc" required>
+        <input type="date" class="form-control date-picker input-sm" name="daterc" required>
         <label class="control-label"><small>VR Date:</small></label>
         <input type="date" class="form-control date-picker input-sm" name="datevr" required>
         <hr>
