@@ -39,10 +39,10 @@ foreach($lib_img as $key=>$value){
 
 echo  "<div class='col-md-4'> 
        <div class='thumbnail'>
-       <a href='images/flows/{$value[0]}' targe='_blank'>
+       <a href='images/flows/{$value[0]}' target='_blank'>
         <img class='img-thumbnail' src='images/flows/{$value[0]}'>
            <div class='caption'>
-            <p> {$value[1]}</p> 
+            <center><p> {$value[1]}</p></center>
            </div>
        </div>
       </div>";

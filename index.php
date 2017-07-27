@@ -78,7 +78,7 @@ include 'template/setcookie.php';
 </div>
 
 <div class="col-md-1 col-sm-1 col-xs-1"> 
-    <a href="cpe_projects.php">
+    <a href="orgchart.php">
     <center>
     <img src= "images/orgchart.png">
     <p> Org Chart</p>

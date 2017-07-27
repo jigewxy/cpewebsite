@@ -88,7 +88,14 @@ color: white !important;
 
 img.img-thumbnail{
 
-width: 30vw;
+width: 25vw;
 height: 30vh !important;
 
+}
+
+#chart-container {
+  background-color: #eee;
+}
+.orgchart {
+  background: #fff;
 }
