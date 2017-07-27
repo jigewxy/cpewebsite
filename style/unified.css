@@ -99,3 +99,9 @@ height: 30vh !important;
 .orgchart {
   background: #fff;
 }
+
+.input-invalid{
+
+background-color: yellow;
+
+}

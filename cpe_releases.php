@@ -101,7 +101,7 @@ include 'template/setcookie.php';
             </div>
 
             <div class="modal-footer">
-            <button id="btn-add-product" class="btn btn-success btn-in-modal"> ADD </button>
+            <button id="add-product-submit" class="btn btn-success btn-in-modal"> ADD </button>
             </div>
         </div>
     </div>
@@ -171,43 +171,40 @@ include 'template/setcookie.php';
     </div>
 
     <div class="modal-body">
-    <form id="form-add-release">
-    <div class="form-group">
-    <label class="control-label"><small>VR#</small></label>
-    <input type="text" class="form-control" name="version" required>
-    <label class="control-label"><small>Firmware Version</small></label>
-    <input type="text" class="form-control" name="fwversion" required>
-    <label class="control-label"><small>VR Date</small></label>
-    <input type="text" class="form-control date-picker" name="date" pattern="[2][0][0-2][0-9][-]([0][1-9]|[1][0-2])[-]([0][1-9]|[1][0-9]|[2][0-9]|[3][0-1])" required>
-    <hr>
-    <label class="control-label"><small>AREL Link</small></label>
-    <textarea type="text" row='2' class="form-control" name="arel" required></textarea>
-    <label class="control-label"><small>SAREL Link <em> -- leave it blank or "NA" if not applicable</em></small></label>
-    <textarea type="text" row='2' class="form-control" name="sarel"></textarea>
-    <label class="control-label"><small>NAREL Link</small></label>
-    <textarea type="text" row='2' class="form-control" name="narel" required></textarea>
-    <hr>
-    <label class="control-label"><small>Branch</small></label>
-    <input type="text" class="form-control" name="branch" required>
-    <label class="control-label"><small>Update Type</small></label>
-    <input type="text" class="form-control" name="type" required>
-    <label class="control-label"><small>Released By</small></label>
-    <select class="form-control owner-sel" name="owner"> 
-    <option>NPI</option>
-    <option>CPE</option>
-    </select>
-    </div>
-    </div>
-    </form>
+        <form id="form-add-release">
+            <label class="control-label"><small>VR#</small></label>
+            <input type="text" class="form-control" name="version" required>
+            <label class="control-label"><small>Firmware Version</small></label>
+            <input type="text" class="form-control" name="fwversion" required>
+            <label class="control-label"><small>VR Date</small></label>
+            <input type="text" class="form-control date-picker" name="date" pattern="[2][0][0-2][0-9][-]([0][1-9]|[1][0-2])[-]([0][1-9]|[1][0-9]|[2][0-9]|[3][0-1])" required>
+            <hr>
+            <label class="control-label"><small>AREL Link</small></label>
+            <textarea type="text" row='2' class="form-control" name="arel" required></textarea>
+            <label class="control-label"><small>SAREL Link <em> -- leave it blank or "NA" if not applicable</em></small></label>
+            <textarea type="text" row='2' class="form-control" name="sarel"></textarea>
+            <label class="control-label"><small>NAREL Link</small></label>
+            <textarea type="text" row='2' class="form-control" name="narel" required></textarea>
+            <hr>
+            <label class="control-label"><small>Branch</small></label>
+            <input type="text" class="form-control" name="branch" required>
+            <label class="control-label"><small>Update Type</small></label>
+            <input type="text" class="form-control" name="type" required>
+            <label class="control-label"><small>Released By</small></label>
+            <select class="form-control owner-sel" name="owner"> 
+                <option>NPI</option>
+                <option>CPE</option>
+            </select>
+        </form>
         <hr>
     <div id="add-release-status"></div>
- </div>
+    </div>
 
- <div class="modal-footer">
- <button class="btn btn-success btn-in-modal" id="btn-add-entry"> ADD </button>
- </div>
-</div>
-</div>
+    <div class="modal-footer">
+     <button type="submit" class="btn btn-success btn-in-modal" id="add-entry-submit"> ADD </button>
+    </div>
+    </div>
+    </div>
 </div>
 
 <!-- Add-product-modal ends here -->
@@ -263,7 +260,7 @@ include 'template/setcookie.php';
     </div>
     
  <div class="modal-footer">
- <button  class="btn btn-danger btn-in-modal" id="btn-del-entry">Delete </button>
+ <button class="btn btn-danger btn-in-modal" id="del-entry-submit">Delete </button>
  </div>
         
     

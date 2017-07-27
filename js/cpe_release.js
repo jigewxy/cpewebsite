@@ -402,7 +402,7 @@
                         
                     if (i==4)
                         x='<small><em>--Leave it as "NA" or blank if not applicable</em></small>';
-                        
+                    
                     form_body += '<label>'+ arr_label[i] + x +'</label>'+'<input type="text" class="form-control modify-form'+y+'" name="'+ prop.nodeName
                         + '" value="'+ prop.textContent+'">';
                         i++;
@@ -416,7 +416,116 @@
                 initDatePicker();
                 }
 
-        }
+         }
+
+ var renderModal = {
+
+       addProduct: function(){ 
+                 
+                 $('#add-product-modal').modal('show').find('#add-product-status').html('').end()
+                                                      .find('input[type=text]').val('').removeClass('input-invalid').end()
+                                                      .find('button#add-product-submit').off().on('click', cpeRelModule.submittalObj.addProduct);
+              },
+
+       delProduct: function(){
+
+              _resetList();
+                $('#delete-product-modal').modal('show').find('#del-product-status').html('').end()
+                                                        .find('#btn-del-product').on('click', cpeRelModule.submittalObj.delProduct);
+                
+              },
+
+       addEntry: function (){
+            /*LEARNI=functionNG - $() and element itself has different properties */
+        /* $() is a Jquery object which has all Jquery properties */
+
+               $('#add-entry-modal').modal('show').find('#add-release-status').html('').end()
+                                                  .find('input[type=text]').val('').removeClass('input-invalid').end()
+                                                  .find('button#add-entry-submit').off().on('click', cpeRelModule.submittalObj.addEntry);
+               $('input[name=date]').on({'keypress': Utility.validateDateInput.bind(this, 'input[name=date]'), 
+                    'keyup': Utility.validateDateInput.bind(this, 'input[name=date]')});  
+            /*pass values to hidden input - product and category */
+
+              },
+
+      editEntry: function(){
+
+                var category = g_currentCat.textContent;
+                var sel_list ='';
+                var sel_header ='<label> Choose a release to modify: </label> <select class="form-control" name="index" onchange="cpeRelModule.loadModifyTable(value)">';
+                var sel_body ='<option value="unset"> -- Select An Entry -- </option>';
+                var sel_footer = '</select><hr>';
+     
+                        
+                var arr = g_scopeProductData.getElementsByTagName('release');
+
+                    
+                /* get select list */
+                    
+
+                var selectlist = [];
+
+                    /*clear the input and status while entering */
+
+                    
+                for(var i=0; i<arr.length; i++){
+
+                selectlist.push(_getEntity(arr[i], 'version'));
+
+                sel_body +=  '<option value="'+i+'">'+ _getEntity(arr[i], 'version') + '</option>';
+                    
+                };
+                    
+
+                sel_list = sel_header + sel_body + sel_footer;
+                    
+
+                $('#modify-entry-modal').modal('show').find('#edit-form').html('').end()
+                                                      .find('#edit-release-status').html('').end()
+                                                      .find('#select-box').html(sel_list);
+
+
+                /*LEARNING - $() and element itself has different properties */
+                /* $() is a Jquery object which has all Jquery properties */
+                //console.log($(g_currentCat).html());
+                //  console.log(g_currentCat.textContent);
+                $('input[name=date]').on({'keypress': Utility.validateDateInput.bind(this, 'input[name=date]'), 
+                            'keyup': Utility.validateDateInput.bind(this, 'input[name=date]')});  
+            }, 
+
+        deleteEntry: function(){
+
+                            
+                var ckbox ='';
+                var ckbox_header='<select class="form-control" id="select-del-entry" name="deletion">';
+                var options ='<option value="unset"> --Please select an entry --</option>';
+                var ckbox_footer= '</select><br>'
+
+                var data= g_scopeProductData.getElementsByTagName('release');
+            /*LEARNING --data will be a HTMLcollection in this case,
+            alternative is to use g_scopeProductData.childNodes, which will create a nodelist --- this is a better way 
+
+            [] is the syntax sugar for Array.prototype
+            [].forEach.call(data, function(child){  */
+                
+                [].forEach.call(data, function(child,index){ 
+                    /* Childnode is [1,3] not [0,2], because XML file is formated with line-break */
+                    var version = child.childNodes[1].innerHTML;
+                    var fwversion = child.childNodes[3].innerHTML;
+                    options += '<option value="'+index +'">'+version + ' -- [' + fwversion +']';
+                    
+                })
+                
+                var ckbox = ckbox_header + options + ckbox_footer;
+                
+                $('#delete-entry-modal').modal('show').find('#del-release-status').html('').end()
+                                                      .find('#delete-modal-body').html(ckbox).end()
+                                                      .find('#del-entry-submit').on('click',cpeRelModule.submittalObj.delEntry);
+            }
+        
+
+
+        };
 
 
   var submittalObj = {
@@ -427,11 +536,22 @@
 
              var category = g_catmap[temp[1].value];
              var pdname = temp[2].value;
+             var checkFields = ['product'];
 
             //check if input is duplicate product name 
-            if (_.indexOf(g_productlist[category], pdname)!==-1)
+
+
+         if (validateFormdata(checkFields, '#add-product-form', '#add-product-status') === 0)
+            {
+              return;
+            }
+           else if (_.indexOf(g_productlist[category], pdname)!==-1)
             {
                Utility.emitAlertMsg(4, '#add-product-status', 'Failed! ', 'Duplicate product name!');
+               return;
+            } else if ($('select[name=cat]').val() ===null){
+
+              Utility.emitAlertMsg(4, '#add-product-status', 'Failed! ', 'Please select a category first!');
                return;
             }
 
@@ -478,8 +598,12 @@
       delProduct: function(){
 
 
-                  var formdata = $('#del-product-form').serialize();
 
+                  if ($('#dyn-product-sel').val() ===null)
+                  { Utility.emitAlertMsg(4, '#del-product-status', 'Invalid Input! ', 'Please select a product first');}
+
+                  else {
+                  var formdata = $('#del-product-form').serialize();
                     $.ajax({
 
                         url: 'php/rel/delete_product.php',
@@ -505,7 +629,7 @@
                             document.getElementById('release-content').innerHTML = '';    
                         
                           var fb= JSON.parse(data);
-                         Utility.emitAlertMsg(1, '#del-product-status', 'Success! ', fb.product +'has been removed from ['+fb.cat+'] successfully!');
+                          Utility.emitAlertMsg(1, '#del-product-status', 'Success! ', fb.product +'has been removed from ['+fb.cat+'] successfully!');
                         
                         /*don't forget to update product list */
 
@@ -542,13 +666,20 @@
                                 //to be added                    
                 })
         
-      },
+      }},
 
     addEntry: function(){
 
-            
+            var checkFields =['version', 'fwversion', 'date', 'arel', 'sarel', 'narel', 'branch', 'type'];
             var formdata= $('#form-add-release').serialize()+'&product='+g_productInScope+'&cat='+g_currentCat.innerHTML;
-                
+
+            if (validateFormdata(checkFields, '#form-add-release', '#add-release-status') === 0)
+            {
+              return;
+            }
+            else 
+            {
+            
             $.ajax({
                 url: 'php/rel/add_release.php',
                 method:'POST',
@@ -573,16 +704,24 @@
                 
            Utility.emitAlertMsg(1, '#add-release-status', 'Failed! ', err);
             
-          });
+            });
+            }
+            
                 
       }, 
     editEntry: function(e){
   /* prevent default action to close the modal */
             e.preventDefault();
-            
+
             /* LEARNING.serialize() only works on certain type of DOM, such as <form> */
             var formdata= $('#form-edit-entry').serialize() + '&product='+g_productInScope +'&cat='+g_currentCat.innerHTML;
-            
+            var checkFields = ['version', 'fwversion', 'date', 'arel', 'sarel', 'narel', 'branch'];
+                        
+          if (validateFormdata(checkFields, '#form-edit-entry', '#edit-release-status') === 0)
+            {
+              return;
+            }
+            else {
             $.ajax({
                 url:'php/rel/edit_release.php',
                 method: 'POST',
@@ -614,7 +753,7 @@
                     
             });
             
-       },
+       }},
 
 
     delEntry: function(){
@@ -651,7 +790,7 @@
                                 }
 
                           else {
-                        
+                            console.log(resp);
                             var fb = JSON.parse(resp);
                             loadTable(g_currentProductCtx);
                             /*LEARNING - instead of AJAX call, can remove the option from the DOM in the modal, which is more efficient */
@@ -672,116 +811,34 @@
             }  
        }
 
-
     };
 
- var renderModal = {
 
-       addProduct: function(){ 
-                 
-                 $('#add-product-modal').modal('show');
-                 $('button#btn-add-product').on('click', cpeRelModule.submittalObj.addProduct);
-              },
+ function validateFormdata (fields, form, alertElems){
 
-       delProduct: function(){
+            var ret = 1;
+            fields.forEach(function(val){
 
-             _resetList();
-                $('#delete-product-modal').modal('show').find('#btn-del-product').on('click', cpeRelModule.submittalObj.delProduct);
-                
-              },
+            var len =  $(form).find('input[name='+val+']').length; //input can be either input or textarea
 
-       addEntry: function (){
-            /*LEARNI=functionNG - $() and element itself has different properties */
-        /* $() is a Jquery object which has all Jquery properties */
-        //console.log($(g_currentCat).html());
-        //  console.log(g_currentCat.textContent);
-               $('#add-entry-modal').modal('show');
-               $('#btn-add-entry').on('click', cpeRelModule.submittalObj.addEntry);
-               $('input[name=date]').on({'keypress': Utility.validateDateInput.bind(this, 'input[name=date]'), 
-                    'keyup': Utility.validateDateInput.bind(this, 'input[name=date]')});  
-            /*pass values to hidden input - product and category */
-
-              },
-
-      editEntry: function(){
-
-                var category = g_currentCat.textContent;
-                var sel_list ='';
-                var sel_header ='<label> Choose a release to modify: </label> <select class="form-control" name="index" onchange="cpeRelModule.loadModifyTable(value)">';
-                var sel_body ='<option value="unset"> -- Select An Entry -- </option>';
-                var sel_footer = '</select><hr>';
-     
-                        
-                var arr = g_scopeProductData.getElementsByTagName('release');
-
-                    
-                /* get select list */
-                    
-
-                var selectlist = [];
-                    
-                    /*clear the input form while entering */
-                $('#edit-form').html(''); 
-                    
-                for(var i=0; i<arr.length; i++){
-
-                selectlist.push(_getEntity(arr[i], 'version'));
-
-                sel_body +=  '<option value="'+i+'">'+ _getEntity(arr[i], 'version') + '</option>';
-                    
-                };
-                    
-
-                sel_list = sel_header + sel_body + sel_footer;
-                    
-                //var tbl_content =  tbl_body ;
-
-                $('#select-box').html(sel_list);
-                    
-                $('#modify-entry-modal').modal('show');
-
-                    
-                /*LEARNING - $() and element itself has different properties */
-                /* $() is a Jquery object which has all Jquery properties */
-                //console.log($(g_currentCat).html());
-                //  console.log(g_currentCat.textContent);
-                $('input[name=date]').on({'keypress': Utility.validateDateInput.bind(this, 'input[name=date]'), 
-                            'keyup': Utility.validateDateInput.bind(this, 'input[name=date]')});  
-            }, 
-
-        deleteEntry: function(){
-
-                            
-                var ckbox ='';
-                var ckbox_header='<select class="form-control" id="select-del-entry" name="deletion">';
-                var options ='<option value="unset"> --Please select an entry --</option>';
-                var ckbox_footer= '</select><br>'
-
-                var data= g_scopeProductData.getElementsByTagName('release');
-            /*LEARNING --data will be a HTMLcollection in this case,
-            alternative is to use g_scopeProductData.childNodes, which will create a nodelist --- this is a better way 
-
-            [] is the syntax sugar for Array.prototype
-            [].forEach.call(data, function(child){  */
-                
-                [].forEach.call(data, function(child,index){ 
-                    /* Childnode is [1,3] not [0,2], because XML file is formated with line-break */
-                    var version = child.childNodes[1].innerHTML;
-                    var fwversion = child.childNodes[3].innerHTML;
-                    options += '<option value="'+index +'">'+version + ' -- [' + fwversion +']';
-                    
-                })
-                
-                var ckbox = ckbox_header + options + ckbox_footer;
-                
-                $('#delete-modal-body').html(ckbox);
-                $('#delete-entry-modal').modal('show');
-                $('#btn-del-entry').on('click',cpeRelModule.submittalObj.delEntry);
+            var elems = len? $(form).find('input[name='+val+']') : $(form).find('textarea[name='+val+']');
+    
+            if(elems.val().trim()===''){
+             elems.addClass('input-invalid');
+             Utility.emitAlertMsg(4, alertElems, 'Invalid Input! ', 'Please correct input fields and try again');
+             ret = ret & 0;
             }
+            else
+            {
+             elems.removeClass('input-invalid'); 
+            }
+        });
         
+            return ret;
+     }
 
 
-        };
+
         
             //return function that needed externally
             return {initDatePicker: initDatePicker,
@@ -797,39 +854,39 @@
         })();
 /*some initializations are required */
     $(document).ready(function(){
-       
-    Utility.authState = Utility.checkAuth(Utility.getCookie('auth'));
-
-    Utility.hookLoginAnchor();
-//set up hover behavior
-//Utility.topNavHover();
-/*trigger a click on first menu */
-       ['a#ojpro-link', 'a#oj-link', 'a#pws-link', 'a#ics-link', 'a#mobile-link'].forEach(function(val){
-
-         $(val).on('click', function(){
-    
-          cpeRelModule.loadCat(this);
-
-         });
-
-       });
-        $('ul#list-cat li:first-child>a').click();
         
-        $('li#li-add-product').on('click', cpeRelModule.renderModal.addProduct);
-        $('li#li-del-product').on('click', cpeRelModule.renderModal.delProduct);
+        Utility.authState = Utility.checkAuth(Utility.getCookie('auth'));
+
+        Utility.hookLoginAnchor();
+    //set up hover behavior
+    //Utility.topNavHover();
+    /*trigger a click on first menu */
+        ['a#ojpro-link', 'a#oj-link', 'a#pws-link', 'a#ics-link', 'a#mobile-link'].forEach(function(val){
+
+            $(val).on('click', function(){
+        
+            cpeRelModule.loadCat(this);
+
+            });
+
+        });
+            $('ul#list-cat li:first-child>a').click();
+            
+            $('li#li-add-product').on('click', cpeRelModule.renderModal.addProduct);
+            $('li#li-del-product').on('click', cpeRelModule.renderModal.delProduct);
 
 
 
-      Utility.addAdminClass(['li#li-add-product', 'li#li-del-product']);
-      Utility.renderAdminFields();
-    
+        Utility.addAdminClass(['li#li-add-product', 'li#li-del-product']);
+        Utility.renderAdminFields();
+        
 
-        /*initialize date-picker */
-        cpeRelModule.initDatePicker();
-        /*preload product list for later use */
-        cpeRelModule.updateProductList();
-        //setTimeout(function(){$('div.panel-primary:first-child >div.panel-heading').click();}, 100); 
-        setTimeout(function(){$('div.panel-primary:first-child li:first-child').click();}, 100); 
+            /*initialize date-picker */
+            cpeRelModule.initDatePicker();
+            /*preload product list for later use */
+            cpeRelModule.updateProductList();
+            //setTimeout(function(){$('div.panel-primary:first-child >div.panel-heading').click();}, 100); 
+            setTimeout(function(){$('div.panel-primary:first-child li:first-child').click();}, 100); 
 
 
     });

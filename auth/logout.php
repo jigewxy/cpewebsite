@@ -2,8 +2,7 @@
 
 session_start();
 $_SESSION['auth'] = 'fail';
-
-if($_SERVER['HTTP_HOST'] == 'localhost')
+if($_SERVER['HTTP_HOST'] == 'localhost:8080')
 {
 header('refresh:4; url= http://localhost:8080/cpewebsite/');
 }

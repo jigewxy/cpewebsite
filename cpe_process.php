@@ -42,7 +42,7 @@ echo  "<div class='col-md-4'>
        <a href='images/flows/{$value[0]}' target='_blank'>
         <img class='img-thumbnail' src='images/flows/{$value[0]}'>
            <div class='caption'>
-            <center><p> {$value[1]}</p></center>
+            <center><kbd> {$value[1]}</kbd></center>
            </div>
        </div>
       </div>";
